@@ -35,6 +35,10 @@ const Input = React.forwardRef((props: InputProps, ref: React.ForwardedRef<strin
         if (props.onChange) {
             props.onChange(e.target.value)
         }
+        if (ref) {
+            //@ts-ignore
+            ref.current = e.target.value
+        }
     }
 
     const clearClicked = () => {

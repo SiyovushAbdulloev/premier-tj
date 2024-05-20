@@ -1,0 +1,6 @@
+.tableColumn {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    word-break: break-all;
+}

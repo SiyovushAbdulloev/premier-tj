@@ -1,5 +1,5 @@
 import classes from './index.module.css'
-import React from "react";
+import React, {useMemo} from "react";
 import Logo from 'src/shared/assets/images/logo.png'
 import {ReactComponent as Genre} from 'src/shared/assets/icons/genre.svg'
 import {ReactComponent as Analytics} from 'src/shared/assets/icons/analytics.svg'
@@ -7,15 +7,64 @@ import {ReactComponent as Multimedia} from 'src/shared/assets/icons/movie.svg'
 import {ReactComponent as Subscriptions} from 'src/shared/assets/icons/shield.svg'
 import {ReactComponent as Countries} from 'src/shared/assets/icons/globe.svg'
 import {ReactComponent as Actors} from 'src/shared/assets/icons/user.svg'
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
+import {className} from "src/shared/utils/className";
 
 const AdminLayout = (props: React.PropsWithChildren) => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const goMain = () => {
         navigate(RoutesConfig.main.path)
     }
+
+    const items = useMemo(() => {
+        return [
+            {
+                path: RoutesConfig.admin_main.path,
+                icon: function () {
+                    return <Analytics width={20} height={20} />
+                },
+                label: 'Аналитика'
+            },
+            {
+                path: RoutesConfig.admin_main.path,
+                icon: function () {
+                    return <Multimedia width={20} height={20} />
+                },
+                label: 'Мультимедиа'
+            },
+            {
+                path: RoutesConfig.admin_main.path,
+                icon: function () {
+                    return <Subscriptions width={20} height={20} />
+                },
+                label: 'Подписки'
+            },
+            {
+                path: RoutesConfig.admin_countries.path,
+                icon: function () {
+                    return <Countries width={20} height={20} />
+                },
+                label: 'Страны'
+            },
+            {
+                path: RoutesConfig.admin_main.path,
+                icon: function () {
+                    return <Genre width={20} height={20} />
+                },
+                label: 'Жанры'
+            },
+            {
+                path: RoutesConfig.admin_main.path,
+                icon: function () {
+                    return <Actors width={20} height={20} />
+                },
+                label: 'Актеры'
+            },
+        ]
+    }, [])
 
     return (
         <div className={classes.adminLayout}>
@@ -32,48 +81,18 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 </div>
             </div>
             <div className={classes.sidebar}>
-                <Link to={'/'} className={classes.sidebarItem}>
-                    <Analytics
-                        width={20}
-                        height={20}
-                    />
-                    <span>Аналитика</span>
-                </Link>
-                <Link to={'/'} className={classes.sidebarItem}>
-                    <Multimedia
-                        width={20}
-                        height={20}
-                    />
-                    <span>Мультимедиа</span>
-                </Link>
-                <Link to={'/'} className={classes.sidebarItem}>
-                    <Subscriptions
-                        width={20}
-                        height={20}
-                    />
-                    <span>Подписки</span>
-                </Link>
-                <Link to={RoutesConfig.admin_countries.path} className={classes.sidebarItem}>
-                    <Countries
-                        width={20}
-                        height={20}
-                    />
-                    <span>Страны</span>
-                </Link>
-                <Link to={'/'} className={classes.sidebarItem}>
-                    <Genre
-                        width={20}
-                        height={20}
-                    />
-                    <span>Жанры</span>
-                </Link>
-                <Link to={'/'} className={classes.sidebarItem}>
-                    <Actors
-                        width={20}
-                        height={20}
-                    />
-                    <span>Актеры</span>
-                </Link>
+                {items.map(item => {
+                    return (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className={className(classes.sidebarItem, {[classes.active]: location.pathname === item.path})}
+                        >
+                            {item.icon()}
+                            <span>{item.label}</span>
+                        </Link>
+                    )
+                })}
             </div>
             <div className={classes.children}>
                 {props.children}

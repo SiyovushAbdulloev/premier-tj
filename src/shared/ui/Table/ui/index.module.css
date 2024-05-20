@@ -1,0 +1,89 @@
+.table {
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 6px;
+    box-shadow: 0 3px 3px -2px rgba(39, 44, 51, .1), 0 3px 4px 0 rgba(39, 44, 51, .04), 0 1px 8px 0 rgba(39, 44, 51, .02);
+}
+.header {
+    width: fit-content;
+    margin: 10px 10px 10px auto;
+}
+
+.tableThead {
+    padding: 10px;
+    border-bottom: 1px solid rgb(190, 190, 190);
+}
+.tableTh {
+    display: flex;
+}
+
+.tableTd {
+    width: 100%;
+    text-align: center;
+    word-break: break-all;
+}
+
+.tableTr {
+    display: flex;
+    gap: 4px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(190, 190, 190);
+    background-color: transparent;
+    transition: all .2s ease;
+}
+
+.tableTr:nth-child(even) {
+    background-color: rgba(0,0,0,.04);
+}
+
+.tableTr:hover {
+    background-color: rgba(0,0,0,.04);
+}
+
+.tableTbody {
+
+}
+
+.tableFooter {
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(190, 190, 190);
+}
+
+.tablePagination {
+    padding: 20px;
+    display: flex;
+    margin-left: auto;
+    gap: 20px;
+    align-items: center;
+    width: fit-content;
+}
+
+.perPage {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.pages {
+
+}
+
+.paginationItems {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.paginationItem {
+    padding: 10px;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+}
+
+.dots {
+    padding: 10px;
+}
+
+.activePagItem {
+    background-color: rgba(249, 115, 22, .26);
+    border-color: transparent;
+}
