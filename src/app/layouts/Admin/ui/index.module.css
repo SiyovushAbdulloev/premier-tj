@@ -25,6 +25,7 @@
     width: 154px;
     height: 76px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .user {

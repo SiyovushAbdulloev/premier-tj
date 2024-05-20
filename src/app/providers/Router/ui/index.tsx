@@ -61,7 +61,7 @@ const AppRouter = () => {
                 element={elem} />
         )
     }, [])
-    
+
     return (
         <Routes>
             {Object.values(RoutesConfig).map(renderWithWrapper)}

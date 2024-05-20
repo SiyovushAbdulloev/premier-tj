@@ -7,8 +7,8 @@ import {roleReducer} from "src/entities/Role";
 export function createReduxStore(initialState: StateSchema) {
     const rootReducers = {
         user: userReducer,
-        auth: authReducer,
         role: roleReducer,
+        auth: authReducer,
     }
 
     return configureStore({

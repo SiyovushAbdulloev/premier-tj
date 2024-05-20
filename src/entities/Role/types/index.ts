@@ -9,8 +9,7 @@ export interface Permission {
 export interface Role {
     id: number
     name: string
-    description: string
-    permissions: Array<Permission>
+    permissions?: Array<Permission>
 }
 
 export interface RoleSchema {

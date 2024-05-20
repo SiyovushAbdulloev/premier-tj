@@ -1,28 +1,24 @@
 import {User, UserSchema} from "../../types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {getAuthUser} from "src/entities/Auth";
 
 const initialState: UserSchema = {
-    authData: {
-        id: 1,
-        username: "Siyovush",
-        roles: [
-            {
-                id: 1,
-                name: 'admin',
-                description: 'Admin role',
-                permissions: []
-            }
-        ]
-    }
+    authData: undefined
 }
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setAuthData: (state, action: PayloadAction<User>) => {
+        setAuthData: (state, action: PayloadAction<User | undefined>) => {
             state.authData = action.payload
         }
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(getAuthUser.fulfilled, (state, action) => {
+                state.authData = action.payload
+            })
     }
 })
 

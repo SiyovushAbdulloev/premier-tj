@@ -17,7 +17,12 @@ const RequireAuthorization = (props: RequireAuthorizationProps): any => {
     const location = useLocation()
 
     if (props.route.roles.length) {
-        if (authData === undefined || !can(props.roles, authData.roles)) {
+        if (authData === undefined && !props.route.allow_without_auth) {
+            console.log("FIRST")
+            return <Navigate to={RoutesPath.main} state={{from: location}}/>
+        }
+        if (authData && !can(props.roles, authData.roles)) {
+            console.log("SECOND")
             return <Navigate to={RoutesPath.unauthorized} state={{from: location}}/>
         }
     }

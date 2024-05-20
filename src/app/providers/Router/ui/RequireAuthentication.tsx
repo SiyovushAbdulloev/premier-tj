@@ -15,7 +15,7 @@ const RequireAuthentication = (props: RequireAuthenticationProps): any => {
 
     if (props.route.require_auth) {
         if (authData === undefined && !props.route.allow_without_auth) {
-            return <Navigate to={RoutesPath.login} state={{from: location}}/>
+            return <Navigate to={RoutesPath.main} state={{from: location}}/>
         }
     }
     if (authData !== undefined && !props.route.require_auth) {

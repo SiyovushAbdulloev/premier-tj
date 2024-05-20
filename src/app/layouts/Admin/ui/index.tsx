@@ -7,14 +7,21 @@ import {ReactComponent as Multimedia} from 'src/shared/assets/icons/movie.svg'
 import {ReactComponent as Subscriptions} from 'src/shared/assets/icons/shield.svg'
 import {ReactComponent as Countries} from 'src/shared/assets/icons/globe.svg'
 import {ReactComponent as Actors} from 'src/shared/assets/icons/user.svg'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 
 const AdminLayout = (props: React.PropsWithChildren) => {
+    const navigate = useNavigate()
+
+    const goMain = () => {
+        navigate(RoutesConfig.main.path)
+    }
+
     return (
         <div className={classes.adminLayout}>
             <div className={classes.navbar}>
                 <img
+                    onClick={goMain}
                     className={classes.brand}
                     src={Logo}
                     alt="Logo"
