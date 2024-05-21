@@ -7,29 +7,28 @@ interface TextFieldProps {
     placeholder?: string
     id: string
     style?: CSSProperties
+    onChange: (value: string) => void
+    value: string
 }
 
-const TextField = forwardRef((props: TextFieldProps, ref: React.ForwardedRef<string>) => {
+const TextField = (props: TextFieldProps) => {
     const {label = '', placeholder = '', id, style = {}} = props
 
     const onChange = (value: string) => {
-        // @ts-ignore
-        ref.current = value
+        props.onChange(value)
     }
 
     return (
         <div className={classes.textField} style={style}>
             <label htmlFor={id}>{label}</label>
             <Input
-                ref={ref}
+                value={props.value}
                 id={id}
                 placeholder={placeholder}
                 onChange={onChange}
             />
         </div>
     )
-})
-
-TextField.displayName = 'TextField'
+}
 
 export default TextField

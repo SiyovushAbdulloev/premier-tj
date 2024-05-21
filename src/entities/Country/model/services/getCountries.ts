@@ -16,7 +16,7 @@ export const getCountries = createAsyncThunk(
             if (q.length) {
                 uri += `&&q=${q}`
             }
-            console.log({uri})
+
             const response = await fetch(APP_URL + uri, {
                 method: 'GET',
                 headers: {

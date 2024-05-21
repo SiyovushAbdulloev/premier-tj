@@ -7,8 +7,8 @@ import {getAuthUser, getIsLogging, getLoginErrors, loginAdmin} from "src/entitie
 import {useSelector} from "react-redux";
 import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
 const AdminLoginPage = () => {
-    const email = useRef<string>('')
-    const password = useRef<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
     const [remember, setRemember] = useState(false)
     const dispatch = useAppDispatch()
     const errors = useSelector(getLoginErrors)
@@ -18,12 +18,20 @@ const AdminLoginPage = () => {
         setRemember(!remember)
     }
 
+    const onEmail = (value: string) => {
+        setEmail(value)
+    }
+
+    const onPassword = (value: string) => {
+        setPassword(value)
+    }
+
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         // @ts-ignore
         const data = await dispatch(loginAdmin({
-            email: email.current,
-            password: password.current,
+            email: email,
+            password: password,
             remember: remember,
         }))
         if (data.type.includes('fulfilled')) {
@@ -60,14 +68,16 @@ const AdminLoginPage = () => {
                     )
                 })}
                 <TextField
-                    ref={email}
+                    value={email}
+                    onChange={onEmail}
                     style={{'marginBottom': '15px'}}
                     id={'email'}
                     label={'Email'}
                     placeholder={'admin@admin.com'}
                 />
                 <TextField
-                    ref={password}
+                    value={password}
+                    onChange={onPassword}
                     id={'password'}
                     label={'Password'}
                     placeholder={'d34fSXfas!3543'}

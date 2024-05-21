@@ -20,9 +20,8 @@ interface TableProps {
 }
 
 export default function Table(props: TableProps) {
-    //TODO: FINISH pagination
     const {searchable = false, children, style = {}, data} = props
-    const value = useRef<string>('')
+    const [value, setValue] = useState<string>('')
     const [currentPage, setCurrentPage] = useState<number>(props.pagination ? props.pagination.current_page : 1)
 
     const getValidColumns = useCallback((children: ReactNode): Array<TableColumnProps> => {
@@ -55,27 +54,15 @@ export default function Table(props: TableProps) {
                 let column: TableColumnProps
                 // @ts-ignore
                 const props = child.props
-
                 // @ts-ignore
-                if (props.prop) {
-                    column = {
-                        // @ts-ignore
-                        prop: props.prop,
-                        // @ts-ignore
-                        label: props.label,
-                        // @ts-ignore
-                        style: props.style,
-                    }
-                } else {
-                    column = {
-                        // @ts-ignore
-                        prop: props.prop,
-                        // @ts-ignore
-                        label: props.label,
-                        // @ts-ignore
-                        style: props.style,
-                        children: props.row
-                    }
+                column = {
+                    // @ts-ignore
+                    prop: props.prop,
+                    // @ts-ignore
+                    label: props.label,
+                    // @ts-ignore
+                    style: props.style,
+                    row: props.row
                 }
                 return column
             })
@@ -92,10 +79,14 @@ export default function Table(props: TableProps) {
             const column = columns[i]
             if (column.prop) {
                 // @ts-ignore
-                value[column.prop] = item[column.prop]
+                if (column.row) {
+                    value[column.prop] = column.row(item)
+                } else {
+                    value[column.prop] = item[column.prop]
+                }
             } else {
                 // @ts-ignore
-                value[column.prop] = column.children(item)
+                value['prop'] = column.row(item)
             }
         }
 
@@ -165,7 +156,7 @@ export default function Table(props: TableProps) {
             {searchable ? (
                 <div className={classes.header}>
                     <Input
-                        ref={value}
+                        value={value}
                         style={{'width': '300px', 'borderColor': 'rgb(190, 190, 190)'}}
                         placeholder='Введите...'
                         disabled={false}
@@ -205,22 +196,22 @@ export default function Table(props: TableProps) {
             {props.pagination && (
                 <div className={classes.tablePagination}>
                     <div className={classes.perPage}>
-                        <span>Rows per page:</span>
-                        <select
-                            name="perPage"
-                            value={props.pagination?.per_page}
-                        >
-                            {perPageOptions.map(option => {
-                                return (
-                                    <option
-                                        key={option}
-                                        value={option}
-                                    >
-                                        {option}
-                                    </option>
-                                )
-                            })}
-                        </select>
+                        {/*<span>Rows per page:</span>*/}
+                        {/*<select*/}
+                        {/*    name="perPage"*/}
+                        {/*    value={props.pagination?.per_page}*/}
+                        {/*>*/}
+                        {/*    {perPageOptions.map(option => {*/}
+                        {/*        return (*/}
+                        {/*            <option*/}
+                        {/*                key={option}*/}
+                        {/*                value={option}*/}
+                        {/*            >*/}
+                        {/*                {option}*/}
+                        {/*            </option>*/}
+                        {/*        )*/}
+                        {/*    })}*/}
+                        {/*</select>*/}
                     </div>
                     <div className={classes.paginationItems}>
                         {

@@ -1,8 +1,8 @@
 import classes from './index.module.css'
 import {FormType} from "src/shared/constants/formType";
-import {Country, getIsStoring, getStoreErrors, storeCountry} from "src/entities/Country";
+import {Country, getIsStoring, getStoreErrors, storeCountry, updateCountry} from "src/entities/Country";
 import {TextField} from "src/shared/ui/TextField";
-import React, {useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -14,7 +14,7 @@ interface Props {
     data?: Country
 }
 const CountryForm = (props: Props) => {
-    const name = useRef<string>(props.data ? props.data.name : '')
+    const [name, setName] = useState<string>(props.data ? props.data.name : '')
     const dispatch = useAppDispatch()
     const isStoring = useSelector(getIsStoring)
     const errors = useSelector(getStoreErrors)
@@ -22,15 +22,33 @@ const CountryForm = (props: Props) => {
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const data  = await dispatch(storeCountry(name.current))
+        let data
+
+        if (props.type === FormType.CREATE) {
+            data  = await dispatch(storeCountry(name))
+        } else {
+            //@ts-ignore
+            data  = await dispatch(updateCountry({name, id: props.data.id}))
+        }
+
         if (data.type.includes('fulfilled')) {
             navigate(RoutesConfig.admin_countries.path)
         }
     }
 
+    const onName = (value: string) => {
+        setName(value)
+    }
+
     const goBack = () => {
         navigate(RoutesConfig.admin_countries.path)
     }
+
+    useEffect(() => {
+        if (props.data) {
+            setName(props.data.name)
+        }
+    }, [props.data])
 
     return (
         <form
@@ -38,7 +56,8 @@ const CountryForm = (props: Props) => {
             onSubmit={onSubmit}
         >
             <TextField
-                ref={name}
+                onChange={onName}
+                value={name}
                 id={'name'}
                 placeholder={'Таджикистан'}
                 label={'Наименование'}

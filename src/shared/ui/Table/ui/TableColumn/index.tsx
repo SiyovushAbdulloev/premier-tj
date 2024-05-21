@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {ReactNode} from 'react'
 import classes from "./index.module.css"
 
 export interface TableColumnProps extends React.PropsWithChildren{
     prop?: string
     label: any
     style?: Object
-    row?: (data: any) => void
+    row?: (data: any) => ReactNode
 }
 
 export default function TableColumn(props: TableColumnProps) {

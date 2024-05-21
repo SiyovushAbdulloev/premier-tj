@@ -1,8 +1,8 @@
 import classes from './index.module.css'
 import {Table, TableColumn} from "src/shared/ui/Table";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import {useEffect, useRef} from "react";
-import {getCountries, getData, getFetching, getPagination} from "src/entities/Country";
+import {useEffect, useRef, useState} from "react";
+import {destroyCountry, getCountries, getData, getFetching, getPagination} from "src/entities/Country";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
@@ -11,7 +11,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 
 const CountriesPage = () => {
-    const searchRef = useRef<string>('')
+    const [search, setSearch] = useState<string>('')
     const dispatch = useAppDispatch()
     const countries = useSelector(getData)
     const pagination = useSelector(getPagination)
@@ -32,12 +32,25 @@ const CountriesPage = () => {
 
     const onSearch = () => {
         // @ts-ignore
-        dispatch(getCountries({page: pagination.current_page, q: searchRef.current}))
-        navigate(location.pathname + `?page=${pagination.current_page}?q=${searchRef.current}`)
+        dispatch(getCountries({page: pagination.current_page, q: search}))
+        navigate(location.pathname + `?page=${pagination.current_page}?q=${search}`)
     }
 
     const onCreate = () => {
         navigate(RoutesConfig.admin_countries_create.path)
+    }
+
+    const onEdit = (id: number) => {
+        navigate(RoutesConfig.admin_countries_edit.path.replace(':id', `${id}`))
+    }
+
+    const onDestroy = (id: number) => {
+        if (window.confirm('Вы действительно хотите удалить эту страну?')) {
+            dispatch(destroyCountry(id))
+                .then(data => {
+                    onSearch()
+                })
+        }
     }
 
     return (
@@ -52,7 +65,8 @@ const CountriesPage = () => {
                         <header className={classes.pageHeader}>
                             <div className={classes.search}>
                                 <Input
-                                    ref={searchRef}
+                                    value={search}
+                                    onChange={(value: string) => setSearch(value)}
                                     placeholder={'Таджикистан'}
                                     style={{
                                         'width': '400px',
@@ -85,8 +99,36 @@ const CountriesPage = () => {
                             pagination={pagination}
                             onChangePage={fetchCountries}
                         >
-                            <TableColumn label={'Идентификатор'} prop={'id'} />
-                            <TableColumn label={'Наименование'} prop={'name'} />
+                            <TableColumn
+                                label={'Идентификатор'}
+                                prop={'id'}
+                            />
+                            <TableColumn
+                                label={'Наименование'}
+                                prop={'name'}
+                            />
+                            <TableColumn
+                                label={'Действия'}
+                                prop={''}
+                                row={(data) => {
+                                    return (
+                                        <div className={classes.tableActions}>
+                                            <button
+                                                className={classes.createModel}
+                                                onClick={() => onEdit(data.id)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className={classes.destroy}
+                                                onClick={() => onDestroy(data.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )
+                                }}
+                            />
                         </Table>
                     </>
             )}

@@ -1,5 +1,5 @@
 "use client"
-import React, {MutableRefObject, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import classes from "./index.module.css"
 import {className} from "src/shared/utils/className";
 import {useOutsideClick} from "src/shared/hooks/useClickOutside";
@@ -8,14 +8,15 @@ interface InputProps {
     className?: string
     placeholder?: string
     style?: any
-    onChange?: (value: string) => void
+    onChange: (value: string) => void
     disabled?: boolean
     clearable?: boolean
     id?: string
+    value: string
 }
 
-const Input = React.forwardRef((props: InputProps, ref: React.ForwardedRef<string>) => {
-    const [value, setValue] = useState<string|undefined|null>((ref as MutableRefObject<string>)?.current)
+const Input = (props: InputProps) => {
+    const [value, setValue] = useState<string>(props.value)
     const [active, setActive] = useState<boolean>(false)
 
     const inputRef = useRef<HTMLInputElement>(null)
@@ -32,13 +33,7 @@ const Input = React.forwardRef((props: InputProps, ref: React.ForwardedRef<strin
 
     const inputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value)
-        if (props.onChange) {
-            props.onChange(e.target.value)
-        }
-        if (ref) {
-            //@ts-ignore
-            ref.current = e.target.value
-        }
+        props.onChange(e.target.value)
     }
 
     const clearClicked = () => {
@@ -47,10 +42,12 @@ const Input = React.forwardRef((props: InputProps, ref: React.ForwardedRef<strin
             inputRef.current.focus()
             inputRef.current.value = ''
         }
-        if (props.onChange) {
-            props.onChange('')
-        }
+        props.onChange('')
     }
+
+    useEffect(() => {
+        setValue(props.value)
+    }, [props.value])
 
     return (
         <div
@@ -90,8 +87,6 @@ const Input = React.forwardRef((props: InputProps, ref: React.ForwardedRef<strin
             ) : null}
         </div>
     )
-})
-
-Input.displayName = "Input"
+}
 
 export default Input
