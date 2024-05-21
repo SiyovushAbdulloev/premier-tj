@@ -2,7 +2,7 @@ import classes from './index.module.css'
 import {Table, TableColumn} from "src/shared/ui/Table";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useEffect, useState} from "react";
-import {destroyGenre, getData, getFetching, getGenres, getPagination} from "src/entities/Genre";
+import {destroyActor, getActors, getData, getFetching, getPagination} from "src/entities/Actor";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
@@ -10,10 +10,10 @@ import {Input} from "src/shared/ui/Input";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 
-const GenresPage = () => {
+const ActorsPage = () => {
     const [search, setSearch] = useState<string>('')
     const dispatch = useAppDispatch()
-    const genres = useSelector(getData)
+    const actors = useSelector(getData)
     const pagination = useSelector(getPagination)
     const fetching = useSelector(getFetching)
     const navigate = useNavigate()
@@ -21,32 +21,32 @@ const GenresPage = () => {
     const params = useParams() //TODO: Get page from url param. DO IT WHEN FIX REFRESHING IN ADMIN PANEL
 
     useEffect(() => {
-        dispatch(getGenres())
+        dispatch(getActors())
     }, [])
 
-    const fetchGenres = (value: number) => {
+    const fetchActors = (value: number) => {
         // @ts-ignore
-        dispatch(getGenres({page: value}))
+        dispatch(getActors({page: value}))
         navigate(location.pathname + `?page=${value}`)
     }
 
     const onSearch = () => {
         // @ts-ignore
-        dispatch(getGenres({page: pagination.current_page, q: search}))
+        dispatch(getActors({page: pagination.current_page, q: search}))
         navigate(location.pathname + `?page=${pagination.current_page}?q=${search}`)
     }
 
     const onCreate = () => {
-        navigate(RoutesConfig.admin_genres_create.path)
+        navigate(RoutesConfig.admin_actors_create.path)
     }
 
     const onEdit = (id: number) => {
-        navigate(RoutesConfig.admin_genres_edit.path.replace(':id', `${id}`))
+        navigate(RoutesConfig.admin_actors_edit.path.replace(':id', `${id}`))
     }
 
     const onDestroy = (id: number) => {
-        if (window.confirm('Вы действительно хотите удалить этот жанр?')) {
-            dispatch(destroyGenre(id))
+        if (window.confirm('Вы действительно хотите удалить этоо актера?')) {
+            dispatch(destroyActor(id))
                 .then(data => {
                     onSearch()
                 })
@@ -54,8 +54,8 @@ const GenresPage = () => {
     }
 
     return (
-        <div className={classes.genresPage}>
-            <h1 className={classes.pageTitle}>Жанры</h1>
+        <div className={classes.actorsPage}>
+            <h1 className={classes.pageTitle}>Актеры</h1>
             {fetching ? (
                 <>
                     <Fetching className={classes.fetching} />
@@ -67,7 +67,7 @@ const GenresPage = () => {
                                 <Input
                                     value={search}
                                     onChange={(value: string) => setSearch(value)}
-                                    placeholder={'Комедия'}
+                                    placeholder={'Бред Пит'}
                                     style={{
                                         'width': '400px',
                                         'borderColor': '#ececec',
@@ -87,7 +87,7 @@ const GenresPage = () => {
                                 onClick={onCreate}
                             >
                                 <Plus width={24} height={24} />
-                                Добавить жанр
+                                Добавить актера
                             </button>
                         </header>
                         <Table
@@ -95,9 +95,9 @@ const GenresPage = () => {
                                 'width': '100%',
                                 'marginTop': '30px'
                             }}
-                            data={genres}
+                            data={actors}
                             pagination={pagination}
-                            onChangePage={fetchGenres}
+                            onChangePage={fetchActors}
                         >
                             <TableColumn
                                 label={'Идентификатор'}
@@ -105,7 +105,11 @@ const GenresPage = () => {
                             />
                             <TableColumn
                                 label={'Наименование'}
-                                prop={'name'}
+                                prop={'first_name'}
+                            />
+                            <TableColumn
+                                label={'Фамилия'}
+                                prop={'last_name'}
                             />
                             <TableColumn
                                 label={'Действия'}
@@ -136,4 +140,4 @@ const GenresPage = () => {
     )
 }
 
-export default GenresPage
+export default ActorsPage

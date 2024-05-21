@@ -13,6 +13,9 @@ import {NotFoundPage} from "src/pages/NotFound";
 import {GenresPage} from "src/pages/Genres";
 import {GenresCreatePage} from "src/pages/GenresCreate";
 import {GenresEditPage} from "src/pages/GenresEdit";
+import {ActorsPage} from "src/pages/Actors";
+import {ActorsCreatePage} from "src/pages/ActorsCreate";
+import {ActorsEditPage} from "src/pages/ActorsEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -33,6 +36,9 @@ export enum AppRoutes {
     'ADMIN_GENRES' = 'admin_genres',
     'ADMIN_GENRES_CREATE' = 'admin_genres_create',
     'ADMIN_GENRES_EDIT' = 'admin_genres_edit',
+    'ADMIN_ACTORS' = 'admin_actors',
+    'ADMIN_ACTORS_CREATE' = 'admin_actors_create',
+    'ADMIN_ACTORS_EDIT' = 'admin_actors_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -47,6 +53,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_GENRES]: '/admin/genres',
     [AppRoutes.ADMIN_GENRES_CREATE]: '/admin/genres/create',
     [AppRoutes.ADMIN_GENRES_EDIT]: '/admin/genres/:id/edit',
+    [AppRoutes.ADMIN_ACTORS]: '/admin/actors',
+    [AppRoutes.ADMIN_ACTORS_CREATE]: '/admin/actors/create',
+    [AppRoutes.ADMIN_ACTORS_EDIT]: '/admin/actors/:id/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -119,6 +128,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_GENRES_EDIT]: {
         path: RoutesPath.admin_genres_edit,
         element: <GenresEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_ACTORS]: {
+        path: RoutesPath.admin_actors,
+        element: <ActorsPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_ACTORS_CREATE]: {
+        path: RoutesPath.admin_actors_create,
+        element: <ActorsCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_ACTORS_EDIT]: {
+        path: RoutesPath.admin_actors_edit,
+        element: <ActorsEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

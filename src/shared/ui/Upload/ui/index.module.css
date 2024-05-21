@@ -1,0 +1,62 @@
+.upload {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 100px;
+    min-height: 100px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: all .1s ease;
+    border: 2px dashed #bfbfbf;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+    padding: 30px;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.label:hover {
+    border-color: #ff7aac;
+}
+
+.dropping {
+    background-color: #ffe5ec;
+    border-color: #ff7aac;
+}
+
+.input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.input::placeholder {
+    display: none;
+}
+
+.extensionsLabel {
+    color: #bfbfbf;
+    font-size: 13px;
+    width: 80%;
+}
+
+.warning {
+    color: #fb4242;
+}

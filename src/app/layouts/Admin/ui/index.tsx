@@ -57,7 +57,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Жанры'
             },
             {
-                path: RoutesConfig.admin_main.path,
+                path: RoutesConfig.admin_actors.path,
                 icon: function () {
                     return <Actors width={20} height={20} />
                 },
