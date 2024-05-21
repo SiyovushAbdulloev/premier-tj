@@ -87,3 +87,11 @@
     background-color: rgba(249, 115, 22, .26);
     border-color: transparent;
 }
+
+.noData {
+    margin: 0;
+    color: rgb(126, 126, 126);
+    padding: 20px;
+    font-size: 16px;
+    text-align: center;
+}

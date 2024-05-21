@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
 export const storeCountry = createAsyncThunk(
-    'country/storeCountry',
+    'country/storeGenre',
     async (data: string, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore

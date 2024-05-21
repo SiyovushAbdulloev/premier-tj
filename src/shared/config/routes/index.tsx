@@ -10,6 +10,9 @@ import {CountriesEditPage} from "src/pages/CountriesEdit";
 import {MainPage} from "src/pages/Main";
 import {AdminLoginPage} from "src/pages/AdminLogin";
 import {NotFoundPage} from "src/pages/NotFound";
+import {GenresPage} from "src/pages/Genres";
+import {GenresCreatePage} from "src/pages/GenresCreate";
+import {GenresEditPage} from "src/pages/GenresEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -27,6 +30,9 @@ export enum AppRoutes {
     'ADMIN_COUNTRIES' = 'admin_countries',
     'ADMIN_COUNTRIES_CREATE' = 'admin_countries_create',
     'ADMIN_COUNTRIES_EDIT' = 'admin_countries_edit',
+    'ADMIN_GENRES' = 'admin_genres',
+    'ADMIN_GENRES_CREATE' = 'admin_genres_create',
+    'ADMIN_GENRES_EDIT' = 'admin_genres_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -38,6 +44,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_COUNTRIES]: '/admin/countries',
     [AppRoutes.ADMIN_COUNTRIES_CREATE]: '/admin/countries/create',
     [AppRoutes.ADMIN_COUNTRIES_EDIT]: '/admin/countries/:id/edit',
+    [AppRoutes.ADMIN_GENRES]: '/admin/genres',
+    [AppRoutes.ADMIN_GENRES_CREATE]: '/admin/genres/create',
+    [AppRoutes.ADMIN_GENRES_EDIT]: '/admin/genres/:id/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -86,6 +95,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_COUNTRIES_EDIT]: {
         path: RoutesPath.admin_countries_edit,
         element: <CountriesEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_GENRES]: {
+        path: RoutesPath.admin_genres,
+        element: <GenresPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_GENRES_CREATE]: {
+        path: RoutesPath.admin_genres_create,
+        element: <GenresCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_GENRES_EDIT]: {
+        path: RoutesPath.admin_genres_edit,
+        element: <GenresEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

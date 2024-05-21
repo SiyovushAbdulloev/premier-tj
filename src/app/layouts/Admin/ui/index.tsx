@@ -50,7 +50,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Страны'
             },
             {
-                path: RoutesConfig.admin_main.path,
+                path: RoutesConfig.admin_genres.path,
                 icon: function () {
                     return <Genre width={20} height={20} />
                 },

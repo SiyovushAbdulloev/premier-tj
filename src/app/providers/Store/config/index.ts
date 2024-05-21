@@ -4,13 +4,15 @@ import {StateSchema} from "src/app/providers/Store/config/StateSchema";
 import {authReducer} from "src/entities/Auth";
 import {roleReducer} from "src/entities/Role";
 import {countryReducer} from "src/entities/Country";
+import {genreReducer} from "src/entities/Genre";
 
 export function createReduxStore(initialState: StateSchema) {
     const rootReducers = {
         user: userReducer,
         role: roleReducer,
         auth: authReducer,
-        country: countryReducer
+        country: countryReducer,
+        genre: genreReducer
     }
 
     return configureStore({

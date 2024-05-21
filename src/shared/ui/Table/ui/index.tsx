@@ -1,4 +1,4 @@
-import React, {ReactNode, useCallback, useMemo, useRef, useState} from 'react'
+import React, {ReactNode, useCallback, useMemo, useState} from 'react'
 import classes from "./index.module.css"
 import TableColumn, {TableColumnProps} from './TableColumn'
 import {Input} from "src/shared/ui/Input";
@@ -92,7 +92,6 @@ export default function Table(props: TableProps) {
 
         return value
     })
-
     const search = (value: string) => {
         if (props.onSearch) {
             props.onSearch(value)
@@ -179,7 +178,7 @@ export default function Table(props: TableProps) {
                 </div>
             </div>
             <div className={classes.tableTbody}>
-                {rows.map((row: any, index: any) => {
+                {rows.length > 0 ? rows.map((row: any, index: any) => {
                     return (
                         <div key={index} className={classes.tableTr}>
                             { Object.keys(row).map((key: string) => {
@@ -191,9 +190,11 @@ export default function Table(props: TableProps) {
                             })}
                         </div>
                     )
-                })}
+                }) : (
+                    <h4 className={classes.noData}>No data</h4>
+                )}
             </div>
-            {props.pagination && (
+            {props.pagination && rows.length > 0 && (
                 <div className={classes.tablePagination}>
                     <div className={classes.perPage}>
                         {/*<span>Rows per page:</span>*/}

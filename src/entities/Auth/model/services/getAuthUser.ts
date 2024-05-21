@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
 export const getAuthUser = createAsyncThunk(
-    'auth/getCountries',
+    'auth/getAuthUser',
     async (data, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore

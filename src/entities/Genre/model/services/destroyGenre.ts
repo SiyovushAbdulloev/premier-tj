@@ -1,14 +1,14 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
-export const destroyCountry = createAsyncThunk(
-    'country/destroyGenre',
+export const destroyGenre = createAsyncThunk(
+    'genre/destroyGenre',
     async (data: number, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
-            const response = await fetch(APP_URL + `/api/admin/countries/${data}`, {
+            const response = await fetch(APP_URL + `/api/admin/genres/${data}`, {
                 method: 'DELETE',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
