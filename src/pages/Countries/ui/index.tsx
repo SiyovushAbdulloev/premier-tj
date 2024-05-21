@@ -8,6 +8,7 @@ import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
 import {Input} from "src/shared/ui/Input";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {RoutesConfig} from "src/shared/config/routes";
 
 const CountriesPage = () => {
     const searchRef = useRef<string>('')
@@ -36,7 +37,7 @@ const CountriesPage = () => {
     }
 
     const onCreate = () => {
-        //TODO: Redirect to create page of country
+        navigate(RoutesConfig.admin_countries_create.path)
     }
 
     return (

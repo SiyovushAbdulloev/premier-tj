@@ -1,8 +1,11 @@
 import classes from './index.module.css'
+import {CountryForm} from "src/widgets/CountryForm";
+import {FormType} from "src/shared/constants/formType";
+
 const CountriesCreatePage = () => {
     return (
         <div className={classes.createPage}>
-            <span>CountriesCreate page</span>
+            <CountryForm type={FormType.CREATE} />
         </div>
     )
 }

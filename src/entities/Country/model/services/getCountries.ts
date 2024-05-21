@@ -11,14 +11,12 @@ export const getCountries = createAsyncThunk(
             const q = data ? data.q ?? '' : ''
             let uri = `/api/admin/countries`
 
-            if (page === 1) {
-                uri += `?page=${page}`
-            }
+            uri += `?page=${page}`
 
             if (q.length) {
                 uri += `&&q=${q}`
             }
-
+            console.log({uri})
             const response = await fetch(APP_URL + uri, {
                 method: 'GET',
                 headers: {

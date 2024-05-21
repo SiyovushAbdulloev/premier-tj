@@ -1,6 +1,6 @@
 import {Country, CountrySchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getCountries} from "src/entities/Country";
+import {getCountries, storeCountry} from "src/entities/Country";
 
 const initialState: CountrySchema = {
     data: [],
@@ -9,7 +9,9 @@ const initialState: CountrySchema = {
         last_page: 1,
         per_page:10
     },
-    fetching: false
+    fetching: false,
+    isStoring: false,
+    storeErrors: undefined
 }
 
 export const countrySlice = createSlice({
@@ -34,6 +36,17 @@ export const countrySlice = createSlice({
             })
             .addCase(getCountries.rejected, (state, action) => {
                 state.fetching = false
+            })
+            .addCase(storeCountry.pending, (state, action) => {
+                state.isStoring = true
+            })
+            .addCase(storeCountry.fulfilled, (state, action) => {
+                state.isStoring = false
+            })
+            .addCase(storeCountry.rejected, (state, action) => {
+                state.isStoring = false
+                //@ts-ignore
+                state.storeErrors = action.payload
             })
     }
 })
