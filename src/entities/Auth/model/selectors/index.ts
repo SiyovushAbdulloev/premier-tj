@@ -5,3 +5,4 @@ export const getUnauthorized = (state: StateSchema): boolean => state.auth.data.
 export const getNotFound = (state: StateSchema): boolean => state.auth.data.notFound
 export const getLoginErrors = (state: StateSchema): InputError | undefined => state.auth.data.loginErrors
 export const getIsLogging = (state: StateSchema): boolean => state.auth.data.isLogging
+export const getIsFetching = (state: StateSchema): boolean => state.auth.data.isFetching

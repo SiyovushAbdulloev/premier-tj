@@ -1,21 +1,16 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
-export const getGenres = createAsyncThunk(
-    'genre/getGenres',
-    async (data: { page: undefined|number, q: string|undefined } | undefined, {getState, rejectWithValue}) => {
+export const getSubscriptions = createAsyncThunk(
+    'subscription/getSubscriptions',
+    async (data: { page: undefined|number } | undefined, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
             const page = data ? data.page ?? 1 : 1
-            const q = data ? data.q ?? '' : ''
-            let uri = `/api/admin/genres`
+            let uri = `/api/admin/subscriptions`
 
             uri += `?page=${page}`
-
-            if (q.length) {
-                uri += `&q=${q}`
-            }
 
             const response = await fetch(APP_URL + uri, {
                 method: 'GET',

@@ -1,4 +1,4 @@
-import {getUnauthorized, getNotFound, getLoginErrors, getIsLogging} from "./model/selectors";
+import {getUnauthorized, getNotFound, getLoginErrors, getIsLogging, getIsFetching} from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
 import {getCsrfToken} from "./model/services/getCsrfToken";
@@ -15,6 +15,7 @@ export {
     loginAdmin,
     getLoginErrors,
     getIsLogging,
+    getIsFetching,
     getAuthUser,
     logoutAdmin,
 }

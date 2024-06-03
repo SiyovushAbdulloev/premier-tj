@@ -1,7 +1,7 @@
 import classes from './index.module.css'
 import Background from 'src/shared/assets/images/background.png'
 import {TextField} from "src/shared/ui/TextField";
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getAuthUser, getIsLogging, getLoginErrors, loginAdmin} from "src/entities/Auth";
 import {useSelector} from "react-redux";
@@ -51,10 +51,16 @@ const AdminLoginPage = () => {
                 onSubmit={login}
             >
                 <h3 className={classes.formTitle}>Войдите в свою учетную запись</h3>
-                {errors && Object.keys(errors).map((key: string) => {
+                {errors ? Object.keys(errors).map((key: string) => {
                     return (
                         <div key={key}>
-                            {errors[key].map((message: string) => {
+                            {typeof errors[key] === 'string' ? (
+                                <p
+                                    className={classes.error}
+                                >
+                                    {errors[key]}
+                                </p>
+                            ) : errors[key].map((message: string) => {
                                 return (
                                     <p
                                         key={message}
@@ -66,7 +72,7 @@ const AdminLoginPage = () => {
                             })}
                         </div>
                     )
-                })}
+                }) : null}
                 <TextField
                     value={email}
                     onChange={onEmail}

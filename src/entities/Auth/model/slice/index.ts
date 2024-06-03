@@ -1,6 +1,6 @@
 import {AuthSchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getCsrfToken, loginAdmin, logoutAdmin} from "src/entities/Auth";
+import {getAuthUser, getCsrfToken, loginAdmin} from "src/entities/Auth";
 
 const initialState: AuthSchema = {
     data: {
@@ -8,7 +8,8 @@ const initialState: AuthSchema = {
         notFound: false,
         csrfToken: '',
         loginErrors: undefined,
-        isLogging: false
+        isLogging: false,
+        isFetching: false,
     }
 }
 
@@ -41,6 +42,16 @@ export const authSlice = createSlice({
                 // @ts-ignore
                 state.data.loginErrors = action.payload
                 state.data.isLogging = false
+            })
+            .addCase(getAuthUser.fulfilled, (state, action) => {
+                state.data.isFetching = false
+            })
+            .addCase(getAuthUser.pending, (state, action) => {
+                state.data.isFetching = true
+            })
+            .addCase(getAuthUser.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isFetching = false
             })
     }
 })

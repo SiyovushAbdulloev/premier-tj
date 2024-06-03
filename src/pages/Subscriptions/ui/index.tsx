@@ -1,61 +1,62 @@
 import classes from './index.module.css'
 import {Table, TableColumn} from "src/shared/ui/Table";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import {useEffect, useState} from "react";
-import {destroyActor, getActors, getData, getFetching, getPagination} from "src/entities/Actor";
+import {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
-import {Input} from "src/shared/ui/Input";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
+import {
+    destroySubscription,
+    getData,
+    getFetching,
+    getPagination,
+    getSubscriptions,
+    Subscription
+} from "src/entities/Subscription";
 
-const ActorsPage = () => {
-    const [search, setSearch] = useState<string>('')
+const SubscriptionsPage = () => {
     const dispatch = useAppDispatch()
-    const actors = useSelector(getData)
+    const countries = useSelector(getData)
     const pagination = useSelector(getPagination)
     const fetching = useSelector(getFetching)
     const navigate = useNavigate()
     const location = useLocation()
-    const params = useParams() //TODO: Get page from url param. DO IT WHEN FIX REFRESHING IN ADMIN PANEL
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
-        dispatch(getActors())
+        dispatch(getSubscriptions({
+            page: parseInt(searchParams.get('page') ?? '1')
+        }))
     }, [])
 
-    const fetchActors = (value: number) => {
+    const fetchSubscriptions = (value: number) => {
         // @ts-ignore
-        dispatch(getActors({page: value}))
+        dispatch(getSubscriptions({page: value}))
         navigate(location.pathname + `?page=${value}`)
     }
 
-    const onSearch = () => {
-        // @ts-ignore
-        dispatch(getActors({page: pagination.current_page, q: search}))
-        navigate(location.pathname + `?page=${pagination.current_page}?q=${search}`)
-    }
-
     const onCreate = () => {
-        navigate(RoutesConfig.admin_actors_create.path)
+        navigate(RoutesConfig.admin_subscriptions_create.path)
     }
 
     const onEdit = (id: number) => {
-        navigate(RoutesConfig.admin_actors_edit.path.replace(':id', `${id}`))
+        navigate(RoutesConfig.admin_subscriptions_edit.path.replace(':id', `${id}`))
     }
 
     const onDestroy = (id: number) => {
-        if (window.confirm('Вы действительно хотите удалить этого актера?')) {
-            dispatch(destroyActor(id))
+        if (window.confirm('Вы действительно хотите удалить эту подписку?')) {
+            dispatch(destroySubscription(id))
                 .then(data => {
-                    onSearch()
+                    fetchSubscriptions(pagination.current_page)
                 })
         }
     }
 
     return (
-        <div className={classes.actorsPage}>
-            <h1 className={classes.pageTitle}>Актеры</h1>
+        <div className={classes.countriesPage}>
+            <h1 className={classes.pageTitle}>Подписки</h1>
             {fetching ? (
                 <>
                     <Fetching className={classes.fetching} />
@@ -63,31 +64,12 @@ const ActorsPage = () => {
                 ) : (
                     <>
                         <header className={classes.pageHeader}>
-                            <div className={classes.search}>
-                                <Input
-                                    value={search}
-                                    onChange={(value: string) => setSearch(value)}
-                                    placeholder={'Бред Пит'}
-                                    style={{
-                                        'width': '400px',
-                                        'borderColor': '#ececec',
-                                        'borderRight': 'none'
-                                    }}
-                                />
-                                <button
-                                    type={'button'}
-                                    className={classes.searchBtn}
-                                    onClick={onSearch}
-                                >
-                                    Поиск
-                                </button>
-                            </div>
                             <button
                                 className={classes.createModel}
                                 onClick={onCreate}
                             >
                                 <Plus width={24} height={24} />
-                                Добавить актера
+                                Добавить подписку
                             </button>
                         </header>
                         <Table
@@ -95,26 +77,22 @@ const ActorsPage = () => {
                                 'width': '100%',
                                 'marginTop': '30px'
                             }}
-                            data={actors}
+                            data={countries}
                             pagination={pagination}
-                            onChangePage={fetchActors}
+                            onChangePage={fetchSubscriptions}
                         >
                             <TableColumn
                                 label={'Идентификатор'}
                                 prop={'id'}
                             />
                             <TableColumn
-                                label={'Имя'}
-                                prop={'first_name'}
-                            />
-                            <TableColumn
-                                label={'Фамилия'}
-                                prop={'last_name'}
+                                label={'Наименование'}
+                                prop={'name'}
                             />
                             <TableColumn
                                 label={'Действия'}
                                 prop={''}
-                                row={(data) => {
+                                row={(data: Subscription) => {
                                     return (
                                         <div className={classes.tableActions}>
                                             <button
@@ -140,4 +118,4 @@ const ActorsPage = () => {
     )
 }
 
-export default ActorsPage
+export default SubscriptionsPage

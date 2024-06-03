@@ -47,7 +47,6 @@ const AppRouter = () => {
 
         elem = (
             <RequireAuthorization
-                roles={route.roles}
                 route={route}
             >
                 {elem}

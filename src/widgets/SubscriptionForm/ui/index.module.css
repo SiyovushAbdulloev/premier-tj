@@ -1,0 +1,46 @@
+.countryForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formAction {
+    background-color: #f97316;
+    padding: 10px 20px;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.actions {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    gap: 15px;
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin: 0;
+}
+
+.group {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fetching {
+    width: 80px;
+    height: 80px;
+    margin: 150px auto 0;
+}

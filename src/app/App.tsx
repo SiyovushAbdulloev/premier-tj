@@ -1,20 +1,27 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {className} from 'src/shared/utils/className';
 import {AppRouter} from 'src/app/providers/Router'
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getAuthUser, getCsrfToken} from "src/entities/Auth";
 function App() {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const run = async () => {
-            const data = await dispatch(getCsrfToken())
-            if (data.type.includes('fulfilled')) {
-                dispatch(getAuthUser())
-            }
-        }
-        run()
-    }, [])
+        const fetchData = async () => {
+            await dispatch(getCsrfToken());
+            await dispatch(getAuthUser());
+            setLoading(false);
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+    if (loading) {
+        // Optionally, you can return a loading indicator here
+        return <div>Loading...</div>;
+    }
+
   return (
       <div className={className('app')}>
         <AppRouter />

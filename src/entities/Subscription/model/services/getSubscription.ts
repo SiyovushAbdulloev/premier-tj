@@ -1,33 +1,31 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
-export const loginAdmin = createAsyncThunk(
-    'auth/loginAdmin',
-    async (data, {getState, rejectWithValue}) => {
+export const getSubscription = createAsyncThunk(
+    'subscription/getSubscription',
+    async (data: number, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
-            const response = await fetch(APP_URL + '/api/admin/login', {
-                method: 'POST',
-                body: JSON.stringify(data),
+
+            const response = await fetch(APP_URL + `/api/admin/subscriptions/${data}`, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-XSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 credentials: 'include'
             })
 
             if (!response.ok) {
                 // @ts-ignore
-                const data = await response.json()
-                if (data.errors) {
-                    return rejectWithValue(data.errors)
-                }
-                return rejectWithValue(JSON.parse(data.message))
+                const res = await response.json()
+                console.log({data})
+                // return rejectWithValue(data.errors)
             } else {
-                const data = await response.json()
-                return data.token
+                const res = await response.json()
+                return res.data
             }
         } catch (error) {
             console.log({error})

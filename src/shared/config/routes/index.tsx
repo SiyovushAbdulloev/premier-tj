@@ -16,6 +16,9 @@ import {GenresEditPage} from "src/pages/GenresEdit";
 import {ActorsPage} from "src/pages/Actors";
 import {ActorsCreatePage} from "src/pages/ActorsCreate";
 import {ActorsEditPage} from "src/pages/ActorsEdit";
+import {SubscriptionsPage} from "src/pages/Subscriptions";
+import {SubscriptionsCreatePage} from "src/pages/SubscriptionsCreate";
+import {SubscriptionsEditPage} from "src/pages/SubscriptionsEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -39,6 +42,9 @@ export enum AppRoutes {
     'ADMIN_ACTORS' = 'admin_actors',
     'ADMIN_ACTORS_CREATE' = 'admin_actors_create',
     'ADMIN_ACTORS_EDIT' = 'admin_actors_edit',
+    'ADMIN_SUBSCRIPTIONS' = 'admin_subscriptions',
+    'ADMIN_SUBSCRIPTIONS_CREATE' = 'admin_subscriptions_create',
+    'ADMIN_SUBSCRIPTIONS_EDIT' = 'admin_subscriptions_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -56,6 +62,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_ACTORS]: '/admin/actors',
     [AppRoutes.ADMIN_ACTORS_CREATE]: '/admin/actors/create',
     [AppRoutes.ADMIN_ACTORS_EDIT]: '/admin/actors/:id/edit',
+    [AppRoutes.ADMIN_SUBSCRIPTIONS]: '/admin/subscriptions',
+    [AppRoutes.ADMIN_SUBSCRIPTIONS_CREATE]: '/admin/subscriptions/create',
+    [AppRoutes.ADMIN_SUBSCRIPTIONS_EDIT]: '/admin/subscriptions/:id/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -152,6 +161,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_ACTORS_EDIT]: {
         path: RoutesPath.admin_actors_edit,
         element: <ActorsEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SUBSCRIPTIONS]: {
+        path: RoutesPath.admin_subscriptions,
+        element: <SubscriptionsPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SUBSCRIPTIONS_CREATE]: {
+        path: RoutesPath.admin_subscriptions_create,
+        element: <SubscriptionsCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SUBSCRIPTIONS_EDIT]: {
+        path: RoutesPath.admin_subscriptions_edit,
+        element: <SubscriptionsEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

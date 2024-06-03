@@ -8,6 +8,7 @@ export interface Auth {
     csrfToken: string
     loginErrors: InputError | undefined
     isLogging: boolean
+    isFetching: boolean
 }
 
 export interface AuthSchema {

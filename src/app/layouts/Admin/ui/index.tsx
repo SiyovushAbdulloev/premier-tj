@@ -36,7 +36,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Мультимедиа'
             },
             {
-                path: RoutesConfig.admin_main.path,
+                path: RoutesConfig.admin_subscriptions.path,
                 icon: function () {
                     return <Subscriptions width={20} height={20} />
                 },
