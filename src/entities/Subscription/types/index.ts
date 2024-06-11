@@ -20,4 +20,5 @@ export interface SubscriptionSchema {
     isUpdating: boolean
     updateErrors: InputError | undefined
     isFetchingOne: boolean
+    isFetchingAll: boolean
 }

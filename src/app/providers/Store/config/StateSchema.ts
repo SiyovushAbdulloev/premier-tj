@@ -5,6 +5,7 @@ import {CountrySchema} from "src/entities/Country";
 import {GenreSchema} from "src/entities/Genre";
 import {ActorSchema} from "src/entities/Actor";
 import {SubscriptionSchema} from "src/entities/Subscription";
+import {MediaContentSchema} from "src/entities/MediaContent";
 
 export interface StateSchema {
     user: UserSchema
@@ -14,4 +15,5 @@ export interface StateSchema {
     genre: GenreSchema
     actor: ActorSchema
     subscription: SubscriptionSchema
+    mediaContent: MediaContentSchema
 }

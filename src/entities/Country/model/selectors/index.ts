@@ -7,3 +7,4 @@ export const getPagination = (state: StateSchema): Pagination => state.country.p
 export const getFetching = (state: StateSchema): boolean => state.country.fetching
 export const getIsStoring = (state: StateSchema): boolean => state.country.isStoring
 export const getStoreErrors = (state: StateSchema): InputError | undefined => state.country.storeErrors
+export const getIsFetchingAll = (state: StateSchema): boolean => state.country.isFetchingAll

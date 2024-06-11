@@ -1,6 +1,9 @@
 import {Genre, GenreSchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getGenres, storeGenre, updateGenre} from "src/entities/Genre";
+import {getGenres} from '../services/getGenres'
+import {storeGenre} from '../services/storeGenre'
+import {updateGenre} from '../services/updateGenre'
+import {getAllGenres} from '../services/getAllGenres'
 
 const initialState: GenreSchema = {
     data: [],
@@ -13,7 +16,8 @@ const initialState: GenreSchema = {
     isStoring: false,
     storeErrors: undefined,
     isUpdating: false,
-    updateErrors: undefined
+    updateErrors: undefined,
+    isFetchingAll: false,
 }
 
 export const genreSlice = createSlice({
@@ -60,6 +64,15 @@ export const genreSlice = createSlice({
                 state.isUpdating = false
                 //@ts-ignore
                 state.updateErrors = action.payload
+            })
+            .addCase(getAllGenres.pending, (state, action) => {
+                state.isFetchingAll = true
+            })
+            .addCase(getAllGenres.fulfilled, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getAllGenres.rejected, (state, action) => {
+                state.isFetchingAll = false
             })
     }
 })

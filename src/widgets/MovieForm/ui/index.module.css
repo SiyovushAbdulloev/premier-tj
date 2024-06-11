@@ -1,0 +1,85 @@
+.countryForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formAction {
+    background-color: #f97316;
+    padding: 10px 20px;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.actions {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    gap: 15px;
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin: 0;
+}
+
+.group {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.start {
+    align-items: flex-start;
+}
+
+.end {
+    align-items: flex-end;
+}
+
+.fetching {
+    width: 80px;
+    height: 80px;
+    margin: 150px auto 0;
+}
+
+.file {
+    width: 45%;
+}
+
+.poster {
+    width: 35%;
+    object-fit: contain;
+}
+
+.description {
+    padding: 10px;
+}
+
+.publish {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: fit-content;
+}
+
+.publishInput {
+    width: 16px;
+    height: 16px;
+}
+
+.fileUrl {
+    width: 30%;
+    height: 240px;
+}

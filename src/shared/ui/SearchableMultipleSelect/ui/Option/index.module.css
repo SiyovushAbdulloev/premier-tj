@@ -1,0 +1,31 @@
+.option {
+    cursor: pointer;
+    padding: 16px;
+    transition: all .1s ease-in-out;
+    font-size: 16px;
+    color: #121117;
+    border-bottom: 1px solid #dcdce5;
+}
+
+.option:last-child {
+    border-bottom: none;
+}
+
+.option:hover {
+    background-color: #f4f4f8;
+}
+
+.active {
+    color: #409eff;
+}
+
+.option.disabled {
+    cursor: not-allowed;
+    color: #bcbcbc;
+    user-select: none;
+    pointer-events: none;
+}
+
+.option.disabled:hover {
+    background-color: transparent;
+}

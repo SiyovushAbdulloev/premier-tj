@@ -16,4 +16,5 @@ export interface ActorSchema {
     storeErrors: InputError | undefined
     isUpdating: boolean
     updateErrors: InputError | undefined
+    isFetchingAll: boolean
 }

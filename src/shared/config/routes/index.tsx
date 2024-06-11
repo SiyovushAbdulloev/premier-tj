@@ -19,6 +19,9 @@ import {ActorsEditPage} from "src/pages/ActorsEdit";
 import {SubscriptionsPage} from "src/pages/Subscriptions";
 import {SubscriptionsCreatePage} from "src/pages/SubscriptionsCreate";
 import {SubscriptionsEditPage} from "src/pages/SubscriptionsEdit";
+import {MoviesPage} from "src/pages/Movies";
+import {MoviesCreatePage} from "src/pages/MoviesCreate";
+import {MoviesEditPage} from "src/pages/MoviesEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -45,6 +48,9 @@ export enum AppRoutes {
     'ADMIN_SUBSCRIPTIONS' = 'admin_subscriptions',
     'ADMIN_SUBSCRIPTIONS_CREATE' = 'admin_subscriptions_create',
     'ADMIN_SUBSCRIPTIONS_EDIT' = 'admin_subscriptions_edit',
+    'ADMIN_MOVIES' = 'admin_movies',
+    'ADMIN_MOVIES_CREATE' = 'admin_movies_create',
+    'ADMIN_MOVIES_EDIT' = 'admin_movies_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -65,6 +71,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_SUBSCRIPTIONS]: '/admin/subscriptions',
     [AppRoutes.ADMIN_SUBSCRIPTIONS_CREATE]: '/admin/subscriptions/create',
     [AppRoutes.ADMIN_SUBSCRIPTIONS_EDIT]: '/admin/subscriptions/:id/edit',
+    [AppRoutes.ADMIN_MOVIES]: '/admin/movies',
+    [AppRoutes.ADMIN_MOVIES_CREATE]: '/admin/movies/create',
+    [AppRoutes.ADMIN_MOVIES_EDIT]: '/admin/movies/:id/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -185,6 +194,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_SUBSCRIPTIONS_EDIT]: {
         path: RoutesPath.admin_subscriptions_edit,
         element: <SubscriptionsEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_MOVIES]: {
+        path: RoutesPath.admin_movies,
+        element: <MoviesPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_MOVIES_CREATE]: {
+        path: RoutesPath.admin_movies_create,
+        element: <MoviesCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_MOVIES_EDIT]: {
+        path: RoutesPath.admin_movies_edit,
+        element: <MoviesEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

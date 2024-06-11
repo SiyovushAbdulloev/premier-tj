@@ -1,6 +1,9 @@
 import {Actor, ActorSchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getActors, storeActor, updateActor} from "src/entities/Actor";
+import {getActors} from '../services/getActors'
+import {storeActor} from '../services/storeActor'
+import {updateActor} from '../services/updateActor'
+import {getAllActors} from '../services/getAllActors'
 
 const initialState: ActorSchema = {
     data: [],
@@ -13,7 +16,8 @@ const initialState: ActorSchema = {
     isStoring: false,
     storeErrors: undefined,
     isUpdating: false,
-    updateErrors: undefined
+    updateErrors: undefined,
+    isFetchingAll: false,
 }
 
 export const actorSlice = createSlice({
@@ -60,6 +64,15 @@ export const actorSlice = createSlice({
                 state.isUpdating = false
                 //@ts-ignore
                 state.updateErrors = action.payload
+            })
+            .addCase(getAllActors.pending, (state, action) => {
+                state.isFetchingAll = true
+            })
+            .addCase(getAllActors.fulfilled, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getAllActors.rejected, (state, action) => {
+                state.isFetchingAll = false
             })
     }
 })

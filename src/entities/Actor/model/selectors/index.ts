@@ -10,3 +10,4 @@ export const getIsStoring = (state: StateSchema): boolean => state.actor.isStori
 export const getStoreErrors = (state: StateSchema): InputError | undefined => state.actor.storeErrors
 export const getIsUpdating = (state: StateSchema): boolean => state.actor.isUpdating
 export const getUpdateErrors = (state: StateSchema): InputError | undefined => state.actor.updateErrors
+export const getIsFetchingAll = (state: StateSchema): boolean => state.actor.isFetchingAll

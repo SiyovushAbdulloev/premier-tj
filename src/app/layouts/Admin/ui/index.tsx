@@ -29,11 +29,18 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Аналитика'
             },
             {
+                path: RoutesConfig.admin_movies.path,
+                icon: function () {
+                    return <Multimedia width={20} height={20} />
+                },
+                label: 'Кино'
+            },
+            {
                 path: RoutesConfig.admin_main.path,
                 icon: function () {
                     return <Multimedia width={20} height={20} />
                 },
-                label: 'Мультимедиа'
+                label: 'Сериалы'
             },
             {
                 path: RoutesConfig.admin_subscriptions.path,

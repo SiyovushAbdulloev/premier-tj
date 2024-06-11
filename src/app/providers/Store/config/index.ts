@@ -7,6 +7,7 @@ import {countryReducer} from "src/entities/Country";
 import {genreReducer} from "src/entities/Genre";
 import {actorReducer} from "src/entities/Actor";
 import {subscriptionReducer} from "src/entities/Subscription";
+import {mediaContentReducer} from "src/entities/MediaContent";
 
 export function createReduxStore(initialState: StateSchema) {
     const rootReducers = {
@@ -16,7 +17,8 @@ export function createReduxStore(initialState: StateSchema) {
         country: countryReducer,
         genre: genreReducer,
         actor: actorReducer,
-        subscription: subscriptionReducer
+        subscription: subscriptionReducer,
+        mediaContent: mediaContentReducer,
     }
 
     return configureStore({

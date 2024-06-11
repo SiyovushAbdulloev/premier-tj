@@ -7,6 +7,7 @@ import {
     getUpdateErrors,
     getIsUpdating,
     getIsFetchingOne,
+    getIsFetchingAll,
 } from "./model/selectors";
 import {subscriptionActions, subscriptionReducer} from "./model/slice";
 import {Subscription, SubscriptionSchema} from "./types";
@@ -15,6 +16,7 @@ import {destroySubscription} from "./model/services/destroySubscription";
 import {storeSubscription} from "./model/services/storeSubscription";
 import {updateSubscription} from "./model/services/updateSubscription";
 import {getSubscription} from "./model/services/getSubscription";
+import {getAllSubscriptions} from "./model/services/getAllSubscriptions";
 
 export {
     getData,
@@ -32,5 +34,7 @@ export {
     updateSubscription,
     getSubscription,
     getIsFetchingOne,
+    getAllSubscriptions,
+    getIsFetchingAll,
 }
 export type {Subscription, SubscriptionSchema}
