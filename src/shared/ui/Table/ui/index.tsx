@@ -191,7 +191,7 @@ export default function Table(props: TableProps) {
                         </div>
                     )
                 }) : (
-                    <h4 className={classes.noData}>No data</h4>
+                    <h4 className={classes.noData}>Нет данных</h4>
                 )}
             </div>
             {props.pagination && rows.length > 0 && (
