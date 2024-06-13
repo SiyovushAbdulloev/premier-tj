@@ -28,6 +28,9 @@ import {MultimediasEditPage} from "src/pages/MultimediasEdit";
 import {SeriesPage} from "src/pages/Series";
 import {SeriesCreatePage} from "src/pages/SeriesCreate";
 import {SeriesEditPage} from "src/pages/SeriesEdit";
+import {SerieSeasonsPage} from "src/pages/SerieSeasons";
+import {SerieSeasonsCreatePage} from "src/pages/SerieSeasonsCreate";
+import {SerieSeasonsEditPage} from "src/pages/SerieSeasonsEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -63,6 +66,9 @@ export enum AppRoutes {
     'ADMIN_SERIES' = 'admin_series',
     'ADMIN_SERIES_CREATE' = 'admin_series_create',
     'ADMIN_SERIES_EDIT' = 'admin_series_edit',
+    'ADMIN_SERIE_SEASONS' = 'admin_serie_seasons',
+    'ADMIN_SERIE_SEASONS_CREATE' = 'admin_serie_seasons_create',
+    'ADMIN_SERIE_SEASONS_EDIT' = 'admin_serie_seasons_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -92,6 +98,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_SERIES]: '/admin/series',
     [AppRoutes.ADMIN_SERIES_CREATE]: '/admin/series/create',
     [AppRoutes.ADMIN_SERIES_EDIT]: '/admin/series/:id/edit',
+    [AppRoutes.ADMIN_SERIE_SEASONS]: '/admin/series/:id/serie-seasons',
+    [AppRoutes.ADMIN_SERIE_SEASONS_CREATE]: '/admin/series/:id/serie-seasons/create',
+    [AppRoutes.ADMIN_SERIE_SEASONS_EDIT]: '/admin/series/:id/serie-seasons/:seasonId/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -284,6 +293,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_SERIES_EDIT]: {
         path: RoutesPath.admin_series_edit,
         element: <SeriesEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASONS]: {
+        path: RoutesPath.admin_serie_seasons,
+        element: <SerieSeasonsPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASONS_CREATE]: {
+        path: RoutesPath.admin_serie_seasons_create,
+        element: <SerieSeasonsCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASONS_EDIT]: {
+        path: RoutesPath.admin_serie_seasons_edit,
+        element: <SerieSeasonsEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

@@ -1,0 +1,73 @@
+.actorsPage {
+
+}
+
+.pageTitle {
+    font-size: 30px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.fetching {
+    margin: 40px auto 0 auto;
+    width: 60px;
+    height: 60px;
+}
+
+.pageHeader {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+}
+
+.searchBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border: none;
+    background-color: #f97316;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+}
+
+.createModel,
+.destroy {
+    background-color: #f97316;
+    padding: 10px 20px;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.tableActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.destroy {
+    background-color: #ff4343;
+}
+
+.red {
+    color: red;
+}
