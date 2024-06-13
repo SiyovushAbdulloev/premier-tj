@@ -25,6 +25,9 @@ import {MoviesEditPage} from "src/pages/MoviesEdit";
 import {MultimediasPage} from "src/pages/Multimedias";
 import {MultimediasCreatePage} from "src/pages/MultimediasCreate";
 import {MultimediasEditPage} from "src/pages/MultimediasEdit";
+import {SeriesPage} from "src/pages/Series";
+import {SeriesCreatePage} from "src/pages/SeriesCreate";
+import {SeriesEditPage} from "src/pages/SeriesEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -57,6 +60,9 @@ export enum AppRoutes {
     'ADMIN_MULTIMEDIAS' = 'admin_multimedias',
     'ADMIN_MULTIMEDIAS_CREATE' = 'admin_multimedias_create',
     'ADMIN_MULTIMEDIAS_EDIT' = 'admin_multimedias_edit',
+    'ADMIN_SERIES' = 'admin_series',
+    'ADMIN_SERIES_CREATE' = 'admin_series_create',
+    'ADMIN_SERIES_EDIT' = 'admin_series_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -83,6 +89,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_MULTIMEDIAS]: '/admin/multimedias',
     [AppRoutes.ADMIN_MULTIMEDIAS_CREATE]: '/admin/multimedias/create',
     [AppRoutes.ADMIN_MULTIMEDIAS_EDIT]: '/admin/multimedias/:id/edit',
+    [AppRoutes.ADMIN_SERIES]: '/admin/series',
+    [AppRoutes.ADMIN_SERIES_CREATE]: '/admin/series/create',
+    [AppRoutes.ADMIN_SERIES_EDIT]: '/admin/series/:id/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -251,6 +260,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_MULTIMEDIAS_EDIT]: {
         path: RoutesPath.admin_multimedias_edit,
         element: <MultimediasEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIES]: {
+        path: RoutesPath.admin_series,
+        element: <SeriesPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIES_CREATE]: {
+        path: RoutesPath.admin_series_create,
+        element: <SeriesCreatePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIES_EDIT]: {
+        path: RoutesPath.admin_series_edit,
+        element: <SeriesEditPage/>,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

@@ -43,7 +43,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Standup, новости...'
             },
             {
-                path: RoutesConfig.admin_main.path,
+                path: RoutesConfig.admin_series.path,
                 icon: function () {
                     return <Multimedia width={20} height={20} />
                 },
