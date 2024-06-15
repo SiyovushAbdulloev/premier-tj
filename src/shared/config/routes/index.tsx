@@ -31,6 +31,9 @@ import {SeriesEditPage} from "src/pages/SeriesEdit";
 import {SerieSeasonsPage} from "src/pages/SerieSeasons";
 import {SerieSeasonsCreatePage} from "src/pages/SerieSeasonsCreate";
 import {SerieSeasonsEditPage} from "src/pages/SerieSeasonsEdit";
+import {SeasonEpisodesPage} from "src/pages/SeasonEpisodes";
+import {SeasonEpisodesCreatePage} from "src/pages/SeasonEpisodesCreate";
+import {SeasonEpisodesEditPage} from "src/pages/SeasonEpisodesEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -69,6 +72,9 @@ export enum AppRoutes {
     'ADMIN_SERIE_SEASONS' = 'admin_serie_seasons',
     'ADMIN_SERIE_SEASONS_CREATE' = 'admin_serie_seasons_create',
     'ADMIN_SERIE_SEASONS_EDIT' = 'admin_serie_seasons_edit',
+    'ADMIN_SERIE_SEASON_EPISODES' = 'admin_serie_season_episodes',
+    'ADMIN_SERIE_SEASON_EPISODES_CREATE' = 'admin_serie_season_episodes_create',
+    'ADMIN_SERIE_SEASON_EPISODES_EDIT' = 'admin_serie_season_episodes_edit',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -101,6 +107,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_SERIE_SEASONS]: '/admin/series/:id/serie-seasons',
     [AppRoutes.ADMIN_SERIE_SEASONS_CREATE]: '/admin/series/:id/serie-seasons/create',
     [AppRoutes.ADMIN_SERIE_SEASONS_EDIT]: '/admin/series/:id/serie-seasons/:seasonId/edit',
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes',
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_CREATE]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes/create',
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_EDIT]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes/:episodeId/edit',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -317,6 +326,30 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_SERIE_SEASONS_EDIT]: {
         path: RoutesPath.admin_serie_seasons_edit,
         element: <SerieSeasonsEditPage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES]: {
+        path: RoutesPath.admin_serie_season_episodes,
+        element: <SeasonEpisodesPage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_CREATE]: {
+        path: RoutesPath.admin_serie_season_episodes_create,
+        element: <SeasonEpisodesCreatePage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_EDIT]: {
+        path: RoutesPath.admin_serie_season_episodes_edit,
+        element: <SeasonEpisodesEditPage />,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

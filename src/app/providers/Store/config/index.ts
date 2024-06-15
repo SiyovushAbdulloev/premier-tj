@@ -10,6 +10,7 @@ import {subscriptionReducer} from "src/entities/Subscription";
 import {mediaContentReducer} from "src/entities/MediaContent";
 import {seriesReducer} from "src/entities/Series";
 import {serieSeasonReducer} from "src/entities/SerieSeason";
+import {seasonEpisodeReducer} from "src/entities/SeasonEpisode";
 
 export function createReduxStore(initialState: StateSchema) {
     const rootReducers = {
@@ -22,7 +23,8 @@ export function createReduxStore(initialState: StateSchema) {
         subscription: subscriptionReducer,
         mediaContent: mediaContentReducer,
         series: seriesReducer,
-        serieSeason: serieSeasonReducer
+        serieSeason: serieSeasonReducer,
+        seasonEpisode: seasonEpisodeReducer,
     }
 
     return configureStore({

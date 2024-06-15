@@ -5,70 +5,82 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
+import {Input} from "src/shared/ui/Input";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {
-    destroySerieSeason,
+    destroySeasonEpisode,
     getData,
     getFetching,
     getPagination,
-    getSerieSeasons,
-    SerieSeason
-} from "src/entities/SerieSeason";
-import {SeasonEpisode} from "src/entities/SeasonEpisode";
+    getSeasonEpisodes,
+    SeasonEpisode
+} from "src/entities/SeasonEpisode";
 
-const SerieSeasonsPage = () => {
+const SeasonEpisodesPage = () => {
     const [search, setSearch] = useState<string>('')
     const dispatch = useAppDispatch()
-    const serieSeasons = useSelector(getData)
+    const seasonEpisodes = useSelector(getData)
     const pagination = useSelector(getPagination)
     const fetching = useSelector(getFetching)
     const navigate = useNavigate()
     const location = useLocation()
     const [searchParams] = useSearchParams()
-    const {id} = useParams()
+    const {id, seasonId} = useParams()
 
     useEffect(() => {
-        dispatch(getSerieSeasons({
+        dispatch(getSeasonEpisodes({
             page: parseInt(searchParams.get('id') ?? '1'),
-            serie: parseInt(id ?? '0')
+            serie: parseInt(id ?? '0'),
+            serie_season: parseInt(seasonId ?? '0')
         }))
     }, [])
 
-    const fetchSerieSeasons = (value: number) => {
+    const fetchSeasonEpisodes = (value: number) => {
         // @ts-ignore
-        dispatch(getSerieSeasons({page: value,  serie: parseInt(id ?? '0')}))
+        dispatch(getSeasonEpisodes({
+            page: value,
+            serie: parseInt(id ?? '0'),
+            serie_season: parseInt(seasonId ?? '0')
+        }))
         navigate(location.pathname + `?page=${value}`)
     }
 
     const onCreate = () => {
-        navigate(RoutesConfig.admin_serie_seasons_create.path.replace(':id', `${id}`))
-    }
-
-    const onEdit = (season: number) => {
-        navigate(RoutesConfig.admin_serie_seasons_edit.path.replace(':id', `${id}`).replace(':seasonId', `${season}`))
-    }
-
-    const onEpisodes = (season: number) => {
-        navigate(RoutesConfig.admin_serie_season_episodes.path.replace(':id', `${id}`).replace(':seasonId', `${season}`))
+        navigate(RoutesConfig.admin_serie_season_episodes_create.path
+            .replace(':id', `${id}`)
+            .replace(':seasonId', `${seasonId}`))
     }
 
     const onBack = () => {
-        navigate(RoutesConfig.admin_series.path)
+        navigate(RoutesConfig.admin_serie_seasons.path
+            .replace(':id', `${id}`)
+            .replace(':seasonId', `${seasonId}`))
     }
 
-    const onDestroy = (season: number) => {
-        if (window.confirm('Вы действительно хотите удалить этот сезон? Связанные с ним серии будут удалены.')) {
-            dispatch(destroySerieSeason({id: season, serie: parseInt(id ?? '0')}))
+    const onEdit = (episode: number) => {
+        navigate(RoutesConfig.admin_serie_season_episodes_edit.path
+            .replace(':id', `${id}`)
+            .replace(':seasonId', `${seasonId}`)
+            .replace(':episodeId', `${episode}`))
+    }
+
+    const onDestroy = (episode: number) => {
+        if (window.confirm('Вы действительно хотите удалить эту серию?')) {
+            dispatch(destroySeasonEpisode({
+                id: episode,
+                serie: parseInt(id ?? '0'),
+                serie_season: parseInt(seasonId ?? '0')
+            }))
                 .then(data => {
-                    fetchSerieSeasons(pagination.current_page)
+                    fetchSeasonEpisodes(pagination.current_page)
                 })
         }
     }
 
     return (
         <div className={classes.actorsPage}>
-            <h1 className={classes.pageTitle}>Сезоны</h1>
+            <h1 className={classes.pageTitle}>Серии</h1>
             {fetching ? (
                 <>
                     <Fetching className={classes.fetching} />
@@ -81,14 +93,14 @@ const SerieSeasonsPage = () => {
                                 onClick={onBack}
                             >
                                 <Plus width={24} height={24} />
-                                Назад
+                                Назад в сезоны
                             </button>
                             <button
                                 className={classes.createModel}
                                 onClick={onCreate}
                             >
                                 <Plus width={24} height={24} />
-                                Добавить сезон
+                                Добавить серию
                             </button>
                         </header>
                         <Table
@@ -96,16 +108,16 @@ const SerieSeasonsPage = () => {
                                 'width': '100%',
                                 'marginTop': '30px'
                             }}
-                            data={serieSeasons}
+                            data={seasonEpisodes}
                             pagination={pagination}
-                            onChangePage={fetchSerieSeasons}
+                            onChangePage={fetchSeasonEpisodes}
                         >
                             <TableColumn
                                 label={'Идентификатор'}
                                 prop={'id'}
                             />
                             <TableColumn
-                                label={'Число'}
+                                label={'Наименование'}
                                 prop={'number'}
                             />
                             <TableColumn
@@ -124,15 +136,9 @@ const SerieSeasonsPage = () => {
                             <TableColumn
                                 label={'Действия'}
                                 prop={''}
-                                row={(data: SerieSeason) => {
+                                row={(data: SeasonEpisode) => {
                                     return (
                                         <div className={classes.tableActions}>
-                                            <button
-                                                className={classes.createModel}
-                                                onClick={() => onEpisodes(data.id)}
-                                            >
-                                                Серии
-                                            </button>
                                             <button
                                                 className={classes.createModel}
                                                 onClick={() => onEdit(data.id)}
@@ -156,4 +162,4 @@ const SerieSeasonsPage = () => {
     )
 }
 
-export default SerieSeasonsPage
+export default SeasonEpisodesPage

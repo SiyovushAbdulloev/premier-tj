@@ -8,6 +8,7 @@ import {SubscriptionSchema} from "src/entities/Subscription";
 import {MediaContentSchema} from "src/entities/MediaContent";
 import {SeriesSchema} from "src/entities/Series";
 import {SerieSeasonSchema} from "src/entities/SerieSeason";
+import {SeasonEpisodeSchema} from "src/entities/SeasonEpisode";
 
 export interface StateSchema {
     user: UserSchema
@@ -20,4 +21,5 @@ export interface StateSchema {
     mediaContent: MediaContentSchema
     series: SeriesSchema
     serieSeason: SerieSeasonSchema
+    seasonEpisode: SeasonEpisodeSchema
 }

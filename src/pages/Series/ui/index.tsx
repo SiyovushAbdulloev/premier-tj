@@ -9,6 +9,7 @@ import {Input} from "src/shared/ui/Input";
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {destroySeries, getAllSeries, getData, getFetching, getPagination, Series} from "src/entities/Series";
+import {SeasonEpisode} from "src/entities/SeasonEpisode";
 
 const SeriesPage = () => {
     const [search, setSearch] = useState<string>('')
@@ -117,6 +118,15 @@ const SeriesPage = () => {
                             <TableColumn
                                 label={'Описание'}
                                 prop={'description'}
+                            />
+                            <TableColumn
+                                label={'Опубликован'}
+                                prop={'is_published'}
+                                row={(data: SeasonEpisode) => {
+                                    return (
+                                        <span>{data.is_published ? 'Да' : 'Нет'}</span>
+                                    )
+                                }}
                             />
                             <TableColumn
                                 label={'Действия'}
