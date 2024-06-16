@@ -1,0 +1,72 @@
+.select {
+    width: fit-content;
+    position: relative;
+}
+
+.select .activeItem {
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #dcdce5;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.select .activeItem.clicked {
+    cursor: default;
+}
+
+.select .activeItem .text {
+    display: inline-block;
+    width: 90%;
+    word-break: break-word;
+}
+
+.select .activeItem.clicked svg {
+    rotate: 180deg;
+}
+
+.select .activeItem.disabled {
+    cursor: not-allowed;
+    border-color: #dcdfe6;
+    background-color: #f5f7fa;
+}
+
+.select .items {
+    position: absolute;
+    background-color: #fff;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+.select .itemsActive {
+    border-color: #dcdce5;
+    z-index: 3;
+}
+
+.select .input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding-right: 7px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.select .input::placeholder {
+    color: #c8c8cb;
+}
+
+.select .input:focus:active {
+    border: none;
+    outline: none;
+}

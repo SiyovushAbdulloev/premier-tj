@@ -29,4 +29,5 @@ export interface MediaContentSchema {
     isUpdating: boolean
     updateErrors: InputError | undefined
     isFetchingOne: boolean
+    isFetchingAll: boolean
 }

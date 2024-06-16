@@ -24,4 +24,5 @@ export interface SeriesSchema {
     isUpdating: boolean
     updateErrors: InputError | undefined
     isFetchingOne: boolean
+    isFetchingAll: boolean
 }

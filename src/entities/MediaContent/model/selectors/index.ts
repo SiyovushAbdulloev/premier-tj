@@ -11,3 +11,4 @@ export const getStoreErrors = (state: StateSchema): InputError | undefined => st
 export const getIsUpdating = (state: StateSchema): boolean => state.mediaContent.isUpdating
 export const getUpdateErrors = (state: StateSchema): InputError | undefined => state.mediaContent.updateErrors
 export const getIsFetchingOne = (state: StateSchema): boolean => state.mediaContent.isFetchingOne
+export const getIsFetchingAll = (state: StateSchema): boolean => state.mediaContent.isFetchingAll

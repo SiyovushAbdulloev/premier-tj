@@ -17,6 +17,7 @@ interface TableProps {
     searchable?: boolean
     pagination?: Pagination
     onChangePage?: (value: number) => void
+    withoutPagination?: boolean
 }
 
 export default function Table(props: TableProps) {
@@ -100,7 +101,7 @@ export default function Table(props: TableProps) {
 
     const onCurrentPage = (value: number) => {
         setCurrentPage(value)
-        if (props.onChangePage) {
+        if (props.onChangePage && !props.withoutPagination) {
             props.onChangePage(value)
         }
     }
@@ -214,11 +215,13 @@ export default function Table(props: TableProps) {
                         {/*    })}*/}
                         {/*</select>*/}
                     </div>
-                    <div className={classes.paginationItems}>
-                        {
-                            getPagination
-                        }
-                    </div>
+                    {!props.withoutPagination ? (
+                        <div className={classes.paginationItems}>
+                            {
+                                getPagination
+                            }
+                        </div>
+                    ) : null}
                 </div>
             )}
         </div>

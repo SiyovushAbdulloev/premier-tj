@@ -4,6 +4,7 @@ import {getMediaContents} from "../services/getMediaContents";
 import {storeMediaContent} from "../services/storeMediaContent";
 import {updateMediaContent} from "../services/updateMediaContent";
 import {getMediaContent} from "../services/getMediaContent";
+import {getAllMediaContents} from "../services/getAllMediaContents";
 
 const initialState: MediaContentSchema = {
     data: [],
@@ -18,6 +19,7 @@ const initialState: MediaContentSchema = {
     isUpdating: false,
     updateErrors: undefined,
     isFetchingOne: false,
+    isFetchingAll: false,
 }
 
 export const mediaContentSlice = createSlice({
@@ -79,6 +81,15 @@ export const mediaContentSlice = createSlice({
             })
             .addCase(getMediaContent.rejected, (state, action) => {
                 state.isFetchingOne = false
+            })
+            .addCase(getAllMediaContents.pending, (state, action) => {
+                state.isFetchingAll = true
+            })
+            .addCase(getAllMediaContents.fulfilled, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getAllMediaContents.rejected, (state, action) => {
+                state.isFetchingAll = false
             })
     }
 })

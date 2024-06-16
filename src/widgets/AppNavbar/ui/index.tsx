@@ -12,7 +12,6 @@ import {ReactComponent as PaymentType} from 'src/shared/assets/icons/credit_card
 import {ReactComponent as Logout} from 'src/shared/assets/icons/logout.svg'
 import {ReactComponent as Building} from 'src/shared/assets/icons/building.svg'
 import {SearchInput} from "src/shared/ui/SearchInput";
-import {Modal} from "src/shared/ui/Modal";
 import {className} from "src/shared/utils/className";
 import {useSelector} from "react-redux";
 import {getAuthUserData, userActions} from "src/entities/User";
@@ -21,6 +20,7 @@ import {useNavigate} from 'react-router-dom'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {logoutAdmin} from "src/entities/Auth";
+import {ModalNav} from "src/shared/ui/ModalNav";
 
 const AppNavbar = (props: React.PropsWithChildren) => {
     const [showUser, setShowUser] = useState(false)
@@ -90,7 +90,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                     >
                         <User width={32} height={32} />
                     </button>
-                    <Modal
+                    <ModalNav
                         value={showUser}
                         onChange={(value: boolean) => setShowUser(value)}
                     >
@@ -150,7 +150,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                 </div>
                             </ul>
                         )}
-                    </Modal>
+                    </ModalNav>
                 </div>
             )}
         </div>
