@@ -1,5 +1,6 @@
 import {InputError} from "src/entities/Auth";
 import {Pagination} from "src/entities/Country";
+import {Genre} from "src/entities/Genre";
 
 export interface Series {
     id: number
@@ -14,6 +15,7 @@ export interface Series {
     trailer: string
     poster: string
     released_at: string
+    genres: Array<Genre>
 }
 
 export interface SeriesSchema {

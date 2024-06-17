@@ -1,6 +1,7 @@
 import {InputError} from "src/entities/Auth";
 import {Pagination} from "src/entities/Country";
 import {MediaContentType} from "../contants";
+import {Genre} from "src/entities/Genre";
 
 export interface MediaContent {
     id: number
@@ -18,6 +19,7 @@ export interface MediaContent {
     released_at: string
     poster: string
     type: MediaContentType
+    genres: Array<Genre>
 }
 
 export interface MediaContentSchema {

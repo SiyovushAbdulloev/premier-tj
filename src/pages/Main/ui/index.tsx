@@ -5,14 +5,21 @@ import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllMainPageSections, getIsFetchingAll, MainPageSection} from "src/entities/MainPageSection";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
+import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
+import {Media} from "src/entities/MainPageSection/types";
 
 const MainPage = () => {
     const isFetchingSections = useSelector(getIsFetchingAll)
     const [sections, setSections] = useState<Array<MainPageSection>>([])
     const dispatch = useAppDispatch()
+    const [hovered, setHovered] = useState<{section: string, name: string, id: number}>({
+        section: '',
+        name: '',
+        id: 0
+    })
 
     useEffect(() => {
         const fetchSections = async () => {
@@ -24,6 +31,26 @@ const MainPage = () => {
         }
         fetchSections()
     }, [])
+
+    const onHover = (id: number, section: string, name: string) => {
+        setHovered({id, section, name})
+    }
+
+    const onUnHover = () => {
+        setHovered({id: 0, section: '', name: ''})
+    }
+
+    const isHovered = (id: number, section: string, name: string): boolean => {
+        if (hovered.section === section && hovered.id === id && hovered.name === name) {
+            return true
+        }
+        return false
+    }
+
+    const onPage = (item: Media) => {
+        console.log({item})
+    }
+
     return (
         <div className={classes.mainPage} style={{height: isFetchingSections ? '700px' : 'fit-content'}}>
             {isFetchingSections ? (
@@ -50,8 +77,30 @@ const MainPage = () => {
                                                 key={`${section.id}${index}`}
                                                 className={classes.slide}
                                             >
-                                                <div className={classes.content}>
-
+                                                <div
+                                                    onClick={() => onPage(item)}
+                                                    className={classes.content}>
+                                                    <img
+                                                        src={item.data.poster}
+                                                        alt=""
+                                                        className={classes.contentImg}
+                                                        onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                        onMouseLeave={onUnHover}
+                                                    />
+                                                    <button
+                                                        type={'button'}
+                                                        className={classes.playBtn}
+                                                        style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
+                                                    >
+                                                        <Play className={classes.playIcon} />
+                                                    </button>
+                                                    <span
+                                                        className={classes.contentLabel}
+                                                        style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
+                                                    >
+                                                        <span className={classes.contentName}>{item.data.name}</span>
+                                                        <span className={classes.contentGenre}>/ {item.data.genres.map(genre => genre.name).join(',')}</span>
+                                                    </span>
                                                 </div>
                                             </SwiperSlide>
                                         ))}
