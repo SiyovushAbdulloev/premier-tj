@@ -4,6 +4,7 @@ import {getMainPageSections} from "../services/getMainPageSections";
 import {storeMainPageSection} from "../services/storeMainPageSection";
 import {updateMainPageSection} from "../services/updateMainPageSection";
 import {getMainPageSection} from "../services/getMainPageSection";
+import {getAllMainPageSections} from "../services/getAllMainPageSections";
 
 const initialState: MainPageSectionSchema = {
     data: [],
@@ -18,6 +19,7 @@ const initialState: MainPageSectionSchema = {
     isUpdating: false,
     updateErrors: undefined,
     isFetchingOne: false,
+    isFetchingAll: false,
 }
 
 export const mainPageSectionSlice = createSlice({
@@ -79,6 +81,15 @@ export const mainPageSectionSlice = createSlice({
             })
             .addCase(getMainPageSection.rejected, (state, action) => {
                 state.isFetchingOne = false
+            })
+            .addCase(getAllMainPageSections.pending, (state, action) => {
+                state.isFetchingAll = true
+            })
+            .addCase(getAllMainPageSections.fulfilled, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getAllMainPageSections.rejected, (state, action) => {
+                state.isFetchingAll = false
             })
     }
 })

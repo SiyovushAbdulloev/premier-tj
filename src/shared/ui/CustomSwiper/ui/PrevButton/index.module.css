@@ -1,0 +1,19 @@
+.btn {
+    position: absolute;
+    background-color: #1d1d1e;
+    padding: 11px;
+    border-radius: 14px;
+    border: 1px solid #8c8c8c;
+    color: #8c8c8c;
+    top: 50%;
+    left: 30px;
+    transform: translateY(-50%) rotate(-180deg);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+}
