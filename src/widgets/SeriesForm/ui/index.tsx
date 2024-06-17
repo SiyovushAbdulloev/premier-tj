@@ -37,8 +37,10 @@ const SeriesForm = (props: Props) => {
     const [description, setDescription] = useState<string>(props.data ? props.data.description : '')
     const [isPublished, setIsPublished] = useState<number>(props.data ? props.data.is_published : 0)
     const [trailerUrl, setTrailerUrl] = useState<string>(props.data ? props.data.trailer : '')
+    const [posterUrl, setPosterUrl] = useState<string>(props.data ? props.data.poster : '')
     const [releasedAt, setReleasedAt] = useState<string>(props.data ? props.data.released_at : '')
     const trailerRef = useRef<File | undefined>(undefined)
+    const posterRef = useRef<File | undefined>(undefined)
 
     const [genres, setGenres] = useState<Array<Genre>>([])
     const [actors, setActors] = useState<Array<Actor>>([])
@@ -73,6 +75,9 @@ const SeriesForm = (props: Props) => {
         content.append('description', description)
         if (trailerRef.current) {
             content.append('trailer', trailerRef.current)
+        }
+        if (posterRef.current) {
+            content.append('poster', posterRef.current)
         }
         content.append('released_at', releasedAt)
         content.append('is_published', `${isPublished}`)
@@ -186,6 +191,7 @@ const SeriesForm = (props: Props) => {
             setIsPublished(props.data.is_published)
             setReleasedAt(props.data.released_at)
             setTrailerUrl(props.data.trailer)
+            setPosterUrl(props.data.poster)
         }
     }, [props.data])
 
@@ -323,14 +329,29 @@ const SeriesForm = (props: Props) => {
                                 extensions={['video/mp4']}
                             />
                         </div>
+                        <div className={classes.file}>
+                            <Upload
+                                ref={posterRef}
+                                placeholder={'Загрузите файл постера...'}
+                                sizeLimit={1000000}
+                                extensions={['image/png', 'image/jpg', 'image/jpeg']}
+                            />
+                        </div>
                     </div>
                     <div className={classes.group}>
                         {trailerUrl.length ? (
-                            <video
-                                src={trailerUrl}
-                                controls
-                                className={classes.fileUrl}
-                            ></video>
+                                <video
+                                    src={trailerUrl}
+                                    controls
+                                    className={classes.fileUrl}
+                                />
+                        ) : null}
+                        {posterUrl.length ? (
+                                <img
+                                    src={posterUrl}
+                                    className={classes.fileUrl}
+                                    alt={posterUrl}
+                                />
                         ) : null}
                     </div>
                     {errors && Object.keys(errors).map((key: string) => {

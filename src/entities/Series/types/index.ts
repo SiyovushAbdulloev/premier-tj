@@ -12,6 +12,7 @@ export interface Series {
     is_published: number
     likes: number
     trailer: string
+    poster: string
     released_at: string
 }
 
