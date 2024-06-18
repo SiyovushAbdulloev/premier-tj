@@ -34,6 +34,9 @@ const AppRouter = () => {
                     <AuthLayout>{element}</AuthLayout>
                 )
                 break
+            case ProjectLayouts.NoLayout:
+                elem = element
+                break
             default:
                 elem = (
                     <AppLayout>{element}</AppLayout>

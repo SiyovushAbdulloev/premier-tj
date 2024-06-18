@@ -1,7 +1,8 @@
 import {InputError} from "src/entities/Auth";
-import {Pagination} from "src/entities/Country";
+import {Country, Pagination} from "src/entities/Country";
 import {MediaContentType} from "../contants";
 import {Genre} from "src/entities/Genre";
+import {Actor} from "src/entities/Actor";
 
 export interface MediaContent {
     id: number
@@ -20,6 +21,8 @@ export interface MediaContent {
     poster: string
     type: MediaContentType
     genres: Array<Genre>
+    countries: Array<Country>
+    actors: Array<Actor>
 }
 
 export interface MediaContentSchema {
@@ -32,4 +35,5 @@ export interface MediaContentSchema {
     updateErrors: InputError | undefined
     isFetchingOne: boolean
     isFetchingAll: boolean
+    isFetchingMovie: boolean
 }

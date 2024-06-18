@@ -1,17 +1,25 @@
 import classes from './index.module.css'
-import { SwiperSlide } from 'swiper/react';
+import {SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import React, {useEffect, useState} from "react";
-import {getAllMainPageSections, getIsFetchingAll, MainPageSection} from "src/entities/MainPageSection";
+import {
+    getAllMainPageSections,
+    getIsFetchingAll,
+    MainPageSection,
+    MainPageSectionType
+} from "src/entities/MainPageSection";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {Media} from "src/entities/MainPageSection/types";
+import {useNavigate} from "react-router-dom";
+import {RoutesConfig} from "src/shared/config/routes";
 
 const MainPage = () => {
+    const navigate = useNavigate()
     const isFetchingSections = useSelector(getIsFetchingAll)
     const [sections, setSections] = useState<Array<MainPageSection>>([])
     const dispatch = useAppDispatch()
@@ -49,6 +57,15 @@ const MainPage = () => {
 
     const onPage = (item: Media) => {
         console.log({item})
+        switch (item.type) {
+            case MainPageSectionType.MOVIE:
+                navigate(RoutesConfig.movies_show.path.replace(':id', `${item.data.id}`))
+                break
+            case MainPageSectionType.MULTIMEDIA:
+                break
+            case MainPageSectionType.SERIES:
+                break
+        }
     }
 
     return (

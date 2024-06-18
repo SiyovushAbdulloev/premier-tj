@@ -1,12 +1,13 @@
 .navbar {
     background-color: transparent;
     height: 60px;
-    padding: 0 52px;
+    padding: 0px;
     box-sizing: border-box;
     margin: 0 auto;
     display: flex;
     align-items: center;
     width: fit-content;
+    width: 90%;
 }
 
 .brand {
@@ -38,7 +39,7 @@
     padding: 0;
     display: flex;
     gap: 15px;
-    margin-left: 90px;
+    margin-left: auto;
     padding-right: 15px;
     position: relative;
     margin-right: 15px;

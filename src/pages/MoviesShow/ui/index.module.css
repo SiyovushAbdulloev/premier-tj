@@ -1,0 +1,248 @@
+.actorsPage {
+
+}
+
+.fetching {
+    margin: 150px auto 0;
+    width: 100px;
+    height: 100px;
+}
+
+.detail {
+    padding-bottom: 100px;
+}
+
+.detailWrapper {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+
+.detailWrapperBckg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+.detailContainer {
+    padding-top: 270px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.detailDescription {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+    width: 60%;
+}
+
+.movieName {
+    font-size: 28px;
+    color: #fddd2d;
+    margin: 0;
+}
+
+.detailMeta {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.detailMetaItem {
+    color: #ececec;
+    font-weight: 400;
+    border-bottom: 1px solid #8c8c8c;
+    font-size: 16px;
+    padding-bottom: 3px;
+}
+
+.detailMetaLabel {
+    color: #8a8a8a;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.detailActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detailAction {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 14px;
+    font-size: 20px;
+    border: none;
+    border-radius: 20px;
+    transition: all .1s ease;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.actionSee {
+    background-color: #fddd2d;
+    color: #141414;
+}
+
+.actionSee:hover {
+    background-color: #f5cf16;
+}
+
+.actionTrailer {
+    color: #ececec;
+    background-color: #292929;
+}
+
+.actionTrailer:hover {
+    background-color: #333;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+}
+
+.iconSee {
+    fill: #141414;
+    stroke: none;
+}
+
+.iconTrailer {
+    stroke: #fff;
+}
+
+.detailContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+}
+
+.detailContentTitle {
+    color: #8c8c8c;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0;
+}
+
+.detailContentText {
+    font-size: 20px;
+    color: #ececec;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 235px;
+    margin-top: 40px;
+    box-sizing: border-box;
+}
+
+.sectionTitle {
+    font-size: 26px;
+    color: #ececec;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.slide {
+    width: 345px !important;
+    margin-right: 15px !important;
+}
+
+.actor {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    width: 125px !important;
+    margin-right: 15px !important;
+}
+
+.actorAvatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background-color: #141414;
+}
+
+.actorName {
+    color: #ececec;
+    font-size: 20px;
+    display: flex;
+    word-break: break-word;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.actorLabel {
+    font-size: 16px;
+    color: #8a8a8a;
+    text-align: center;
+}
+
+.movieInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    margin: 20px auto 20px;
+}
+
+.movieInfoTitle {
+    font-size: 16px;
+    color: #8a8a8a;
+    margin: 0;
+    width: 65%;
+}
+
+.movieInfoContent {
+    color: #ececec;
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0;
+    width: 65%;
+}
+
+.movieExtraInfo {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.extraInfoWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 17%;
+}
+
+.extraInfoCard {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.infoCardLabel {
+    color: #8a8a8a;
+    font-size: 16px;
+}
+
+.infoCardText {
+    color: #fff;
+    font-size: 16px;
+    word-break: break-word;
+}

@@ -1,3 +1,58 @@
 .appLayout {
     background-color: rgba(15,15,16,1);
 }
+
+.footer {
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.footerWrapper {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.footerNav {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.navGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-right: 200px;
+}
+
+.navGroupLabel {
+    color: #ececec;
+    font-size: 16px;
+    margin: 0;
+}
+
+.navItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    color: #8a8a8a;
+    font-size: 16px;
+    list-style: none;
+    transition: all .2s ease;
+    cursor: pointer;
+}
+
+.navItem:hover {
+    color: #fff;
+}
+
+.copyright {
+    color: #8a8a8a;
+    font-size: 16px;
+    margin: 0;
+}

@@ -37,6 +37,8 @@ import {SeasonEpisodesEditPage} from "src/pages/SeasonEpisodesEdit";
 import {MainPageSectionsPage} from "src/pages/MainPageSections";
 import {MainPageSectionsCreatePage} from "src/pages/MainPageSectionsCreate";
 import {MainPageSectionsEditPage} from "src/pages/MainPageSectionsEdit";
+import {MoviesShowPage} from "src/pages/MoviesShow";
+import {MovieTrailerShowPage} from "src/pages/MovieTrailerShow";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -81,6 +83,8 @@ export enum AppRoutes {
     'ADMIN_MAIN_PAGE_SECTIONS' = 'admin_main_page_sections',
     'ADMIN_MAIN_PAGE_SECTIONS_CREATE' = 'admin_main_page_sections_create',
     'ADMIN_MAIN_PAGE_SECTIONS_EDIT' = 'admin_main_page_sections_edit',
+    'MOVIES_SHOW' = 'movies_show',
+    'MOVIE_TRAILER_SHOW' = 'movie_trailer_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -119,6 +123,8 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS]: '/admin/sections',
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_CREATE]: '/admin/sections/create',
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
+    [AppRoutes.MOVIES_SHOW]: '/movies/:id/show',
+    [AppRoutes.MOVIE_TRAILER_SHOW]: '/movies/:id/trailer',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -387,6 +393,22 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,
         roles: [Roles.ADMIN]
+    },
+    [AppRoutes.MOVIES_SHOW]: {
+        path: RoutesPath.movies_show,
+        element: <MoviesShowPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.AppLayout,
+        roles: [Roles.USER]
+    },
+    [AppRoutes.MOVIE_TRAILER_SHOW]: {
+        path: RoutesPath.movie_trailer_show,
+        element: <MovieTrailerShowPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.NoLayout,
+        roles: [Roles.USER]
     },
     [AppRoutes.UNAUTHORIZED]: {
         path: RoutesPath.unauthorized,
