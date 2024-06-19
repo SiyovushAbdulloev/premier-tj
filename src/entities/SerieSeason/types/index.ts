@@ -1,5 +1,6 @@
 import {InputError} from "src/entities/Auth";
 import {Pagination} from "src/entities/Country";
+import {SeasonEpisode} from "src/entities/SeasonEpisode";
 
 export interface SerieSeason {
     id: number
@@ -8,6 +9,7 @@ export interface SerieSeason {
     is_published: number
     trailer: string
     serie_id: number
+    episodes: Array<SeasonEpisode>
 }
 
 export interface SerieSeasonSchema {

@@ -39,6 +39,7 @@ import {MainPageSectionsCreatePage} from "src/pages/MainPageSectionsCreate";
 import {MainPageSectionsEditPage} from "src/pages/MainPageSectionsEdit";
 import {MoviesShowPage} from "src/pages/MoviesShow";
 import {MovieTrailerShowPage} from "src/pages/MovieTrailerShow";
+import {SeriesShowPage} from "src/pages/SeriesShow";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -85,6 +86,7 @@ export enum AppRoutes {
     'ADMIN_MAIN_PAGE_SECTIONS_EDIT' = 'admin_main_page_sections_edit',
     'MOVIES_SHOW' = 'movies_show',
     'MOVIE_TRAILER_SHOW' = 'movie_trailer_show',
+    'SERIES_SHOW' = 'series_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -125,6 +127,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
     [AppRoutes.MOVIES_SHOW]: '/movies/:id/show',
     [AppRoutes.MOVIE_TRAILER_SHOW]: '/movies/:id/trailer',
+    [AppRoutes.SERIES_SHOW]: '/series/:id/show',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -400,7 +403,7 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         require_auth: true,
         allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,
-        roles: [Roles.USER]
+        roles: [Roles.USER, Roles.ADMIN]
     },
     [AppRoutes.MOVIE_TRAILER_SHOW]: {
         path: RoutesPath.movie_trailer_show,
@@ -408,7 +411,15 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         require_auth: true,
         allow_without_auth: true,
         layout: ProjectLayouts.NoLayout,
-        roles: [Roles.USER]
+        roles: [Roles.USER, Roles.ADMIN]
+    },
+    [AppRoutes.SERIES_SHOW]: {
+        path: RoutesPath.series_show,
+        element: <SeriesShowPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.AppLayout,
+        roles: [Roles.USER, Roles.ADMIN]
     },
     [AppRoutes.UNAUTHORIZED]: {
         path: RoutesPath.unauthorized,

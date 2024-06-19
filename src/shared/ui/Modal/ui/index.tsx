@@ -25,11 +25,8 @@ const Modal = forwardRef((props: ModalProps, ref: ForwardedRef<any>) => {
     }, [value])
 
     return (
-        <div
-            className={className(classes.modal, {[classes.modalActive]: isOpen})}
-            style={style}
-        >
-            <div className={classes.modalContent}>
+        <div className={className(classes.modal, {[classes.modalActive]: isOpen})} >
+            <div className={classes.modalContent} style={style}>
                 <button
                     className={classes.close}
                     onClick={setOpen}
@@ -39,9 +36,9 @@ const Modal = forwardRef((props: ModalProps, ref: ForwardedRef<any>) => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
-                        stroke="#121117"
-                        width={16}
-                        height={16}
+                        stroke="currentColor"
+                        width={20}
+                        height={20}
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"/>
                     </svg>

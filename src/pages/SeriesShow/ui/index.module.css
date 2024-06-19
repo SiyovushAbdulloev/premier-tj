@@ -155,9 +155,82 @@
     margin-top: 40px;
 }
 
+.sectionHeader {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.seasons {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.season {
+    list-style: none;
+    padding: 16px 20px;
+    color: #ececec;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all .1s ease;
+    cursor: pointer;
+}
+
+.season:hover {
+    background-color: #292929;
+}
+
+.activeSeason {
+    background-color: #292929;
+}
+
+.episodeSlide {
+    width: 408px !important;
+    margin-right: 15px !important;
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+
+}
+
+.episodeAvatar {
+    position: relative;
+    background-color: #141414;
+    height: 230px;
+}
+
+.episodeDuration {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    color: #ececec;
+    font-size: 14px;
+}
+
+.episodeName {
+    color: #ececec;
+    font-size: 20px;
+    display: flex;
+    word-break: break-word;
+}
+
+.episodeLabel {
+    font-size: 16px;
+    color: #8a8a8a;
+    line-height: 1.5;
+    display: block;
+    width: fit-content;
+    text-align: left;
+}
+
 .sectionTitle {
     font-size: 26px;
     color: #ececec;
+    width: fit-content;
     margin: 0;
 }
 

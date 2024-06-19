@@ -64,6 +64,7 @@ const MainPage = () => {
             case MainPageSectionType.MULTIMEDIA:
                 break
             case MainPageSectionType.SERIES:
+                navigate(RoutesConfig.series_show.path.replace(':id', `${item.data.id}`))
                 break
         }
     }

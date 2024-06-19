@@ -5,6 +5,7 @@ import {storeSeries} from "../services/storeSeries";
 import {updateSeries} from "../services/updateSeries";
 import {getSeries} from "../services/getSeries";
 import {getAllSeriesWithoutPagination} from "../services/getAllSeriesWithoutPagination";
+import {getUserSeries} from "../services/getUserSeries";
 
 const initialState: SeriesSchema = {
     data: [],
@@ -20,6 +21,7 @@ const initialState: SeriesSchema = {
     updateErrors: undefined,
     isFetchingOne: false,
     isFetchingAll: false,
+    isFetchingUserSeries: false,
 }
 
 export const seriesSlice = createSlice({
@@ -90,6 +92,15 @@ export const seriesSlice = createSlice({
             })
             .addCase(getAllSeriesWithoutPagination.rejected, (state, action) => {
                 state.isFetchingAll = false
+            })
+            .addCase(getUserSeries.pending, (state, action) => {
+                state.isFetchingUserSeries = true
+            })
+            .addCase(getUserSeries.fulfilled, (state, action) => {
+                state.isFetchingUserSeries = false
+            })
+            .addCase(getUserSeries.rejected, (state, action) => {
+                state.isFetchingUserSeries = false
             })
     }
 })

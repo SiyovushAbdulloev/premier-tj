@@ -40,9 +40,13 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         }
     }
 
+    const onMain = () => {
+        navigate(RoutesConfig.main.path)
+    }
+
     return (
         <div className={classes.navbar}>
-            <div>
+            <div onClick={onMain}>
                 <img
                     className={classes.brand}
                     src={Logo}

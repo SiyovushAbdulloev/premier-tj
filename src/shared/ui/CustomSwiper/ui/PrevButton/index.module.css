@@ -6,7 +6,7 @@
     border: 1px solid #8c8c8c;
     color: #8c8c8c;
     top: 50%;
-    left: 30px;
+    left: 0;
     transform: translateY(-50%) rotate(-180deg);
     cursor: pointer;
     z-index: 1;

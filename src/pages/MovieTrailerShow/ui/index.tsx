@@ -16,9 +16,8 @@ const MovieTrailerShowPage = () => {
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
 
     useEffect(() => {
-        dispatch(getMovie(parseInt(id ?? '0')))
+        dispatch(getMovie(parseInt(id ?? '0'))) //TODO: Consider also for series, multimedia
             .then(data => {
-                console.log({data})
                 setMovie(data.payload)
             })
     }, [])
@@ -45,7 +44,7 @@ const MovieTrailerShowPage = () => {
                             <ReactPlayer
                                 width={'100%'}
                                 height={'100%'}
-                                url='https://www.youtube.com/watch?v=LXb3EKWsInQ'
+                                url={movie?.trailer ?? ''}
                                 controls={true}
                             />
                         </div>

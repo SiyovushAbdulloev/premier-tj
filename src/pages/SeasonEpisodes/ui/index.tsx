@@ -117,7 +117,7 @@ const SeasonEpisodesPage = () => {
                                 prop={'id'}
                             />
                             <TableColumn
-                                label={'Наименование'}
+                                label={'Номер'}
                                 prop={'number'}
                             />
                             <TableColumn

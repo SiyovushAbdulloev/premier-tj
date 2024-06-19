@@ -6,7 +6,7 @@
     border: 1px solid #8c8c8c;
     color: #8c8c8c;
     top: 50%;
-    right: 30px;
+    right: 0;
     transform: translateY(-50%);
     z-index: 1;
     cursor: pointer;

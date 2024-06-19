@@ -1,13 +1,14 @@
 import {InputError} from "src/entities/Auth";
-import {Pagination} from "src/entities/Country";
+import {Country, Pagination} from "src/entities/Country";
 import {Genre} from "src/entities/Genre";
+import {Actor} from "src/entities/Actor";
+import {SerieSeason} from "src/entities/SerieSeason";
 
 export interface Series {
     id: number
     name: string
     genre_ids: Array<number>
     country_ids: Array<number>
-    subscription_ids: Array<number>
     actor_ids: Array<number>
     description: string
     is_published: number
@@ -16,6 +17,9 @@ export interface Series {
     poster: string
     released_at: string
     genres: Array<Genre>
+    actors: Array<Actor>
+    countries: Array<Country>
+    seasons: Array<SerieSeason>
 }
 
 export interface SeriesSchema {
@@ -28,4 +32,5 @@ export interface SeriesSchema {
     updateErrors: InputError | undefined
     isFetchingOne: boolean
     isFetchingAll: boolean
+    isFetchingUserSeries: boolean
 }

@@ -47,5 +47,6 @@
     justify-content: center;
     background-color: transparent;
     border: none;
+    color: inherit;
     cursor: pointer;
 }
