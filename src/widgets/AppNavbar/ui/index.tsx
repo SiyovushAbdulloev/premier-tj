@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import classes from './index.module.css'
 import Logo from 'src/shared/assets/images/logo.png'
 import {ReactComponent as Burger} from 'src/shared/assets/icons/burger.svg'
@@ -21,9 +21,93 @@ import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {logoutAdmin} from "src/entities/Auth";
 import {ModalNav} from "src/shared/ui/ModalNav";
+import {ReactComponent as Cancel} from "src/shared/assets/icons/cancel.svg"
+
+const navigations = [
+    {
+        name: 'movies',
+        label: 'Фильмы',
+        children: [
+            {
+                name: 'foreign',
+                label: 'Зарубежные фильмы',
+            },
+            {
+                name: 'russian',
+                label: 'Российские фильмы',
+            },
+            {
+                name: 'tajik',
+                label: 'Таджикские фильмы',
+            },
+            {
+                name: '2023',
+                label: 'Фильмы 2023',
+            },
+            {
+                name: '2022',
+                label: 'Фильмы 2022',
+            },
+        ]
+    },
+    {
+        name: 'series',
+        label: 'Сериалы',
+        children: [
+            {
+                name: 'foreign',
+                label: 'Зарубежные сериалы',
+            },
+            {
+                name: 'russian',
+                label: 'Российские сериалы',
+            },
+            {
+                name: 'tajik',
+                label: 'Таджикские сериалы',
+            },
+            {
+                name: '2023',
+                label: 'Сериалы 2023',
+            },
+            {
+                name: '2022',
+                label: 'Сериалы 2022',
+            },
+        ]
+    },
+    {
+        name: 'multimedia',
+        label: 'Шоу',
+        children: [
+            {
+                name: 'foreign',
+                label: 'Зарубежные шоу',
+            },
+            {
+                name: 'russian',
+                label: 'Российские шоу',
+            },
+            {
+                name: 'tajik',
+                label: 'Таджикские шоу',
+            },
+            {
+                name: '2023',
+                label: 'Шоу 2023',
+            },
+            {
+                name: '2022',
+                label: 'Шоу 2022',
+            },
+        ]
+    },
+]
 
 const AppNavbar = (props: React.PropsWithChildren) => {
     const [showUser, setShowUser] = useState(false)
+    const [showMenu, setShowMenu] = useState(false)
+    const [navItem, setNavItem] = useState<string>('movies')
     const authData = useSelector(getAuthUserData)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -44,6 +128,14 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         navigate(RoutesConfig.main.path)
     }
 
+    const onNavItem = (item: string) => {
+        setNavItem(item)
+    }
+
+    const subItems = useMemo(() => {
+        return navigations.find(nav => nav.name === navItem)?.children ?? []
+    }, [navItem])
+
     return (
         <div className={classes.navbar}>
             <div onClick={onMain}>
@@ -54,13 +146,52 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                 />
             </div>
             <div className={classes.burgerMenu}>
-                <div className={classes.burger}>
-                    <Burger
-                        width={20}
-                        height={20}
-                    />
+                <div
+                    className={classes.burger}
+                    onClick={() => setShowMenu(!showMenu)}
+                >
+                    {showMenu ? (
+                        <Cancel
+                            width={20}
+                            height={20}
+                        />
+                        ) : (
+                        <Burger
+                            width={20}
+                            height={20}
+                        />
+                    )}
                     Каталог
                 </div>
+                <ModalNav
+                    style={{right: '-230px', padding: '0'}}
+                    value={showMenu}
+                    onChange={(value: boolean) => setShowMenu(value)}
+                >
+                    <div className={classes.categoriesMenu}>
+                        <div className={classes.categories}>
+                            {navigations.map(nav => (
+                                <div
+                                    onMouseEnter={() => onNavItem(nav.name)}
+                                    key={nav.name}
+                                    className={classes.category}
+                                >
+                                    {nav.label}
+                                </div>
+                            ))}
+                        </div>
+                        <div className={classes.categories}>
+                            {subItems.map(child => (
+                                <div
+                                    key={`${navItem}${child.name}`}
+                                    className={classes.category}
+                                >
+                                    {child.label}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </ModalNav>
             </div>
             <SearchInput
                 placeholder={'Фильм, актер, жанр'}

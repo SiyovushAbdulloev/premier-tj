@@ -18,6 +18,23 @@
     position: relative;
 }
 
+.detailWrapperOverlay {
+    position: absolute;
+    z-index: 2;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(
+            180deg,
+            rgba(50, 50, 50,0),
+            rgba(15,15,16,.7) 51.04%,
+            rgba(15,15,16,.8) 66.29%,
+            rgba(15,15,16,.91) 77.39%,
+            rgba(15,15,16,.975) 85.39%,
+            rgba(15,15,16,.99) 92.39%);
+}
+
 .detailWrapperBckg {
     position: absolute;
     top: 0;
@@ -34,7 +51,7 @@
     width: 90%;
     margin: 0 auto;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .detailDescription {

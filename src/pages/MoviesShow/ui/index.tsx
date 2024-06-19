@@ -13,8 +13,6 @@ import {SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
-import {Media} from "src/entities/MainPageSection/types";
-import {MainPageSectionType} from "src/entities/MainPageSection";
 import {RoutesConfig} from "src/shared/config/routes";
 
 const MoviesShowPage = () => {
@@ -60,6 +58,7 @@ const MoviesShowPage = () => {
                 ) : (
                     <div className={classes.detail}>
                         <div className={classes.detailWrapper}>
+                            <div className={classes.detailWrapperOverlay}></div>
                             <img
                                 src={movie ? movie.poster : ''}
                                 alt="Background(poster)"

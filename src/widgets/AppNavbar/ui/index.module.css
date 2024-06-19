@@ -33,6 +33,7 @@
     font-size: 14px;
     font-weight: 500;
     background-color: rgba(41,41,41,.65);
+    cursor: pointer;
 }
 
 .navItems {
@@ -143,4 +144,38 @@
 
 .profileItem:hover {
     background-color: #333;
+}
+
+.categoriesMenu {
+    display: flex;
+    width: 440px;
+}
+
+.categories {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    border-right: 1px solid rgba(255, 255, 255, .4);
+    padding: 20px 0;
+}
+
+.categories:last-child {
+    border: none;
+}
+
+.category {
+    color: #ececec;
+    font-size: 16px;
+    list-style: none;
+    padding: 0px 25px;
+    height: 55px;
+    cursor: pointer;
+    transition: all .1s ease;
+    display: flex;
+    align-items: center;
+}
+
+.category:hover {
+    background-color: rgba(255, 255, 255, .3);
 }
