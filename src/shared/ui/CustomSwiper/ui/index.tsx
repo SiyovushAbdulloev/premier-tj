@@ -1,5 +1,5 @@
 import classes from './index.module.css'
-import React, {CSSProperties, useRef} from "react";
+import React, {CSSProperties, useState} from "react";
 import {Swiper} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -14,20 +14,39 @@ interface SwiperProps extends React.PropsWithChildren{
 
 const CustomSwiper = (props: SwiperProps) => {
     const {style = {}, views = 3} = props
-    const swiperRef = useRef<any>()
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
+
+    const canNext = (): boolean => {
+        if (React.isValidElement(props.children)) {
+            return false;
+        }
+
+        //@ts-ignore
+        const childrenCount = props.children?.length ?? 1;
+        const totalGroups = Math.ceil(childrenCount / views);
+
+        return currentIndex < totalGroups - 1;
+    };
 
     return (
         <div className={classes.swiperContainer}>
             <Swiper
-                ref={swiperRef}
                 spaceBetween={50}
                 style={style}
                 slidesPerView={views}
                 modules={[Navigation]}
+                onSlideChange={(swiper: any) => {
+                    setCurrentIndex(swiper.activeIndex)
+                }}
             >
                 {props.children}
 
-                <NextButton />
+                {canNext() ? (
+                    <NextButton />
+                ) : null}
+                {/*{!isEnd ? (*/}
+                {/*    <NextButton />*/}
+                {/*) : null}*/}
                 <PrevButton />
             </Swiper>
         </div>

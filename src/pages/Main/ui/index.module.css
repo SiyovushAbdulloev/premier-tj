@@ -14,26 +14,38 @@
     flex-direction: column;
     gap: 40px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #8c8c8c;
+    margin-top: 50px;
 }
 
 .section {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    cursor: pointer;
+    width: 96%;
+    margin: 0 auto;
 }
 
 .sectionTitle {
     font-size: 26px;
     color: #ececec;
     font-weight: 600;
-    padding: 0 128px;
     margin: 0;
+    transition: all .1s ease;
+}
+
+.sectionTitle:hover {
+    color: #fddd2d;
 }
 
 .sectionItems {
     height: 235px;
+}
+
+.mainSlide {
+    width: 922px !important;
+    height: 519px !important;
+    border: 1px solid #222;
+    margin-right: 15px !important;
 }
 
 .slide {

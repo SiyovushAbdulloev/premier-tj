@@ -189,7 +189,6 @@ const SeriesShowPage = () => {
                                                 width={408}
                                                 height={230}
                                                 url={episode.file}
-                                                // light={true}
                                                 controls={false}
                                                 playing={false}
                                             />
