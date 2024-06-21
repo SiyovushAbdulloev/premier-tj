@@ -1,8 +1,16 @@
 import classes from './index.module.css'
 import React from "react";
 import AppNavbar from "src/widgets/AppNavbar/ui";
+import {RoutesConfig} from "src/shared/config/routes";
+import {useNavigate} from "react-router-dom";
 
 const AppLayout = (props: React.PropsWithChildren) => {
+    const navigate = useNavigate()
+
+    const onFree = () => {
+        navigate(RoutesConfig.free_media.path)
+    }
+
     return (
         <div className={classes.appLayout}>
             <AppNavbar />
@@ -14,7 +22,7 @@ const AppLayout = (props: React.PropsWithChildren) => {
                             <h3 className={classes.navGroupLabel}>Разделы</h3>
                             <ul className={classes.navItems}>
                                 <li className={classes.navItem}>Главная</li>
-                                <li className={classes.navItem}>Бесплатно</li>
+                                <li className={classes.navItem} onClick={onFree}>Бесплатно</li>
                             </ul>
                         </div>
                         <div className={classes.navGroup}>

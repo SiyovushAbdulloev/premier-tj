@@ -151,6 +151,10 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         return navigations.find(nav => nav.name === navItem)?.children ?? []
     }, [navItem])
 
+    const onFree = () => {
+        navigate(RoutesConfig.free_media.path)
+    }
+
     return (
         <div className={classes.navbar}>
             <div onClick={onMain}>
@@ -221,7 +225,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                     <Home width={24} height={24} />
                     Главная
                 </li>
-                <li className={classes.navItem}>
+                <li className={classes.navItem} onClick={onFree}>
                     <Discount width={24} height={24} />
                     Бесплатно
                 </li>

@@ -1,0 +1,118 @@
+.mainPage {
+    color: #fff;
+}
+
+.fetching {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto 300px;
+}
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-bottom: 30px;
+    margin-top: 35px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 96%;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.sectionTitle {
+    font-size: 26px;
+    color: #ececec;
+    font-weight: 600;
+    margin: 0;
+    transition: all .1s ease;
+}
+
+.sectionTitle:hover {
+    color: #fddd2d;
+}
+
+.sectionItems {
+    height: 235px;
+}
+
+.mainSlide {
+    width: 922px !important;
+    height: 519px !important;
+    border: 1px solid #222;
+    margin-right: 15px !important;
+}
+
+.slide {
+    width: 345px !important;
+    margin-right: 15px !important;
+}
+
+.content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.contentImg {
+    width: 100%;
+    height: 204px;
+    transition: all .2s ease;
+}
+
+.playBtn {
+    background-color: rgba(48,48,48,.5);
+    padding: 10px;
+    border-radius: 50%;
+    color: #8c8c8c;
+    border: none;
+    backdrop-filter: blur(3px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all .1s ease;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: none;
+}
+
+.playIcon {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    fill: #ffffff;
+    stroke: none;
+    cursor: pointer;
+}
+
+.contentImg:hover {
+    transform: scale(105%);
+}
+
+.contentLabel {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    opacity: 0;
+    transition: all .1s ease;
+    user-select: none;
+    pointer-events: none;
+}
+
+.contentName {
+    color: #ececec;
+    font-size: 16px;
+}
+
+.contentGenre {
+    color: #8a8a8a;
+    font-size: 16px;
+}
