@@ -77,7 +77,7 @@ const navigations = [
         ]
     },
     {
-        name: 'multimedia',
+        name: 'multimedias',
         label: 'Шоу',
         children: [
             {
@@ -132,6 +132,21 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setNavItem(item)
     }
 
+    const onNavItemPage = (navItem: string) => {
+        switch (navItem) {
+            case 'movies':
+                navigate(RoutesConfig.movies_list.path)
+                break
+            case 'multimedias':
+                navigate(RoutesConfig.multimedias_list.path)
+                break
+            case 'series':
+                navigate(RoutesConfig.series_list.path)
+                break
+        }
+        setShowMenu(false)
+    }
+
     const subItems = useMemo(() => {
         return navigations.find(nav => nav.name === navItem)?.children ?? []
     }, [navItem])
@@ -175,6 +190,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     onMouseEnter={() => onNavItem(nav.name)}
                                     key={nav.name}
                                     className={classes.category}
+                                    onClick={() => onNavItemPage(nav.name)}
                                 >
                                     {nav.label}
                                 </div>
