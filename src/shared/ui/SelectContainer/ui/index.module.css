@@ -75,9 +75,7 @@
     border-radius: 16px;
     box-sizing: border-box;
     z-index: -1;
-    width: 770px;
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
+    width: 620px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }

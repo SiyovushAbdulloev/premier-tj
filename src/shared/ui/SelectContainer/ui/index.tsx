@@ -123,12 +123,8 @@ const SelectContainer = (props: SelectProps) =>  {
 
     const selectClicked = () => {
         if (!props.disabled && !props.loading) {
-            if (!isOpen) {
-                setIsOpen(true)
-            }
-            if (!clicked) {
-                setClicked(true)
-            }
+            setIsOpen(!isOpen)
+            setClicked(!clicked)
         }
     }
 
