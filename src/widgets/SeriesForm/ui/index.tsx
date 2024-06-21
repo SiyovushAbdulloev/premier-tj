@@ -295,7 +295,7 @@ const SeriesForm = (props: Props) => {
                         <textarea
                             cols={40}
                             rows={10}
-                            placeholder={'Описание stand up...'}
+                            placeholder={'Описание сериала...'}
                             value={description}
                             onChange={onDescription}
                             className={classes.description}

@@ -129,7 +129,7 @@ const SerieSeasonForm = (props: Props) => {
                         <textarea
                             cols={40}
                             rows={10}
-                            placeholder={'Описание stand up...'}
+                            placeholder={'Описание сезона...'}
                             value={description}
                             onChange={onDescription}
                             className={classes.description}

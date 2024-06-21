@@ -8,6 +8,7 @@ export interface SeasonEpisode {
     duration: string
     is_published: number
     file: string
+    poster: string
     season_id: number
     subscription_ids: Array<number>
 }

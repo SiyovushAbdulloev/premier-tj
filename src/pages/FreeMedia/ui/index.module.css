@@ -22,7 +22,6 @@
     gap: 20px;
     width: 96%;
     margin: 0 auto;
-    cursor: pointer;
 }
 
 .sectionTitle {
@@ -31,6 +30,8 @@
     font-weight: 600;
     margin: 0;
     transition: all .1s ease;
+    width: fit-content;
+    cursor: pointer;
 }
 
 .sectionTitle:hover {
@@ -41,16 +42,10 @@
     height: 235px;
 }
 
-.mainSlide {
-    width: 922px !important;
-    height: 519px !important;
-    border: 1px solid #222;
-    margin-right: 15px !important;
-}
-
 .slide {
     width: 345px !important;
     margin-right: 15px !important;
+    cursor: pointer;
 }
 
 .content {

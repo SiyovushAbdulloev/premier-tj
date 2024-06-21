@@ -324,7 +324,7 @@ const MovieForm = (props: Props) => {
                             onChange={(value: string) => setDuration(value)}
                             value={duration}
                             label={'Длительность'}
-                            placeholder={'02:30'}
+                            placeholder={'02:30:14'}
                         />
                         <SearchableMultipleSelect
                             height={genres.length > 5 ? 250 : null}
@@ -421,27 +421,27 @@ const MovieForm = (props: Props) => {
                         </div>
                     </div>
                     <div className={classes.group}>
-                        {fileUrl.length && (
+                        {fileUrl.length ? (
                             <video
                                 src={fileUrl}
                                 controls
                                 className={classes.fileUrl}
                             ></video>
-                        )}
-                        {posterUrl.length && (
+                        ) : null}
+                        {posterUrl.length ? (
                             <img
                                 className={classes.fileUrl}
                                 src={posterUrl}
                                 alt="Poster"
                             />
-                        )}
-                        {trailerUrl.length && (
+                        ) : null}
+                        {trailerUrl.length ? (
                             <video
                                 src={trailerUrl}
                                 controls
                                 className={classes.fileUrl}
                             ></video>
-                        )}
+                        ) : null}
                     </div>
                     {errors && Object.keys(errors).map((key: string) => {
                         return (

@@ -10,8 +10,6 @@ import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading_admin.svg";
 import {Option, SearchableMultipleSelect} from "src/shared/ui/SearchableMultipleSelect";
 import {Genre, getAllGenres, getIsFetchingAll as getIsFetchingAllGenres} from "src/entities/Genre";
-import {Country, getAllCountries, getIsFetchingAll as getIsFetchingAllCountries} from "src/entities/Country";
-import {Actor, getAllActors, getIsFetchingAll as getIsFetchingAllActors} from "src/entities/Actor";
 import {SelectedOption} from "src/shared/ui/SearchableMultipleSelect/ui";
 import {Upload} from "src/shared/ui/Upload";
 import {className} from "src/shared/utils/className";
@@ -23,7 +21,7 @@ import {
     getUpdateErrors,
     SeasonEpisode, seasonEpisodeActions, storeSeasonEpisode, updateSeasonEpisode
 } from "src/entities/SeasonEpisode";
-import {getAllSubscriptions, Subscription} from "src/entities/Subscription";
+import {getAllSubscriptions, getIsFetchingAll, Subscription} from "src/entities/Subscription";
 
 interface Props {
     type: FormType
@@ -36,12 +34,13 @@ const SeasonEpisodeForm = (props: Props) => {
     const [description, setDescription] = useState<string>(props.data ? props.data.description : '')
     const [isPublished, setIsPublished] = useState<number>(props.data ? props.data.is_published : 0)
     const [fileUrl, setFileUrl] = useState<string>(props.data ? props.data.file : '')
+    const [posterUrl, setPosterUrl] = useState<string>(props.data ? props.data.poster : '')
     const fileRef = useRef<File | undefined>(undefined)
+    const posterRef = useRef<File | undefined>(undefined)
 
     const [subscriptions, setSubscriptions] = useState<Array<Subscription>>([])
 
     const dispatch = useAppDispatch()
-    const isFetchingAllGenres = useSelector(getIsFetchingAllGenres)
     const isStoring = useSelector(getIsStoring)
     const isUpdating = useSelector(getIsUpdating)
     const isFetchingOne = useSelector(getIsFetchingOne)
@@ -49,6 +48,7 @@ const SeasonEpisodeForm = (props: Props) => {
     const updateErrors = useSelector(getUpdateErrors)
     const navigate = useNavigate()
     const {id, seasonId} = useParams()
+    const isFetchingAllSubscriptions = useSelector(getIsFetchingAll)
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -63,6 +63,9 @@ const SeasonEpisodeForm = (props: Props) => {
         content.append('duration', duration)
         if (fileRef.current) {
             content.append('file', fileRef.current)
+        }
+        if (posterRef.current) {
+            content.append('poster', posterRef.current)
         }
         content.append('is_published', `${isPublished}`)
         if (props.type === FormType.CREATE) {
@@ -133,6 +136,7 @@ const SeasonEpisodeForm = (props: Props) => {
             setDescription(props.data.description)
             setIsPublished(props.data.is_published)
             setFileUrl(props.data.file)
+            setPosterUrl(props.data.poster)
         }
     }, [props.data])
 
@@ -179,7 +183,7 @@ const SeasonEpisodeForm = (props: Props) => {
                             onRemove={onRemoveSubscription}
                             value={subscriptionIds}
                             placeholder={'Выберите подписки'}
-                            loading={isFetchingAllGenres}
+                            loading={isFetchingAllSubscriptions}
                         >
                             {subscriptions.length && subscriptions.map(subscription => {
                                 return (
@@ -201,14 +205,6 @@ const SeasonEpisodeForm = (props: Props) => {
                             onChange={onDescription}
                             className={classes.description}
                         ></textarea>
-                        <div className={classes.file}>
-                            <Upload
-                                ref={fileRef}
-                                placeholder={'Загрузите файл серии...'}
-                                sizeLimit={10000000}
-                                extensions={['video/mp4']}
-                            />
-                        </div>
                         <div className={classes.publish}>
                             <input
                                 className={classes.publishInput}
@@ -222,6 +218,30 @@ const SeasonEpisodeForm = (props: Props) => {
                         </div>
                     </div>
                     <div className={classes.group}>
+                        <div className={classes.file}>
+                            <Upload
+                                ref={posterRef}
+                                placeholder={'Загрузите постер серии...'}
+                                sizeLimit={10000000}
+                                extensions={['image/png', 'image/jpeg', 'image/jpg']}
+                            />
+                        </div>
+                        <div className={classes.file}>
+                            <Upload
+                                ref={fileRef}
+                                placeholder={'Загрузите файл серии...'}
+                                sizeLimit={10000000}
+                                extensions={['video/mp4']}
+                            />
+                        </div>
+                    </div>
+                    <div className={classes.group}>
+                        {posterUrl.length ? (
+                            <img
+                                src={posterUrl}
+                                className={classes.fileUrl}
+                            />
+                        ) : null}
                         {fileUrl.length ? (
                             <video
                                 src={fileUrl}

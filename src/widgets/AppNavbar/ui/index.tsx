@@ -236,7 +236,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
             >
                 30 дней за 1 сом
             </button>
-            {authData && (
+            {authData ? (
                 <div className={classes.user}>
                     <button
                         type={'button'}
@@ -307,6 +307,8 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         )}
                     </ModalNav>
                 </div>
+            ) : (
+                <button>Войти</button>
             )}
         </div>
     )

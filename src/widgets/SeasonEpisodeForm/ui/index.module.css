@@ -82,4 +82,5 @@
 .fileUrl {
     width: 30%;
     height: 240px;
+    object-fit: contain;
 }
