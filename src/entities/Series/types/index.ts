@@ -33,4 +33,5 @@ export interface SeriesSchema {
     isFetchingOne: boolean
     isFetchingAll: boolean
     isFetchingUserSeries: boolean
+    isFetchingListSeries: boolean
 }

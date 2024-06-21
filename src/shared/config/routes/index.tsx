@@ -41,6 +41,7 @@ import {MoviesShowPage} from "src/pages/MoviesShow";
 import {MovieTrailerShowPage} from "src/pages/MovieTrailerShow";
 import {SeriesShowPage} from "src/pages/SeriesShow";
 import {MoviesListPage} from "src/pages/MoviesList";
+import {SeriesListPage} from "src/pages/SeriesList";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -88,6 +89,7 @@ export enum AppRoutes {
     'MOVIES_LIST' = 'movies_list',
     'MOVIES_SHOW' = 'movies_show',
     'MOVIE_TRAILER_SHOW' = 'movie_trailer_show',
+    'SERIES_LIST' = 'series_list',
     'SERIES_SHOW' = 'series_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
@@ -130,6 +132,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.MOVIES_LIST]: '/movies',
     [AppRoutes.MOVIES_SHOW]: '/movies/:id/show',
     [AppRoutes.MOVIE_TRAILER_SHOW]: '/movies/:id/trailer',
+    [AppRoutes.SERIES_LIST]: '/series',
     [AppRoutes.SERIES_SHOW]: '/series/:id/show',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
@@ -411,6 +414,14 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.MOVIES_LIST]: {
         path: RoutesPath.movies_list,
         element: <MoviesListPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.AppLayout,
+        roles: [Roles.USER, Roles.ADMIN]
+    },
+    [AppRoutes.SERIES_LIST]: {
+        path: RoutesPath.series_list,
+        element: <SeriesListPage />,
         require_auth: true,
         allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,

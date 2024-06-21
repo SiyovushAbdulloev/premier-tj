@@ -9,6 +9,7 @@ import {
     getIsUpdating,
     getIsFetchingAll,
     getIsFetchingUserSeries,
+    getIsFetchingListSeries,
 } from "./model/selectors";
 import {seriesActions, seriesReducer} from "./model/slice";
 import {Series, SeriesSchema} from "./types";
@@ -19,6 +20,7 @@ import {updateSeries} from "./model/services/updateSeries";
 import {destroySeries} from "./model/services/destroySeries";
 import {getAllSeriesWithoutPagination} from "./model/services/getAllSeriesWithoutPagination";
 import {getUserSeries} from "./model/services/getUserSeries";
+import {getListSeries} from "./model/services/getListSeries";
 
 export {
     getData,
@@ -40,5 +42,7 @@ export {
     getIsFetchingAll,
     getUserSeries,
     getIsFetchingUserSeries,
+    getListSeries,
+    getIsFetchingListSeries,
 }
 export type {Series, SeriesSchema}
