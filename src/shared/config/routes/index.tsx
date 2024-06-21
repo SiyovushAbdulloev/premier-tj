@@ -40,6 +40,7 @@ import {MainPageSectionsEditPage} from "src/pages/MainPageSectionsEdit";
 import {MoviesShowPage} from "src/pages/MoviesShow";
 import {MovieTrailerShowPage} from "src/pages/MovieTrailerShow";
 import {SeriesShowPage} from "src/pages/SeriesShow";
+import {MoviesListPage} from "src/pages/MoviesList";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -84,6 +85,7 @@ export enum AppRoutes {
     'ADMIN_MAIN_PAGE_SECTIONS' = 'admin_main_page_sections',
     'ADMIN_MAIN_PAGE_SECTIONS_CREATE' = 'admin_main_page_sections_create',
     'ADMIN_MAIN_PAGE_SECTIONS_EDIT' = 'admin_main_page_sections_edit',
+    'MOVIES_LIST' = 'movies_list',
     'MOVIES_SHOW' = 'movies_show',
     'MOVIE_TRAILER_SHOW' = 'movie_trailer_show',
     'SERIES_SHOW' = 'series_show',
@@ -125,6 +127,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS]: '/admin/sections',
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_CREATE]: '/admin/sections/create',
     [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
+    [AppRoutes.MOVIES_LIST]: '/movies',
     [AppRoutes.MOVIES_SHOW]: '/movies/:id/show',
     [AppRoutes.MOVIE_TRAILER_SHOW]: '/movies/:id/trailer',
     [AppRoutes.SERIES_SHOW]: '/series/:id/show',
@@ -400,6 +403,14 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.MOVIES_SHOW]: {
         path: RoutesPath.movies_show,
         element: <MoviesShowPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.AppLayout,
+        roles: [Roles.USER, Roles.ADMIN]
+    },
+    [AppRoutes.MOVIES_LIST]: {
+        path: RoutesPath.movies_list,
+        element: <MoviesListPage />,
         require_auth: true,
         allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,

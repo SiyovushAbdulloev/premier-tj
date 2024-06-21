@@ -9,6 +9,7 @@ import {
     getIsUpdating,
     getIsFetchingAll,
     getIsFetchingMovie,
+    getIsFetchingAllMovies,
 } from "./model/selectors";
 import {mediaContentActions, mediaContentReducer} from "./model/slice";
 import {MediaContent, MediaContentSchema} from "./types";
@@ -20,6 +21,7 @@ import {updateMediaContent} from "./model/services/updateMediaContent";
 import {destroyMediaContent} from "./model/services/destroyMediaContent";
 import {getAllMediaContents} from "./model/services/getAllMediaContents";
 import {getMovie} from "./model/services/getMovie";
+import {getAllMovies} from "./model/services/getAllMovies";
 
 export {
     getData,
@@ -41,5 +43,7 @@ export {
     getIsFetchingAll,
     getMovie,
     getIsFetchingMovie,
+    getAllMovies,
+    getIsFetchingAllMovies,
 }
 export type {MediaContent, MediaContentSchema, MediaContentType}

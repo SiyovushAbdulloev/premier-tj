@@ -57,7 +57,7 @@
 .detailDescription {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
     margin-bottom: 30px;
     width: 60%;
 }
@@ -140,6 +140,11 @@
     stroke: #fff;
 }
 
+.detailContentContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
 .detailContent {
     display: flex;
     flex-direction: column;
@@ -147,12 +152,24 @@
     width: 60%;
 }
 
-.detailContentTitle {
-    color: #8c8c8c;
-    font-weight: 400;
-    font-size: 16px;
-    margin: 0;
+.mainActors {
+    color: #8a8a8a;
+    font-size: 14px;
+    width: 35%;
+    margin-top: 5px;
+    line-height: 1.4;
 }
+
+.movieAdditional {
+    display: flex;
+}
+
+/*.detailContentTitle {*/
+/*    color: #8c8c8c;*/
+/*    font-weight: 400;*/
+/*    font-size: 16px;*/
+/*    margin: 0;*/
+/*}*/
 
 .detailContentText {
     font-size: 20px;
@@ -218,7 +235,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 90%;
+    width: 70%;
     margin: 20px 0px;
 }
 
@@ -234,17 +251,17 @@
     font-size: 16px;
     line-height: 1.4;
     margin: 0;
-    width: 65%;
+    width: 85%;
 }
 
 .movieExtraInfo {
+    width: 30%;
 }
 
 .extraInfoWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    width: 17%;
 }
 
 .extraInfoCard {
@@ -262,4 +279,23 @@
     color: #fff;
     font-size: 16px;
     word-break: break-word;
+}
+
+.movieRating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: -15px;
+}
+
+.ratingItem {
+    padding: 6px;
+    border-radius: 4px;
+    background-color: #222;
+    color: #ececec;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 600;
 }

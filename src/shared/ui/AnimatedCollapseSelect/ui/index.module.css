@@ -1,0 +1,20 @@
+.myCollapse {
+    overflow: hidden;
+}
+
+.myCollapse::-webkit-scrollbar {
+    width: 6px;
+}
+
+.myCollapse::-webkit-scrollbar-track {
+    background-color: #1a1a1a;
+}
+
+.myCollapse::-webkit-scrollbar-thumb {
+    background-color: #fddd2d;
+    border-radius: 20px;
+}
+
+.myCollapse:hover {
+    overflow-y: scroll;
+}
