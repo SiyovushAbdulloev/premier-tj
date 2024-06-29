@@ -5,6 +5,7 @@ import {
     getIsStoring,
     getStoreErrors,
     getIsFetchingAll,
+    getIsFetchinList,
 } from "./model/selectors";
 import {countryActions, countryReducer} from "./model/slice";
 import {Country, CountrySchema, Pagination} from "./types";
@@ -14,6 +15,7 @@ import {storeCountry} from "./model/services/storeCountry";
 import {updateCountry} from "./model/services/updateCountry";
 import {destroyCountry} from "./model/services/destroyCountry";
 import {getAllCountries} from "./model/services/getAllCountries";
+import {getListCountries} from "./model/services/getListCountries";
 
 export {
     getData,
@@ -30,5 +32,7 @@ export {
     destroyCountry,
     getIsFetchingAll,
     getAllCountries,
+    getListCountries,
+    getIsFetchinList,
 }
 export type {Country, CountrySchema, Pagination}

@@ -85,6 +85,12 @@
     font-size: 16px;
 }
 
+.fetchingMore {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
+}
+
 .pageTitle {
     font-size: 34px;
     color: #ececec;
@@ -97,6 +103,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 20px;
 }
 
 .badge {
@@ -112,6 +121,15 @@
 
 .badge:hover {
     background-color: #333;
+}
+
+.activeBadge {
+    background-color: #fddd2d;
+    color: #141414;
+}
+
+.activeBadge:hover {
+    background-color: #fddd2d;
 }
 
 .free {

@@ -1,32 +1,30 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
-export const getListSeries = createAsyncThunk(
-    'series/getListSeries',
+export const getAllMultimedias = createAsyncThunk(
+    'mediaContent/getAllMultimedias',
     async (data: {
+        free?: boolean
         genres?: Array<string>,
-        countries?: Array<string>,
         years?: Array<string>,
         page?: number
     } | undefined, {getState, rejectWithValue}) => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 5000));
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
-            let uri = `/api/series?page=${data?.page}`
+            let uri = `/api/multimedias?page=${data?.page}`
 
+            if (data?.free) {
+                uri += `&free=${data.free}`
+            } else {
+                uri += `&free=`
+            }
             if (data?.genres && data.genres.length) {
                 if (data.genres.includes('all')) {
                     uri += `&genres=all`
                 } else {
                     uri += `&genres=${data.genres.join(',')}`
-                }
-            }
-            if (data?.countries && data.countries.length) {
-                if (data.countries.includes('all')) {
-                    uri += `&countries=all`
-                } else {
-                    uri += `&countries=${data.countries.join(',')}`
                 }
             }
             if (data?.years && data.years.length) {

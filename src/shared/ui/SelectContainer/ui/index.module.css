@@ -63,7 +63,7 @@
 .select .activeItem.disabled {
     cursor: not-allowed;
     border-color: #dcdfe6;
-    background-color: #f5f7fa;
+    background-color: #535353;
 }
 
 .select .items {
@@ -76,10 +76,30 @@
     box-sizing: border-box;
     z-index: -1;
     width: 620px;
-    display: grid;
     grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+    height: 400px;
+    display: none;
+}
+
+.items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.items::-webkit-scrollbar-track {
+    background-color: #1a1a1a;
+}
+
+.items::-webkit-scrollbar-thumb {
+    background-color: #fddd2d;
+    border-radius: 20px;
+}
+
+.items:hover {
+    overflow-y: scroll;
 }
 
 .select .itemsActive {
     z-index: 3;
+    display: grid;
 }

@@ -4,6 +4,7 @@ import {getGenres} from '../services/getGenres'
 import {storeGenre} from '../services/storeGenre'
 import {updateGenre} from '../services/updateGenre'
 import {getAllGenres} from '../services/getAllGenres'
+import {getListGenres} from '../services/getListGenres'
 
 const initialState: GenreSchema = {
     data: [],
@@ -18,6 +19,7 @@ const initialState: GenreSchema = {
     isUpdating: false,
     updateErrors: undefined,
     isFetchingAll: false,
+    isFetchingList: false,
 }
 
 export const genreSlice = createSlice({
@@ -73,6 +75,15 @@ export const genreSlice = createSlice({
             })
             .addCase(getAllGenres.rejected, (state, action) => {
                 state.isFetchingAll = false
+            })
+            .addCase(getListGenres.pending, (state, action) => {
+                state.isFetchingList = true
+            })
+            .addCase(getListGenres.fulfilled, (state, action) => {
+                state.isFetchingList = false
+            })
+            .addCase(getListGenres.rejected, (state, action) => {
+                state.isFetchingList = false
             })
     }
 })

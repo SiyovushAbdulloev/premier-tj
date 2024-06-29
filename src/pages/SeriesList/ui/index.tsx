@@ -1,35 +1,218 @@
 import classes from './index.module.css'
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {SelectContainer, Option, SelectedOption, CheckboxOption} from "src/shared/ui/SelectContainer";
 import {className} from "src/shared/utils/className";
 import {getIsFetchingListSeries, getListSeries, Series} from "src/entities/Series";
 import ReactPlayer from "react-player";
+import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
+import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
+import {getAllMovies} from "src/entities/MediaContent";
 
 const SeriesListPage = () => {
     const navigate = useNavigate()
     const isFetchingMovies = useSelector(getIsFetchingListSeries)
+    const [firstTime, setFirstTime] = useState<boolean>(false)
     const [series, setSeries] = useState<Array<Series>>([])
     const dispatch = useAppDispatch()
     const [hovered, setHovered] = useState<number>(0)
     const [free, setFree] = useState<boolean>(false)
     const [hoveredFree, setHoveredFree] = useState<boolean>(false)
+    const [genres, setGenres] = useState<Array<Genre>>([])
+    const isFetchingAllGenres = useSelector(getIsFetchingList)
+    const [countries, setCountries] = useState<Array<Country>>([])
+    const isFetchingAllCountries = useSelector(getIsFetchingCountryList)
+    const [genre, setGenre] = useState<Array<string>>([])
+    const [country, setCountry] = useState<Array<string>>([''])
+    const [year, setYear] = useState<Array<string>>([''])
+    const [showSeries2022, setShowSeries2022] = useState<boolean>(false)
+    const [showSeries2023, setShowSeries2023] = useState<boolean>(false)
+    const [showTajik, setShowTajik] = useState<boolean>(false)
+    const [showRussian, setShowRussian] = useState<boolean>(false)
+    const [showForeign, setShowForeign] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [page, setPage] = useState<number>(1)
+    const [hasMore, setHasMore] = useState<boolean>(true)
+
+    const observerRef = useRef<IntersectionObserver | undefined>(undefined)
+    const lastMovieRef = useCallback((node: HTMLDivElement) => {
+        if (loading) return
+        if (observerRef.current) observerRef.current?.disconnect()
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage((prev) => prev + 1)
+            }
+        })
+        if (node) observerRef.current?.observe(node)
+    }, [loading, hasMore])
+    const [searchParams, setSearchParams] = useSearchParams()
+    const location = useLocation()
+
+    useEffect(() => {
+        if (location.state) {
+            switch (location.state.type) {
+                case 'country':
+                    if (location.state.value === 'foreign') {
+                        onShowForeignMovie()
+                    } else if (location.state.value === 'rus') {
+                        onShowRussianMovie()
+                    } else if (location.state.value === 'tjk') {
+                        onShowTajikMovie()
+                    }
+                    break
+                case 'year':
+                    if (location.state.value === '2022') {
+                        onShowMovie2022()
+                    } else if (location.state.value === '2023') {
+                        onShowMovie2023()
+                    }
+                    break
+            }
+        }
+    }, [location])
+
+    const onShowMovie2022 = () => {
+        setSeries([])
+        if (year.includes('2022')) {
+            setYear(year.filter(item => item !== '2022'))
+            setShowSeries2022(false)
+        } else {
+            setYear([...year, '2022'])
+            setShowSeries2022(true)
+        }
+    }
+
+    const onShowMovie2023 = () => {
+        setSeries([])
+        if (year.includes('2023')) {
+            setYear(year.filter(item => item !== '2023'))
+            setShowSeries2023(false)
+        } else {
+            setYear([...year, '2023'])
+            setShowSeries2023(true)
+        }
+    }
+
+    const onShowTajikMovie = () => {
+        setSeries([])
+        const tajikistan = countries.find(c => c.code.toLowerCase() === 'tjk')
+        if (country.some(c => parseInt(c) == tajikistan?.id)) {
+            setCountry(country.filter(c => parseInt(c) != tajikistan?.id))
+            setShowTajik(false)
+        } else {
+            setCountry([...country, `${tajikistan?.id ?? ''}`])
+            setShowTajik(true)
+        }
+    }
+
+    const onShowRussianMovie = () => {
+        setSeries([])
+        const russia = countries.find(c => c.code.toLowerCase() === 'rus')
+        if (country.some(c => parseInt(c) == russia?.id)) {
+            setCountry(country.filter(c => parseInt(c) != russia?.id))
+            setShowRussian(false)
+        } else {
+            setCountry([...country, `${russia?.id ?? ''}`])
+            setShowRussian(true)
+        }
+    }
+
+    const onShowForeignMovie = () => {
+        setSeries([])
+        if (country.includes('foreign')) {
+            setCountry(country.filter(c => c != 'foreign'))
+            setShowForeign(false)
+        } else {
+            setCountry([...country, 'foreign'])
+            setShowForeign(true)
+        }
+    }
 
     useEffect(() => {
         const fetchSections = async () => {
-            const data = await dispatch(getListSeries())
+            const data = await dispatch(getListSeries({page}))
             if (data.type.includes('fulfilled')) {
-                console.log({data})
                 setSeries(data.payload.data)
+                setHasMore(data.payload.more)
+            }
+        }
+        const fetchGenres = async () => {
+            const data = await dispatch(getListGenres())
+            if (data.type.includes('fulfilled')) {
+                setGenres(data.payload.data)
+            }
+        }
+        const fetchCountries = async () => {
+            const data = await dispatch(getListCountries())
+            if (data.type.includes('fulfilled')) {
+                setCountries(data.payload.data)
+                setFirstTime(false)
             }
         }
         fetchSections()
+        fetchGenres()
+        fetchCountries()
     }, [])
+
+    useEffect(() => {
+        const allGenres = genre.filter(g => !!g)
+        const allCountries = country.filter(g => !!g)
+        const allYears = year.filter(g => !!g)
+        const fetchMovies = async (params: {
+            genre?: boolean,
+            country?: boolean,
+            year?: boolean,
+        }) => {
+            let currentPage = page
+            if (params.genre || params.country || params.year) {
+                currentPage = 1
+            }
+            let requestData: {[key: string]: any} = {
+                page: currentPage,
+            }
+
+            if (params.genre) {
+                requestData['genres'] = allGenres
+            }
+            if (params.country) {
+                requestData['countries'] = allCountries
+            }
+            if (params.year ) {
+                requestData['years'] = allYears
+            }
+
+            setLoading(true)
+            const response = await dispatch(getListSeries(requestData))
+            setLoading(false)
+            if (response.type.includes('fulfilled')) {
+                setSeries((prevSeries) => [...prevSeries, ...response.payload.data.filter((newSeries: any) => !prevSeries.some(existingSeries => existingSeries.id === newSeries.id))])
+                setHasMore(response.payload.more)
+            }
+        }
+
+        fetchMovies({
+            genre: allGenres.length > 0,
+            country: allCountries.length > 0,
+            year: allYears.length > 0,
+        })
+        const searchObj: any = {}
+        if (allGenres.length > 0) {
+            searchObj['genres'] = allGenres.join(',')
+        }
+        if (allCountries.length > 0) {
+            searchObj['countries'] = allCountries.join(',')
+        }
+        if (allYears.length > 0) {
+            searchObj['year'] = allYears.join(',')
+        }
+
+        setSearchParams(searchObj)
+    }, [genre, country, free, year, page])
 
     const onHover = (id: number) => {
         setHovered(id)
@@ -43,16 +226,50 @@ const SeriesListPage = () => {
         navigate(RoutesConfig.movies_show.path.replace(':id', `${item.id}`))
     }
 
-    const onOptionSelect = (option: SelectedOption) => {
-        console.log({option})
+    const onGenreOptionSelect = (option: SelectedOption) => {
+        setSeries([])
+        setGenre([option.value])
     }
 
-    const onCheckboxSelect = (option: SelectedOption) => {
-        console.log({option})
+    const onGenreCheckboxSelect = (option: SelectedOption) => {
+        setSeries([])
+        if (genre.includes(option.value)) {
+            setGenre(genre.filter(item => item !== 'all').filter(item => item !== option.value))
+        } else {
+            setGenre([...genre.filter(item => item !== 'all'), option.value])
+        }
     }
 
-    const onFree = () => {
-        console.log({free})
+    const onCountryOptionSelect = (option: SelectedOption) => {
+        setSeries([])
+        setCountry([option.value])
+    }
+
+    const onCountryCheckboxSelect = (option: SelectedOption) => {
+        setSeries([])
+        if (country.includes(option.value)) {
+            setCountry(country.filter(item => item !== 'all').filter(item => item !== option.value))
+        } else {
+            setCountry([...country.filter(item => item !== 'all'), option.value])
+        }
+    }
+
+    const onYearOptionSelect = (option: SelectedOption) => {
+        setSeries([])
+        setYear([option.value])
+    }
+
+    const onYearCheckboxSelect = (option: SelectedOption) => {
+        setSeries([])
+        if (year.includes(option.value)) {
+            setYear(year.filter(item => item !== 'all').filter(item => item !== option.value))
+        } else {
+            setYear([...year.filter(item => item !== 'all'), option.value])
+        }
+    }
+
+    const onFree = async () => {
+        setSeries([])
         setFree(!free)
     }
 
@@ -65,19 +282,54 @@ const SeriesListPage = () => {
     }
 
     return (
-        <div className={classes.mainPage} style={{height: isFetchingMovies ? '700px' : 'fit-content'}}>
-            {isFetchingMovies ? (
+        <div className={classes.mainPage} style={{minHeight: isFetchingMovies ? '100vh' : 'fit-content'}}>
+            {isFetchingMovies && firstTime ? (
                 <Fetching className={classes.fetching} />
                 ) : (
                 <>
                     <div className={classes.pageWrapper}>
                         <h1 className={classes.pageTitle}>Сериалы смотреть онлайн</h1>
                         <div className={classes.filters}>
-                            <div className={classes.badge}>Зарубежные сериалы</div>
-                            <div className={classes.badge}>Российские сериалы</div>
-                            <div className={classes.badge}>Таджикские сериалы</div>
-                            <div className={classes.badge}>Сериалы 2023</div>
-                            <div className={classes.badge}>Сериалы 2022</div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showForeign
+                                })}
+                                onClick={onShowForeignMovie}
+                            >
+                                Зарубежные сериалы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showRussian
+                                })}
+                                onClick={onShowRussianMovie}
+                            >
+                                Российские сериалы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showTajik
+                                })}
+                                onClick={onShowTajikMovie}
+                            >
+                                Таджикские сериалы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showSeries2023
+                                })}
+                                onClick={onShowMovie2023}
+                            >
+                                Сериалы 2023
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showSeries2022
+                                })}
+                                onClick={onShowMovie2022}
+                            >
+                                Сериалы 2022
+                            </div>
                             {/*<Select*/}
                             {/*    placeholder={'Категория'}*/}
                             {/*    onSelect={onCategory}*/}
@@ -89,38 +341,43 @@ const SeriesListPage = () => {
                             {/*    <Option label={'Шоу'} value={'multimedia'} />*/}
                             {/*</Select>*/}
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'comedy'}
+                                onOptionSelect={onGenreOptionSelect}
+                                onCheckboxSelect={onGenreCheckboxSelect}
+                                value={genre}
                                 placeholder={'Жанр'}
                                 style={{width: '242px'}}
+                                loading={isFetchingAllGenres}
                             >
                                 <Option label={'Все'} value={'all'} />
-                                <CheckboxOption label={'Комедия'} value={'comedy'} />
-                                <CheckboxOption label={'Приключения'} value={'adventure'} />
-                                <CheckboxOption label={'Аниме'} value={'anime'} />
-                                <CheckboxOption label={'Аниме1'} value={'anime1'} />
-                                <CheckboxOption label={'Аниме2'} value={'anime2'} />
+                                {genres.length ? genres.map(genre => (
+                                    <CheckboxOption
+                                        key={`genre${genre.id}`}
+                                        label={genre.name}
+                                        value={genre.id}
+                                    />
+                                )) : null}
                             </SelectContainer>
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'tajikistan'}
+                                onOptionSelect={onCountryOptionSelect}
+                                onCheckboxSelect={onCountryCheckboxSelect}
+                                value={country}
                                 placeholder={'Страна'}
                                 style={{width: '242px'}}
+                                loading={isFetchingAllCountries}
                             >
                                 <Option label={'Все'} value={'all'} />
-                                <CheckboxOption label={'Таджикистан'} value={'tajikistan'} />
-                                <CheckboxOption label={'Россия'} value={'russia'} />
-                                <CheckboxOption label={'США'} value={'usa'} />
-                                <CheckboxOption label={'Канада'} value={'canada'} />
-                                <CheckboxOption label={'Франция'} value={'france'} />
-                                <CheckboxOption label={'Турция'} value={'turkey'} />
+                                {countries.length ? countries.map(country => (
+                                    <CheckboxOption
+                                        key={`country${country.id}`}
+                                        label={country.name}
+                                        value={country.id}
+                                    />
+                                )) : null}
                             </SelectContainer>
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'comedy'}
+                                onOptionSelect={onYearOptionSelect}
+                                onCheckboxSelect={onYearCheckboxSelect}
+                                value={year}
                                 placeholder={'Год'}
                                 style={{width: '242px'}}
                             >
@@ -139,36 +396,54 @@ const SeriesListPage = () => {
                                 <CheckboxOption label={'2013'} value={'2013'} />
                                 <CheckboxOption label={'2012'} value={'2012'} />
                             </SelectContainer>
-                            <div
-                                className={classes.free}
-                                onClick={onFree}
-                            >
-                                <div
-                                    className={className(classes.checkbox, {
-                                        [classes.activeCheckbox]: free,
-                                        [classes.hoveredCheckbox]: hoveredFree,
-                                    })}
-                                    onMouseEnter={onFreeEnter}
-                                    onMouseLeave={onFreeLeave}
-                                >
-                                    <svg
-                                        width={18}
-                                        height={18}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="size-6"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                                    </svg>
-                                </div>
-                                Бесплатно
-                            </div>
                         </div>
                         <div className={classes.sections}>
                             {series.map((item, index) => {
+                                if (series.length === index + 1) {
+                                    return (
+                                        <div
+                                            ref={lastMovieRef}
+                                            onClick={() => onPage(item)}
+                                            className={classes.section}
+                                            key={item.id}
+                                        >
+                                            {/*<ReactPlayer*/}
+                                            {/*    style={{*/}
+                                            {/*        transition: 'all .1s ease',*/}
+                                            {/*        cursor: 'pointer'*/}
+                                            {/*    }}*/}
+                                            {/*    width={'100%'}*/}
+                                            {/*    height={'100%'}*/}
+                                            {/*    url={item.trailer}*/}
+                                            {/*    controls={false}*/}
+                                            {/*    playing={false}*/}
+                                            {/*    onMouseEnter={() => onHover(item.id)}*/}
+                                            {/*    onMouseLeave={onUnHover}*/}
+                                            {/*/>*/}
+                                            <img
+                                                src={item.poster}
+                                                alt="Poster"
+                                                className={classes.contentImg}
+                                                onMouseEnter={() => onHover(item.id)}
+                                                onMouseLeave={onUnHover}
+                                            />
+                                            <button
+                                                type={'button'}
+                                                className={classes.playBtn}
+                                                style={{opacity: hovered === item.id ? '1' : '0'}}
+                                            >
+                                                <Play className={classes.playIcon} />
+                                            </button>
+                                            <span
+                                                className={classes.contentLabel}
+                                                style={{opacity: hovered === item.id ? '1' : '0'}}
+                                            >
+                                        <span className={classes.contentName}>{item.name}</span>
+                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                    </span>
+                                        </div>
+                                    )
+                                }
                                 return (
                                     <div
                                         onClick={() => onPage(item)}
@@ -206,6 +481,9 @@ const SeriesListPage = () => {
                                 )
                             })}
                         </div>
+                        {isFetchingMovies ? (
+                            <Fetching className={classes.fetchingMore} />
+                        ) : null}
                     </div>
                 </>
             )}

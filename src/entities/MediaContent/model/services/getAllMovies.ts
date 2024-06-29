@@ -3,12 +3,47 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const getAllMovies = createAsyncThunk(
     'mediaContent/getAllMovies',
-    async (data, {getState, rejectWithValue}) => {
+    async (data: {
+        free?: boolean
+        genres?: Array<string>,
+        countries?: Array<string>,
+        years?: Array<string>,
+        page?: number
+    } | undefined, {getState, rejectWithValue}) => {
+        await new Promise(resolve => setTimeout(resolve, 2000));
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
+            let uri = `/api/movies?page=${data?.page}`
 
-            const response = await fetch(APP_URL + `/api/movies`, {
+            if (data?.free) {
+                uri += `&free=${data.free}`
+            } else {
+                uri += `&free=`
+            }
+            if (data?.genres && data.genres.length) {
+                if (data.genres.includes('all')) {
+                    uri += `&genres=all`
+                } else {
+                    uri += `&genres=${data.genres.join(',')}`
+                }
+            }
+            if (data?.countries && data.countries.length) {
+                if (data.countries.includes('all')) {
+                    uri += `&countries=all`
+                } else {
+                    uri += `&countries=${data.countries.join(',')}`
+                }
+            }
+            if (data?.years && data.years.length) {
+                if (data.years.includes('all')) {
+                    uri += `&years=all`
+                } else {
+                    uri += `&years=${data.years.join(',')}`
+                }
+            }
+
+            const response = await fetch(APP_URL + uri, {
                 method: 'GET',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
@@ -25,7 +60,7 @@ export const getAllMovies = createAsyncThunk(
                 // return rejectWithValue(data.errors)
             } else {
                 const res = await response.json()
-                return res.data
+                return res
             }
         } catch (error) {
             console.log({error})

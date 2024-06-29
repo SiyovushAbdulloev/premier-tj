@@ -25,6 +25,19 @@
     position: relative;
     width: 345px;
     height: 234px;
+    cursor: pointer;
+}
+
+.freeLabel {
+    color: #ececec;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #01c243;
+    font-size: 12px;
+    width: fit-content;
+    position: absolute;
+    top: 15px;
+    left: 15px;
 }
 
 .contentImg {
@@ -97,6 +110,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 20px;
 }
 
 .badge {
@@ -112,6 +128,15 @@
 
 .badge:hover {
     background-color: #333;
+}
+
+.activeBadge {
+    background-color: #fddd2d;
+    color: #141414;
+}
+
+.activeBadge:hover {
+    background-color: #fddd2d;
 }
 
 .free {
@@ -151,4 +176,10 @@
 .activeCheckbox:hover {
     color: #121117;
     border-color: transparent;
+}
+
+.fetchingMore {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
 }

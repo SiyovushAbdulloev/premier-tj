@@ -25,80 +25,80 @@ import {ReactComponent as Cancel} from "src/shared/assets/icons/cancel.svg"
 
 const navigations = [
     {
-        name: 'movies',
+        value: 'movies',
         label: 'Фильмы',
         children: [
             {
-                name: 'foreign',
+                value: 'foreign',
                 label: 'Зарубежные фильмы',
+                type: 'country'
             },
             {
-                name: 'russian',
+                value: 'rus',
                 label: 'Российские фильмы',
+                type: 'country'
             },
             {
-                name: 'tajik',
+                value: 'tjk',
                 label: 'Таджикские фильмы',
+                type: 'country'
             },
             {
-                name: '2023',
+                value: '2023',
                 label: 'Фильмы 2023',
+                type: 'year'
             },
             {
-                name: '2022',
+                value: '2022',
                 label: 'Фильмы 2022',
+                type: 'year'
             },
         ]
     },
     {
-        name: 'series',
+        value: 'series',
         label: 'Сериалы',
         children: [
             {
-                name: 'foreign',
+                value: 'foreign',
                 label: 'Зарубежные сериалы',
+                type: 'country'
             },
             {
-                name: 'russian',
+                value: 'rus',
                 label: 'Российские сериалы',
+                type: 'country'
             },
             {
-                name: 'tajik',
+                value: 'tjk',
                 label: 'Таджикские сериалы',
+                type: 'country'
             },
             {
-                name: '2023',
+                value: '2023',
                 label: 'Сериалы 2023',
+                type: 'year'
             },
             {
-                name: '2022',
+                value: '2022',
                 label: 'Сериалы 2022',
+                type: 'year'
             },
         ]
     },
     {
-        name: 'multimedias',
+        value: 'multimedias',
         label: 'Шоу',
         children: [
             {
-                name: 'foreign',
-                label: 'Зарубежные шоу',
-            },
-            {
-                name: 'russian',
-                label: 'Российские шоу',
-            },
-            {
-                name: 'tajik',
-                label: 'Таджикские шоу',
-            },
-            {
-                name: '2023',
+                value: '2023',
                 label: 'Шоу 2023',
+                type: 'year'
             },
             {
-                name: '2022',
+                value: '2022',
                 label: 'Шоу 2022',
+                type: 'year'
             },
         ]
     },
@@ -147,8 +147,24 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowMenu(false)
     }
 
+    const onSubNavItemPage = (subNavItem: any) => {
+        console.log({subNavItem})
+        switch (navItem) {
+            case 'movies':
+                navigate(RoutesConfig.movies_list.path, {state: {type: subNavItem.type, value: subNavItem.value}})
+                break
+            case 'multimedias':
+                navigate(RoutesConfig.multimedias_list.path, {state: {type: subNavItem.type, value: subNavItem.value}})
+                break
+            case 'series':
+                navigate(RoutesConfig.series_list.path, {state: {type: subNavItem.type, value: subNavItem.value}})
+                break
+        }
+        setShowMenu(false)
+    }
+
     const subItems = useMemo(() => {
-        return navigations.find(nav => nav.name === navItem)?.children ?? []
+        return navigations.find(nav => nav.value === navItem)?.children ?? []
     }, [navItem])
 
     const onFree = () => {
@@ -191,10 +207,10 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         <div className={classes.categories}>
                             {navigations.map(nav => (
                                 <div
-                                    onMouseEnter={() => onNavItem(nav.name)}
-                                    key={nav.name}
+                                    onMouseEnter={() => onNavItem(nav.value)}
+                                    key={nav.value}
                                     className={classes.category}
-                                    onClick={() => onNavItemPage(nav.name)}
+                                    onClick={() => onNavItemPage(nav.value)}
                                 >
                                     {nav.label}
                                 </div>
@@ -203,8 +219,9 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         <div className={classes.categories}>
                             {subItems.map(child => (
                                 <div
-                                    key={`${navItem}${child.name}`}
+                                    key={`${navItem}${child.value}`}
                                     className={classes.category}
+                                    onClick={() => onSubNavItemPage(child)}
                                 >
                                     {child.label}
                                 </div>

@@ -3,6 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getCountries} from '../services/getCountries'
 import {storeCountry} from '../services/storeCountry'
 import {getAllCountries} from '../services/getAllCountries'
+import {getListCountries} from '../services/getListCountries'
 
 const initialState: CountrySchema = {
     data: [],
@@ -14,7 +15,8 @@ const initialState: CountrySchema = {
     fetching: false,
     isStoring: false,
     storeErrors: undefined,
-    isFetchingAll: false
+    isFetchingAll: false,
+    isFetchingList: false
 }
 
 export const countrySlice = createSlice({
@@ -59,6 +61,15 @@ export const countrySlice = createSlice({
             })
             .addCase(getAllCountries.rejected, (state, action) => {
                 state.isFetchingAll = false
+            })
+            .addCase(getListCountries.pending, (state, action) => {
+                state.isFetchingList = true
+            })
+            .addCase(getListCountries.fulfilled, (state, action) => {
+                state.isFetchingList = false
+            })
+            .addCase(getListCountries.rejected, (state, action) => {
+                state.isFetchingList = false
             })
     }
 })

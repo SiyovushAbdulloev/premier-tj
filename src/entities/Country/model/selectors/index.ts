@@ -8,3 +8,4 @@ export const getFetching = (state: StateSchema): boolean => state.country.fetchi
 export const getIsStoring = (state: StateSchema): boolean => state.country.isStoring
 export const getStoreErrors = (state: StateSchema): InputError | undefined => state.country.storeErrors
 export const getIsFetchingAll = (state: StateSchema): boolean => state.country.isFetchingAll
+export const getIsFetchinList = (state: StateSchema): boolean => state.country.isFetchingList

@@ -1,34 +1,228 @@
 import classes from './index.module.css'
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {getAllMovies, getIsFetchingAllMovies, MediaContent} from "src/entities/MediaContent";
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {SelectContainer, Option, SelectedOption, CheckboxOption} from "src/shared/ui/SelectContainer";
 import {className} from "src/shared/utils/className";
+import {Genre, getListGenres, getIsFetchingList} from "src/entities/Genre";
+import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
 
 const MoviesListPage = () => {
     const navigate = useNavigate()
     const isFetchingMovies = useSelector(getIsFetchingAllMovies)
+    const [firstTime, setFirstTime] = useState(true)
     const [movies, setMovies] = useState<Array<MediaContent>>([])
     const dispatch = useAppDispatch()
     const [hovered, setHovered] = useState<number>(0)
     const [free, setFree] = useState<boolean>(false)
     const [hoveredFree, setHoveredFree] = useState<boolean>(false)
+    const [genres, setGenres] = useState<Array<Genre>>([])
+    const isFetchingAllGenres = useSelector(getIsFetchingList)
+    const [countries, setCountries] = useState<Array<Country>>([])
+    const isFetchingAllCountries = useSelector(getIsFetchingCountryList)
+    const [genre, setGenre] = useState<Array<string>>([])
+    const [country, setCountry] = useState<Array<string>>([''])
+    const [year, setYear] = useState<Array<string>>([''])
+    const [showMovies2022, setShowMovies2022] = useState<boolean>(false)
+    const [showMovies2023, setShowMovies2023] = useState<boolean>(false)
+    const [showTajik, setShowTajik] = useState<boolean>(false)
+    const [showRussian, setShowRussian] = useState<boolean>(false)
+    const [showForeign, setShowForeign] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [page, setPage] = useState<number>(1)
+    const [hasMore, setHasMore] = useState<boolean>(true)
+    const location = useLocation()
+
+    const observerRef = useRef<IntersectionObserver | undefined>(undefined)
+    const lastMovieRef = useCallback((node: HTMLDivElement) => {
+        if (loading) return
+        if (observerRef.current) observerRef.current?.disconnect()
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage((prev) => prev + 1)
+            }
+        })
+        if (node) observerRef.current?.observe(node)
+    }, [loading, hasMore])
+
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    useEffect(() => {
+        if (location.state) {
+            switch (location.state.type) {
+                case 'country':
+                    if (location.state.value === 'foreign') {
+                        onShowForeignMovie()
+                    } else if (location.state.value === 'rus') {
+                        onShowRussianMovie()
+                    } else if (location.state.value === 'tjk') {
+                        onShowTajikMovie()
+                    }
+                    break
+                case 'year':
+                    if (location.state.value === '2022') {
+                        onShowMovie2022()
+                    } else if (location.state.value === '2023') {
+                        onShowMovie2023()
+                    }
+                    break
+            }
+        }
+    }, [location])
+
+    const onShowMovie2022 = () => {
+        setMovies([])
+        if (year.includes('2022')) {
+            setYear(year.filter(item => item !== '2022'))
+            setShowMovies2022(false)
+        } else {
+            setYear([...year, '2022'])
+            setShowMovies2022(true)
+        }
+    }
+
+    const onShowMovie2023 = () => {
+        setMovies([])
+        if (year.includes('2023')) {
+            setYear(year.filter(item => item !== '2023'))
+            setShowMovies2023(false)
+        } else {
+            setYear([...year, '2023'])
+            setShowMovies2023(true)
+        }
+    }
+
+    const onShowTajikMovie = () => {
+        setMovies([])
+        const tajikistan = countries.find(c => c.code.toLowerCase() === 'tjk')
+        if (country.some(c => parseInt(c) == tajikistan?.id)) {
+            setCountry(country.filter(c => parseInt(c) != tajikistan?.id))
+            setShowTajik(false)
+        } else {
+            setCountry([...country, `${tajikistan?.id ?? ''}`])
+            setShowTajik(true)
+        }
+    }
+
+    const onShowRussianMovie = () => {
+        setMovies([])
+        const russia = countries.find(c => c.code.toLowerCase() === 'rus')
+        if (country.some(c => parseInt(c) == russia?.id)) {
+            setCountry(country.filter(c => parseInt(c) != russia?.id))
+            setShowRussian(false)
+        } else {
+            setCountry([...country, `${russia?.id ?? ''}`])
+            setShowRussian(true)
+        }
+    }
+
+    const onShowForeignMovie = () => {
+        setMovies([])
+        const russia = countries.find(c => c.code.toLowerCase() === 'rus')
+        const tajikistan = countries.find(c => c.code.toLowerCase() === 'tjk')
+
+        if (country.includes('foreign')) {
+            setCountry(country.filter(c => c != 'foreign'))
+            setShowForeign(false)
+        } else {
+            setCountry([...country.filter(c => parseInt(c) == russia?.id && parseInt(c) == tajikistan?.id), 'foreign'])
+            setShowForeign(true)
+        }
+    }
 
     useEffect(() => {
         const fetchSections = async () => {
-            const data = await dispatch(getAllMovies())
+            const data = await dispatch(getAllMovies({page}))
             if (data.type.includes('fulfilled')) {
-                console.log({data})
-                setMovies(data.payload)
+                setMovies(data.payload.data)
+                setHasMore(data.payload.more)
+            }
+        }
+        const fetchGenres = async () => {
+            const data = await dispatch(getListGenres())
+            if (data.type.includes('fulfilled')) {
+                setGenres(data.payload.data)
+            }
+        }
+        const fetchCountries = async () => {
+            const data = await dispatch(getListCountries())
+            if (data.type.includes('fulfilled')) {
+                setCountries(data.payload.data)
+                setFirstTime(false)
             }
         }
         fetchSections()
+        fetchGenres()
+        fetchCountries()
     }, [])
+
+    useEffect(() => {
+        const allGenres = genre.filter(g => !!g)
+        const allCountries = country.filter(g => !!g)
+        const allYears = year.filter(g => !!g)
+        const fetchMovies = async (params: {
+            genre?: boolean,
+            country?: boolean,
+            free?: boolean,
+            year?: boolean,
+        }) => {
+            let currentPage = page
+            if (params.genre || params.country || params.free || params.year) {
+                currentPage = 1
+            }
+            let requestData: {[key: string]: any} = {
+                page: currentPage,
+            }
+
+            if (params.genre) {
+                requestData['genres'] = allGenres
+            }
+            if (params.country) {
+                requestData['countries'] = allCountries
+            }
+            if (params.free ) {
+                requestData['free'] = true
+            }
+            if (params.year ) {
+                requestData['years'] = allYears
+            }
+
+            setLoading(true)
+            const response = await dispatch(getAllMovies(requestData))
+            setLoading(false)
+            if (response.type.includes('fulfilled')) {
+                setMovies((prevMovies) => [...prevMovies, ...response.payload.data.filter((newMovie: any) => !prevMovies.some(existingMovie => existingMovie.id === newMovie.id))])
+                setHasMore(response.payload.more)
+            }
+        }
+
+        fetchMovies({
+            genre: allGenres.length > 0,
+            country: allCountries.length > 0,
+            free: free,
+            year: allYears.length > 0,
+        })
+        const searchObj: any = {}
+        if (allGenres.length > 0) {
+            searchObj['genres'] = allGenres.join(',')
+        }
+        if (allCountries.length > 0) {
+            searchObj['countries'] = allCountries.join(',')
+        }
+        if (allYears.length > 0) {
+            searchObj['year'] = allYears.join(',')
+        }
+        if (free) {
+            searchObj['free'] = free ? 1 : 0
+        }
+
+        setSearchParams(searchObj)
+    }, [genre, country, free, year, page])
 
     const onHover = (id: number) => {
         setHovered(id)
@@ -42,16 +236,67 @@ const MoviesListPage = () => {
         navigate(RoutesConfig.movies_show.path.replace(':id', `${item.id}`))
     }
 
-    const onOptionSelect = (option: SelectedOption) => {
-        console.log({option})
+    const onGenreOptionSelect = (option: SelectedOption) => {
+        setMovies([])
+        setGenre([option.value])
     }
 
-    const onCheckboxSelect = (option: SelectedOption) => {
-        console.log({option})
+    const onGenreCheckboxSelect = (option: SelectedOption) => {
+        setMovies([])
+        if (genre.includes(option.value)) {
+            setGenre(genre.filter(item => item !== 'all').filter(item => item !== option.value))
+        } else {
+            setGenre([...genre.filter(item => item !== 'all'), option.value])
+        }
     }
 
-    const onFree = () => {
-        console.log({free})
+    const onCountryOptionSelect = (option: SelectedOption) => {
+        setMovies([])
+        setCountry([option.value])
+    }
+
+    const onCountryCheckboxSelect = (option: SelectedOption) => {
+        setMovies([])
+        const russia = countries.find(c => c.code.toLowerCase() === 'rus')
+        const tajikistan = countries.find(c => c.code.toLowerCase() === 'tjk')
+
+        if (option.value === tajikistan?.id) {
+            setShowTajik(false)
+        } else if (option.value === russia?.id) {
+            setShowRussian(false)
+        } else {
+            setShowForeign(false)
+        }
+
+        if (country.includes(option.value + '')) {
+            setCountry(country.filter(item => item !== 'all' && item !== 'foreign' && item != option.value))
+        } else {
+            setCountry([...country.filter(item => item !== 'all' && item !== 'foreign'), option.value])
+        }
+    }
+
+    const onYearOptionSelect = (option: SelectedOption) => {
+        setMovies([])
+        setYear([option.value])
+    }
+
+    const onYearCheckboxSelect = (option: SelectedOption) => {
+        setMovies([])
+
+        if (option.value == '2022') {
+            setShowMovies2022(false)
+        } else if (option.value == '2023') {
+            setShowMovies2023(false)
+        }
+        if (year.includes(option.value)) {
+            setYear(year.filter(item => item !== 'all').filter(item => item !== option.value))
+        } else {
+            setYear([...year.filter(item => item !== 'all'), option.value])
+        }
+    }
+
+    const onFree = async () => {
+        setMovies([])
         setFree(!free)
     }
 
@@ -64,19 +309,54 @@ const MoviesListPage = () => {
     }
 
     return (
-        <div className={classes.mainPage} style={{height: isFetchingMovies ? '700px' : 'fit-content'}}>
-            {isFetchingMovies ? (
+        <div className={classes.mainPage} style={{minHeight: isFetchingMovies ? '100vh' : 'fit-content'}}>
+            {isFetchingMovies && firstTime ? (
                 <Fetching className={classes.fetching} />
                 ) : (
                 <>
                     <div className={classes.pageWrapper}>
                         <h1 className={classes.pageTitle}>Фильмы смотреть онлайн</h1>
                         <div className={classes.filters}>
-                            <div className={classes.badge}>Зарубежные фильмы</div>
-                            <div className={classes.badge}>Российские фильмы</div>
-                            <div className={classes.badge}>Таджикские фильмы</div>
-                            <div className={classes.badge}>Фильмы 2023</div>
-                            <div className={classes.badge}>Фильмы 2022</div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showForeign
+                                })}
+                                onClick={onShowForeignMovie}
+                            >
+                                Зарубежные фильмы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showRussian
+                                })}
+                                onClick={onShowRussianMovie}
+                            >
+                                Российские фильмы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showTajik
+                                })}
+                                onClick={onShowTajikMovie}
+                            >
+                                Таджикские фильмы
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showMovies2023
+                                })}
+                                onClick={onShowMovie2023}
+                            >
+                                Фильмы 2023
+                            </div>
+                            <div
+                                className={className(classes.badge, {
+                                    [classes.activeBadge]: showMovies2022
+                                })}
+                                onClick={onShowMovie2022}
+                            >
+                                Фильмы 2022
+                            </div>
                             {/*<Select*/}
                             {/*    placeholder={'Категория'}*/}
                             {/*    onSelect={onCategory}*/}
@@ -88,38 +368,43 @@ const MoviesListPage = () => {
                             {/*    <Option label={'Шоу'} value={'multimedia'} />*/}
                             {/*</Select>*/}
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'comedy'}
+                                onOptionSelect={onGenreOptionSelect}
+                                onCheckboxSelect={onGenreCheckboxSelect}
+                                value={genre}
                                 placeholder={'Жанр'}
                                 style={{width: '242px'}}
+                                loading={isFetchingAllGenres}
                             >
                                 <Option label={'Все'} value={'all'} />
-                                <CheckboxOption label={'Комедия'} value={'comedy'} />
-                                <CheckboxOption label={'Приключения'} value={'adventure'} />
-                                <CheckboxOption label={'Аниме'} value={'anime'} />
-                                <CheckboxOption label={'Аниме1'} value={'anime1'} />
-                                <CheckboxOption label={'Аниме2'} value={'anime2'} />
+                                {genres.length ? genres.map(genre => (
+                                    <CheckboxOption
+                                        key={`genre${genre.id}`}
+                                        label={genre.name}
+                                        value={genre.id}
+                                    />
+                                )) : null}
                             </SelectContainer>
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'tajikistan'}
+                                onOptionSelect={onCountryOptionSelect}
+                                onCheckboxSelect={onCountryCheckboxSelect}
+                                value={country}
                                 placeholder={'Страна'}
                                 style={{width: '242px'}}
+                                loading={isFetchingAllCountries}
                             >
                                 <Option label={'Все'} value={'all'} />
-                                <CheckboxOption label={'Таджикистан'} value={'tajikistan'} />
-                                <CheckboxOption label={'Россия'} value={'russia'} />
-                                <CheckboxOption label={'США'} value={'usa'} />
-                                <CheckboxOption label={'Канада'} value={'canada'} />
-                                <CheckboxOption label={'Франция'} value={'france'} />
-                                <CheckboxOption label={'Турция'} value={'turkey'} />
+                                {countries.length ? countries.map(country => (
+                                    <CheckboxOption
+                                        key={`country${country.id}`}
+                                        label={country.name}
+                                        value={country.id}
+                                    />
+                                )) : null}
                             </SelectContainer>
                             <SelectContainer
-                                onOptionSelect={onOptionSelect}
-                                onCheckboxSelect={onCheckboxSelect}
-                                value={'comedy'}
+                                onOptionSelect={onYearOptionSelect}
+                                onCheckboxSelect={onYearCheckboxSelect}
+                                value={year}
                                 placeholder={'Год'}
                                 style={{width: '242px'}}
                             >
@@ -167,7 +452,44 @@ const MoviesListPage = () => {
                             </div>
                         </div>
                         <div className={classes.sections}>
-                            {movies.map((item, index) => {
+                            {movies.length ? movies.map((item, index) => {
+                                if (movies.length === index + 1) {
+                                    return (
+                                        <div
+                                            key={item.id}
+                                            onClick={() => onPage(item)}
+                                            className={classes.section}
+                                            ref={lastMovieRef}
+                                        >
+                                            <img
+                                                src={item.poster}
+                                                alt="Poster"
+                                                className={classes.contentImg}
+                                                onMouseEnter={() => onHover(item.id)}
+                                                onMouseLeave={onUnHover}
+                                            />
+                                            {!item.subscription_ids.length ? (
+                                                <div className={classes.freeLabel}>
+                                                    Бесплатно
+                                                </div>
+                                            ) : null}
+                                            <button
+                                                type={'button'}
+                                                className={classes.playBtn}
+                                                style={{opacity: hovered === item.id ? '1' : '0'}}
+                                            >
+                                                <Play className={classes.playIcon} />
+                                            </button>
+                                            <span
+                                                className={classes.contentLabel}
+                                                style={{opacity: hovered === item.id ? '1' : '0'}}
+                                            >
+                                        <span className={classes.contentName}>{item.name} / </span>
+                                        <span className={classes.contentGenre}>{item.genres.map(genre => genre.name).join(',')}</span>
+                                    </span>
+                                        </div>
+                                    )
+                                }
                                 return (
                                     <div
                                         key={item.id}
@@ -181,6 +503,11 @@ const MoviesListPage = () => {
                                             onMouseEnter={() => onHover(item.id)}
                                             onMouseLeave={onUnHover}
                                         />
+                                        {!item.subscription_ids.length ? (
+                                            <div className={classes.freeLabel}>
+                                                Бесплатно
+                                            </div>
+                                        ) : null}
                                         <button
                                             type={'button'}
                                             className={classes.playBtn}
@@ -192,13 +519,18 @@ const MoviesListPage = () => {
                                             className={classes.contentLabel}
                                             style={{opacity: hovered === item.id ? '1' : '0'}}
                                         >
-                                        <span className={classes.contentName}>{item.name}</span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                        <span className={classes.contentName}>{item.name} / </span>
+                                        <span className={classes.contentGenre}>{item.genres.map(genre => genre.name).join(',')}</span>
                                     </span>
                                     </div>
                                 )
-                            })}
+                            }) : !isFetchingMovies ? (
+                                <h1 className={classes.noRecords}>Нет фильмов</h1>
+                            ) : null}
                         </div>
+                        {isFetchingMovies ? (
+                            <Fetching className={classes.fetchingMore} />
+                        ) : null}
                     </div>
                 </>
             )}

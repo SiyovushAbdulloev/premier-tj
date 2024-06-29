@@ -7,6 +7,7 @@ import {
     getUpdateErrors,
     getIsUpdating,
     getIsFetchingAll,
+    getIsFetchingList,
 } from "./model/selectors";
 import {genreActions, genreReducer} from "./model/slice";
 import {Genre, GenreSchema} from "./types";
@@ -16,6 +17,7 @@ import {storeGenre} from "./model/services/storeGenre";
 import {updateGenre} from "./model/services/updateGenre";
 import {getGenre} from "./model/services/getGenre";
 import {getAllGenres} from "./model/services/getAllGenres";
+import {getListGenres} from "./model/services/getListGenres";
 
 export {
     getData,
@@ -34,5 +36,7 @@ export {
     getGenre,
     getIsFetchingAll,
     getAllGenres,
+    getListGenres,
+    getIsFetchingList,
 }
 export type {Genre, GenreSchema}

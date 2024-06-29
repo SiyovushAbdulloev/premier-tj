@@ -25,30 +25,47 @@ export interface SelectedOption {
 
 const SelectContainer = (props: SelectProps) =>  {
     const [children, setChildren] = useState(props.children)
-    const [activeOptions, setActiveOptions] = useState<Array<any>>([props.value])
+    const [activeOptions, setActiveOptions] = useState<Array<any>>(props.value)
 
     useEffect(() => {
-        setActiveOptions([props.value])
+        setActiveOptions(props.value)
     }, [props.value])
 
     const activeOptionLabel = (function (): string {
         if (activeOptions.length) {
-            if (isArray(children)) {
+            // @ts-ignore
+            const childs = children.filter((child: any) => !!child)
+            if (isArray(childs)) {
                 // @ts-ignore
-                if (children.length === 0) {
+                if (childs.length === 0) {
                     return ''
                 }
             }
-            if (React.isValidElement(children)) {
+            if (React.isValidElement(childs)) {
                 // @ts-ignore
-                return children.props.label
+                return childs.props.label
             }
             //@ts-ignore
-            if (children && children.length) {
+            if (childs && childs.length) {
                 // @ts-ignore
-                const actives = children.filter((child:  ReactNode) => activeOptions.includes(child.props.value))
-                if (actives.length) {
-                    return actives.map((active: any) => active.props.label).join(',')
+                let data: Array<string> = ['']
+
+                for(let i = 0; i < childs.length; i++) {
+                    if (isArray(childs[i])) {
+                        for (let j = 0; j < childs[i].length; j++) {
+                            if (activeOptions.some(option => option == childs[i][j].props.value)) {
+                                data = [...data, childs[i][j].props.label]
+                            }
+                        }
+                    } else {
+                        if (activeOptions.some(option => option == childs[i].props.value)) {
+                            data = [...data, childs[i].props.label]
+                        }
+                    }
+                }
+
+                if (data.length) {
+                    return data.filter(label => !!label).join(',')
                 }
                 return ''
             }
@@ -63,13 +80,13 @@ const SelectContainer = (props: SelectProps) =>  {
 
     const getModifiedChildren = useCallback(() => {
         let item: ReactNode
-        let items
+        let items: Array<any> = []
         if (React.isValidElement(children)) {
             const ch: ReactNode = {...children}
             // @ts-ignore
             item = {...ch}
             // @ts-ignore
-            if (activeOptions.includes(ch?.props?.value)) {
+            if (activeOptions.some(option => option == ch?.props?.value)) {
                 // @ts-ignore
                 const props = {...ch.props}
                 if ('cls' in props) {
@@ -82,29 +99,62 @@ const SelectContainer = (props: SelectProps) =>  {
             }
             items = [ch]
         } else {
-            items = !children ? [] : (children as Array<React.ReactNode>).map((child: ReactNode, index: number) => {
-                // @ts-ignore
-                const ch: ReactNode = {...child}
-                if (index === 0) {
-                    // @ts-ignore
-                    item = {...ch}
-                }
-                // @ts-ignore
-                if (activeOptions.includes(ch?.props?.value)) {
-                    // @ts-ignore
-                    const props = {...ch.props}
-                    if ('cls' in props) {
-                        props['cls'] = props['cls'] + ' active'
-                    } else {
-                        props['cls'] = 'active'
+            //@ts-ignore
+            for (let i = 0; i < children.length; i++) {
+                //@ts-ignore
+                if (React.isValidElement(children[i])) {
+                    //@ts-ignore
+                    const ch: ReactNode = {...children[i]}
+
+                    if (i === 0) {
+                        // @ts-ignore
+                        item = {...ch}
                     }
                     // @ts-ignore
-                    ch.props = props
+                    if (activeOptions.some(option => option == ch?.props?.value)) {
+                        // @ts-ignore
+                        const props = {...ch.props}
+                        if ('cls' in props) {
+                            props['cls'] = props['cls'] + ' active'
+                        } else {
+                            props['cls'] = 'active'
+                        }
+                        // @ts-ignore
+                        ch.props = props
+                    }
+                    // @ts-ignore
+                    items = [...items, ch]
+                    //@ts-ignore
+                } else if (isArray(children[i])) {
+                    //@ts-ignore
+                    for (let j = 0; j < children[i].length; j++) {
+                        //@ts-ignore
+                        const ch: ReactNode = {...children[i][j]}
+
+                        if (i === 0) {
+                            // @ts-ignore
+                            item = {...ch}
+                        }
+                        // @ts-ignore
+                        if (activeOptions.some(option => option == ch?.props?.value)) {
+                            // @ts-ignore
+                            const props = {...ch.props}
+                            if ('cls' in props) {
+                                props['cls'] = props['cls'] + ' active'
+                            } else {
+                                props['cls'] = 'active'
+                            }
+                            // @ts-ignore
+                            ch.props = props
+                        }
+                        // @ts-ignore
+                        items = [...items, ch]
+                    }
                 }
-                return ch
-            })
+            }
         }
 
+        //@ts-ignore
         return items.filter(item => {
             if (item) {
                 //@ts-ignore
@@ -112,7 +162,7 @@ const SelectContainer = (props: SelectProps) =>  {
                     return true
                 }
                 //@ts-ignore
-                if (!props.chosenValues?.includes(item.props.value)) {
+                if (!props.chosenValues?.some(value => value == item.props.value)) {
                     return true
                 }
                 return false
@@ -143,7 +193,7 @@ const SelectContainer = (props: SelectProps) =>  {
             if (value === 'all') {
                 setActiveOptions([value])
             } else {
-                if (activeOptions.includes(value)) {
+                if (activeOptions.some(option => option == value)) {
                     setActiveOptions(activeOptions.filter(option => option !== value).filter(option => option !== 'all'))
                 } else {
                     setActiveOptions([...activeOptions, value].filter(option => option !== 'all'))
@@ -162,8 +212,29 @@ const SelectContainer = (props: SelectProps) =>  {
                         label: children.props.label,
                     }
             } else {
+                let item: any
                 // @ts-ignore
-                const item = children.find((child:  ReactNode) => child.props.value == value)
+                for (let i = 0; i < children.length; i++) {
+                    // @ts-ignore
+                    if (React.isValidElement(children[i])) {
+                        // @ts-ignore
+                        if (children[i].props.value === value) {
+                            // @ts-ignore
+                            item = children[i]
+                        }
+                        // @ts-ignore
+                    } else if (isArray(children[i])) {
+                        // @ts-ignore
+                        for (let j = 0; j < children[i].length; j++) {
+                            // @ts-ignore
+                            if (children[i][j].props.value == value) {
+                                // @ts-ignore
+                                item = children[i][j]
+                            }
+                        }
+                    }
+                }
+
                 data = {
                     value: item.props.value,
                     label: item.props.label,

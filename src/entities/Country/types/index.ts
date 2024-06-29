@@ -3,6 +3,7 @@ import {InputError} from "src/entities/Auth";
 export interface Country {
     id: number
     name: string
+    code: string
 }
 
 export interface Pagination {
@@ -18,4 +19,5 @@ export interface CountrySchema {
     isStoring: boolean
     storeErrors: InputError | undefined
     isFetchingAll: boolean
+    isFetchingList: boolean
 }

@@ -15,4 +15,5 @@ export interface GenreSchema {
     isUpdating: boolean
     updateErrors: InputError | undefined
     isFetchingAll: boolean
+    isFetchingList: boolean
 }
