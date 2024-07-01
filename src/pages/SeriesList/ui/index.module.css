@@ -78,11 +78,19 @@
 .contentName {
     color: #ececec;
     font-size: 16px;
+    display: block;
+    width: 35%;
+    word-break: break-word;
 }
 
 .contentGenre {
     color: #8a8a8a;
     font-size: 16px;
+    display: block;
+    width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fetchingMore {

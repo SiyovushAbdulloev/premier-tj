@@ -12,7 +12,7 @@ import {getIsFetchingListSeries, getListSeries, Series} from "src/entities/Serie
 import ReactPlayer from "react-player";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
 import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
-import {getAllMovies} from "src/entities/MediaContent";
+import {Marquee} from "src/shared/ui/Marquee";
 
 const SeriesListPage = () => {
     const navigate = useNavigate()
@@ -407,19 +407,6 @@ const SeriesListPage = () => {
                                             className={classes.section}
                                             key={item.id}
                                         >
-                                            {/*<ReactPlayer*/}
-                                            {/*    style={{*/}
-                                            {/*        transition: 'all .1s ease',*/}
-                                            {/*        cursor: 'pointer'*/}
-                                            {/*    }}*/}
-                                            {/*    width={'100%'}*/}
-                                            {/*    height={'100%'}*/}
-                                            {/*    url={item.trailer}*/}
-                                            {/*    controls={false}*/}
-                                            {/*    playing={false}*/}
-                                            {/*    onMouseEnter={() => onHover(item.id)}*/}
-                                            {/*    onMouseLeave={onUnHover}*/}
-                                            {/*/>*/}
                                             <img
                                                 src={item.poster}
                                                 alt="Poster"
@@ -438,8 +425,14 @@ const SeriesListPage = () => {
                                                 className={classes.contentLabel}
                                                 style={{opacity: hovered === item.id ? '1' : '0'}}
                                             >
-                                        <span className={classes.contentName}>{item.name}</span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                        <span className={classes.contentName}>
+                                            {item.name.length > 15 ? (
+                                                <Marquee text={item.name} />
+                                            ) : (
+                                                item.name
+                                            )}
+                                        </span>
+                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
                                     </span>
                                         </div>
                                     )
@@ -474,8 +467,14 @@ const SeriesListPage = () => {
                                             className={classes.contentLabel}
                                             style={{opacity: hovered === item.id ? '1' : '0'}}
                                         >
-                                        <span className={classes.contentName}>{item.name}</span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                        <span className={classes.contentName}>
+                                            {item.name.length > 15 ? (
+                                                <Marquee text={item.name} />
+                                            ) : (
+                                                item.name
+                                            )}
+                                        </span>
+                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
                                     </span>
                                     </div>
                                 )

@@ -11,6 +11,7 @@ import {SelectContainer, Option, SelectedOption, CheckboxOption} from "src/share
 import {className} from "src/shared/utils/className";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
 import ReactPlayer from "react-player";
+import {Marquee} from "src/shared/ui/Marquee";
 
 const MultimediasListPage = () => {
     const navigate = useNavigate()
@@ -344,8 +345,14 @@ const MultimediasListPage = () => {
                                                 className={classes.contentLabel}
                                                 style={{opacity: hovered === item.id ? '1' : '0'}}
                                             >
-                                        <span className={classes.contentName}>{item.name}</span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                        <span className={classes.contentName}>
+                                            {item.name.length > 15 ? (
+                                                <Marquee text={item.name} />
+                                            ) : (
+                                                item.name
+                                            )}
+                                        </span>
+                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
                                     </span>
                                         </div>
                                     )
@@ -381,8 +388,14 @@ const MultimediasListPage = () => {
                                             className={classes.contentLabel}
                                             style={{opacity: hovered === item.id ? '1' : '0'}}
                                         >
-                                        <span className={classes.contentName}>{item.name}</span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(',')}</span>
+                                        <span className={classes.contentName}>
+                                            {item.name.length > 15 ? (
+                                                <Marquee text={item.name} />
+                                            ) : (
+                                                item.name
+                                            )}
+                                        </span>
+                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
                                     </span>
                                     </div>
                                 )
