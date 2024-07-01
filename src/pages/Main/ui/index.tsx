@@ -63,6 +63,7 @@ const MainPage = () => {
                 navigate(RoutesConfig.movies_show.path.replace(':id', `${item.data.id}`))
                 break
             case MainPageSectionType.MULTIMEDIA:
+                navigate(RoutesConfig.multimedias_show.path.replace(':id', `${item.data.id}`))
                 break
             case MainPageSectionType.SERIES:
                 navigate(RoutesConfig.series_show.path.replace(':id', `${item.data.id}`))

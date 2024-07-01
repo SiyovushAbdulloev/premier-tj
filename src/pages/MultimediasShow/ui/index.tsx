@@ -4,7 +4,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading.svg'
 import {useNavigate, useParams} from "react-router-dom";
-import {getIsFetchingMovie, getMovie, MediaContent} from "src/entities/MediaContent";
+import {getIsFetchingMovie, getMovie, getMultimedia, MediaContent} from "src/entities/MediaContent";
 import {className} from "src/shared/utils/className";
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {ReactComponent as Camera} from "src/shared/assets/icons/camera.svg"
@@ -17,45 +17,45 @@ import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 
-const MoviesShowPage = () => {
+const MultimediasShowPage = () => {
     const dispatch = useAppDispatch()
     const fetching = useSelector(getIsFetchingMovie)
     const {id} = useParams()
     const navigate = useNavigate()
-    const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
+    const [multimedia, setMultimedia] = useState<MediaContent | undefined>(undefined)
 
     useEffect(() => {
-        dispatch(getMovie(parseInt(id ?? '0')))
+        dispatch(getMultimedia(parseInt(id ?? '0')))
             .then(data => {
                 console.log({data})
-                setMovie(data.payload)
+                setMultimedia(data.payload)
             })
     }, [])
 
     const movieYear = useMemo(() => {
-        if (!movie) {
+        if (!multimedia) {
             return ''
         }
-        return movie.released_at.split('/')[2]
-    }, [movie])
+        return multimedia.released_at.split('/')[2]
+    }, [multimedia])
 
     const movieDuration = useMemo(() => {
-        if (!movie) {
+        if (!multimedia) {
             return ''
         }
-        const [hours, minutes] = movie.duration.split(':')
+        const [hours, minutes] = multimedia.duration.split(':')
         return `${parseInt(hours)}ч ${parseInt(minutes)}мин`
-    }, [movie])
+    }, [multimedia])
 
     const onTrailer = () => {
         navigate(RoutesConfig.movie_trailer_show.path.replace(':id', `${id}`))
     }
 
     const getActors = (): Array<string> => {
-        if (!movie) {
+        if (!multimedia) {
             return []
         }
-        return movie.actors.map(actor => actor.first_name + ' ' + actor.last_name)
+        return multimedia.actors.map(actor => actor.first_name + ' ' + actor.last_name)
     }
 
     return (
@@ -69,13 +69,13 @@ const MoviesShowPage = () => {
                         <div className={classes.detailWrapper}>
                             <div className={classes.detailWrapperOverlay}></div>
                             <img
-                                src={movie ? movie.poster : ''}
+                                src={multimedia ? multimedia.poster : ''}
                                 alt="Background(poster)"
                                 className={classes.detailWrapperBckg}
                             />
                             <div className={classes.detailContainer}>
                                 <div className={classes.detailDescription}>
-                                    <h3 className={classes.movieName}>{movie?.name ?? ''}</h3>
+                                    <h3 className={classes.movieName}>{multimedia?.name ?? ''}</h3>
                                     <div className={classes.movieRating}>
                                         <div className={classes.ratingItem}>
                                             <Play width={14} height={14} />
@@ -92,21 +92,13 @@ const MoviesShowPage = () => {
                                     </div>
                                     <div className={classes.detailMeta}>
                                         <span className={classes.detailMetaItem}>{movieYear}</span>
-                                        <span className={classes.detailMetaItem}>{movie ? movie.countries.map(country => country.name).join(',') : ''}</span>
-                                        <span className={classes.detailMetaItem}>{movie ? movie.genres.map(genre => genre.name).join(',') : ''}</span>
+                                        <span className={classes.detailMetaItem}>{multimedia ? multimedia.genres.map(genre => genre.name).join(',') : ''}</span>
                                         <span className={classes.detailMetaLabel}>{movieDuration}</span>
                                     </div>
                                     <div className={classes.detailActions}>
                                         <button className={className(classes.detailAction, undefined, [classes.actionSee])}>
                                             <Play className={className(classes.icon, undefined, [classes.iconSee])} />
                                             Смотреть по подписке
-                                        </button>
-                                        <button
-                                            className={className(classes.detailAction, undefined, [classes.actionTrailer])}
-                                            onClick={onTrailer}
-                                        >
-                                            <Camera className={className(classes.icon, undefined, [classes.iconTrailer])} />
-                                            Трейлер
                                         </button>
                                         <button className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
                                             <Favourites className={className(classes.icon, undefined, [classes.iconTrailer])} />
@@ -117,7 +109,7 @@ const MoviesShowPage = () => {
                                     <div className={classes.detailContent}>
                                         {/*<h3 className={classes.detailContentTitle}>Описание</h3>*/}
                                         <p className={classes.detailContentText}>
-                                            {movie?.description ?? ''}
+                                            {multimedia?.description ?? ''}
                                         </p>
                                     </div>
                                     <div className={classes.mainActors}>
@@ -130,7 +122,7 @@ const MoviesShowPage = () => {
                         <div className={classes.section}>
                             <h3 className={classes.sectionTitle}>Актеры</h3>
                             <CustomSwiper views={2} style={{height: '100%'}}>
-                                {movie ? movie.actors.map(actor => (
+                                {multimedia ? multimedia.actors.map(actor => (
                                     <SwiperSlide
                                         key={`actor${actor.id}`}
                                         className={classes.actor}
@@ -147,12 +139,12 @@ const MoviesShowPage = () => {
                             </CustomSwiper>
                         </div>
                         <div className={classes.section}>
-                            <h3 className={classes.sectionTitle}>Информация о фильме</h3>
+                            <h3 className={classes.sectionTitle}>Информация о шоу</h3>
                             <div className={classes.movieAdditional}>
                                 <div className={classes.movieInfo}>
                                     <h3 className={classes.movieInfoTitle}>Сюжет</h3>
                                     <p className={classes.movieInfoContent}>
-                                        {movie?.description ?? ''}
+                                        {multimedia?.description ?? ''}
                                     </p>
                                 </div>
                                 <div className={classes.movieExtraInfo}>
@@ -163,15 +155,11 @@ const MoviesShowPage = () => {
                                         </div>
                                         <div className={classes.extraInfoCard}>
                                             <span className={classes.infoCardLabel}>Жанр</span>
-                                            <span className={classes.infoCardText}>{movie ? movie.genres.map(genre => genre.name).join(',') : ''}</span>
+                                            <span className={classes.infoCardText}>{multimedia ? multimedia.genres.map(genre => genre.name).join(',') : ''}</span>
                                         </div>
                                         <div className={classes.extraInfoCard}>
                                             <span className={classes.infoCardLabel}>Длительность</span>
                                             <span className={classes.infoCardText}>{movieDuration}</span>
-                                        </div>
-                                        <div className={classes.extraInfoCard}>
-                                            <span className={classes.infoCardLabel}>Страна</span>
-                                            <span className={classes.infoCardText}>{movie ? movie.countries.map(country => country.name).join(',') : ''}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -183,4 +171,4 @@ const MoviesShowPage = () => {
     )
 }
 
-export default MoviesShowPage
+export default MultimediasShowPage

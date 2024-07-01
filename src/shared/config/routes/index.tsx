@@ -44,6 +44,7 @@ import {MoviesListPage} from "src/pages/MoviesList";
 import {SeriesListPage} from "src/pages/SeriesList";
 import {MultimediasListPage} from "src/pages/MultimediasList";
 import {FreeMediaPage} from "src/pages/FreeMedia";
+import {MultimediasShowPage} from "src/pages/MultimediasShow";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -95,6 +96,7 @@ export enum AppRoutes {
     'SERIES_LIST' = 'series_list',
     'SERIES_SHOW' = 'series_show',
     'FREE_MEDIA' = 'free_media',
+    'MULTIMEDIAS_SHOW' = 'multimedias_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -140,6 +142,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.SERIES_LIST]: '/series',
     [AppRoutes.SERIES_SHOW]: '/series/:id/show',
     [AppRoutes.FREE_MEDIA]: '/free',
+    [AppRoutes.MULTIMEDIAS_SHOW]: '/shows/:id/show',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -460,6 +463,14 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.FREE_MEDIA]: {
         path: RoutesPath.free_media,
         element: <FreeMediaPage />,
+        require_auth: true,
+        allow_without_auth: true,
+        layout: ProjectLayouts.AppLayout,
+        roles: [Roles.USER, Roles.ADMIN]
+    },
+    [AppRoutes.MULTIMEDIAS_SHOW]: {
+        path: RoutesPath.multimedias_show,
+        element: <MultimediasShowPage />,
         require_auth: true,
         allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,

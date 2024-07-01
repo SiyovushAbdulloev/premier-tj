@@ -23,6 +23,7 @@ import {getAllMediaContents} from "./model/services/getAllMediaContents";
 import {getMovie} from "./model/services/getMovie";
 import {getAllMovies} from "./model/services/getAllMovies";
 import {getAllMultimedias} from "./model/services/getAllMultimedias";
+import {getMultimedia} from "./model/services/getMultimedia";
 
 export {
     getData,
@@ -47,5 +48,6 @@ export {
     getAllMovies,
     getIsFetchingAllMovies,
     getAllMultimedias,
+    getMultimedia,
 }
 export type {MediaContent, MediaContentSchema, MediaContentType}

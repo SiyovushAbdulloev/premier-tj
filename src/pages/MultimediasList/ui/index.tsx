@@ -164,7 +164,7 @@ const MultimediasListPage = () => {
     }
 
     const onPage = (item: MediaContent) => {
-        navigate(RoutesConfig.movies_show.path.replace(':id', `${item.id}`))
+        navigate(RoutesConfig.multimedias_show.path.replace(':id', `${item.id}`))
     }
 
     const onGenreOptionSelect = (option: SelectedOption) => {
