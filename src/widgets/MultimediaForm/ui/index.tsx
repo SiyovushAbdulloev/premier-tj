@@ -41,8 +41,10 @@ const MultimediaForm = (props: Props) => {
     const [description, setDescription] = useState<string>(props.data ? props.data.description : '')
     const [isPublished, setIsPublished] = useState<number>(props.data ? props.data.is_published : 0)
     const [fileUrl, setFileUrl] = useState<string>(props.data ? props.data.file : '')
+    const [posterUrl, setPosterUrl] = useState<string>(props.data ? props.data.poster : '')
     const [releasedAt, setReleasedAt] = useState<string>(props.data ? props.data.released_at : '')
     const fileRef = useRef<File | undefined>(undefined)
+    const posterRef = useRef<File | undefined>(undefined)
 
     const [genres, setGenres] = useState<Array<Genre>>([])
     const [subscriptions, setSubscriptions] = useState<Array<Subscription>>([])
@@ -78,6 +80,9 @@ const MultimediaForm = (props: Props) => {
         content.append('description', description)
         if (fileRef.current) {
             content.append('file', fileRef.current)
+        }
+        if (posterRef.current) {
+            content.append('poster', posterRef.current)
         }
         content.append('released_at', releasedAt)
         content.append('type', '1')
@@ -193,6 +198,8 @@ const MultimediaForm = (props: Props) => {
             setIsPublished(props.data.is_published)
             setReleasedAt(props.data.released_at)
             setFileUrl(props.data.file)
+            setPosterUrl(props.data.poster)
+            console.log("multimedia:", props.data)
         }
     }, [props.data])
 
@@ -332,6 +339,14 @@ const MultimediaForm = (props: Props) => {
                     <div className={classes.group}>
                         <div className={classes.file}>
                             <Upload
+                                ref={posterRef}
+                                placeholder={'Загрузите постер stand up...'}
+                                sizeLimit={100000}
+                                extensions={['image/png', 'image/jpg', 'image/jpeg']}
+                            />
+                        </div>
+                        <div className={classes.file}>
+                            <Upload
                                 ref={fileRef}
                                 placeholder={'Загрузите файл stand up...'}
                                 sizeLimit={1000000}
@@ -340,6 +355,13 @@ const MultimediaForm = (props: Props) => {
                         </div>
                     </div>
                     <div className={classes.group}>
+                        {posterUrl.length ? (
+                            <img
+                                src={posterUrl}
+                                alt={'Poster'}
+                                className={classes.fileUrl}
+                            />
+                        ) : <span className={classes.fileUrl}></span>}
                         {fileUrl.length ? (
                             <video
                                 src={fileUrl}

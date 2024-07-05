@@ -71,7 +71,7 @@ const SeriesShowPage = () => {
                 number: episode.number,
                 description: episode.description,
                 duration: episode.duration,
-                file: episode.file,
+                poster: episode.poster,
             }
         })
     }, [series, currentSeason])
@@ -183,15 +183,20 @@ const SeriesShowPage = () => {
                                     >
                                         <div
                                             className={classes.episodeAvatar}
-                                            onClick={() => setEpisode(episode.file)}
+                                            onClick={() => setEpisode(episode.poster)}
                                         >
-                                            <ReactPlayer
-                                                width={408}
-                                                height={230}
-                                                url={episode.file}
-                                                controls={false}
-                                                playing={false}
+                                            <img
+                                                src={episode.poster}
+                                                alt="Poster"
+                                                className={classes.episodePoster}
                                             />
+                                            {/*<ReactPlayer*/}
+                                            {/*    width={408}*/}
+                                            {/*    height={230}*/}
+                                            {/*    url={episode.file}*/}
+                                            {/*    controls={false}*/}
+                                            {/*    playing={false}*/}
+                                            {/*/>*/}
                                             <span className={classes.episodeDuration}>{episode.duration}</span>
                                         </div>
                                         <span className={classes.episodeName}>{episode.number} серия</span>

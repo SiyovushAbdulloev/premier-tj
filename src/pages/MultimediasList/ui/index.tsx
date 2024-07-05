@@ -320,12 +320,10 @@ const MultimediasListPage = () => {
                                             onClick={() => onPage(item)}
                                             className={classes.section}
                                         >
-                                            <ReactPlayer
-                                                width={'100%'}
-                                                height={194}
-                                                url={item.file}
-                                                controls={false}
-                                                playing={false}
+                                            <img
+                                                src={item.poster}
+                                                alt="Poster"
+                                                className={classes.contentImg}
                                                 onMouseEnter={() => onHover(item.id)}
                                                 onMouseLeave={onUnHover}
                                             />
@@ -363,12 +361,10 @@ const MultimediasListPage = () => {
                                         onClick={() => onPage(item)}
                                         className={classes.section}
                                     >
-                                        <ReactPlayer
-                                            width={'100%'}
-                                            height={194}
-                                            url={item.file}
-                                            controls={false}
-                                            playing={false}
+                                        <img
+                                            src={item.poster}
+                                            alt="Poster"
+                                            className={classes.contentImg}
                                             onMouseEnter={() => onHover(item.id)}
                                             onMouseLeave={onUnHover}
                                         />

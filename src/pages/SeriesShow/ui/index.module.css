@@ -194,13 +194,24 @@
     flex-direction: column;
     gap: 10px;
     position: relative;
-
 }
 
 .episodeAvatar {
     position: relative;
     background-color: #141414;
     height: 230px;
+    transition: all .4s ease;
+}
+
+.episodeAvatar:hover {
+    transform: scale(1.1);
+}
+
+.episodePoster {
+    width: 408px;
+    height: 230px;
+    object-fit: fill;
+    cursor: pointer;
 }
 
 .episodeDuration {
