@@ -76,6 +76,13 @@ const SeriesShowPage = () => {
         })
     }, [series, currentSeason])
 
+    const getActors = (): Array<string> => {
+        if (!series) {
+            return []
+        }
+        return series.actors.map(actor => actor.first_name + ' ' + actor.last_name)
+    }
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
@@ -117,6 +124,7 @@ const SeriesShowPage = () => {
                 ) : (
                     <div className={classes.detail}>
                         <div className={classes.detailWrapper}>
+                            <div className={classes.detailWrapperOverlay}></div>
                             <img
                                 src={series ? series.poster : ''}
                                 alt="Background(poster)"
@@ -150,11 +158,16 @@ const SeriesShowPage = () => {
                                         </button>
                                     </div>
                                 </div>
-                                <div className={classes.detailContent}>
-                                    <h3 className={classes.detailContentTitle}>Описание</h3>
-                                    <p className={classes.detailContentText}>
-                                        {series?.description ?? ''}
-                                    </p>
+                                <div className={classes.detailContentContainer}>
+                                    <div className={classes.detailContent}>
+                                        <h3 className={classes.detailContentTitle}>Описание</h3>
+                                        <p className={classes.detailContentText}>
+                                            {series?.description ?? ''}
+                                        </p>
+                                    </div>
+                                    <div className={classes.mainActors}>
+                                        В главных ролях: {getActors().join(', ')}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -226,29 +239,31 @@ const SeriesShowPage = () => {
                         </div>
                         <div className={classes.section}>
                             <h3 className={classes.sectionTitle}>Информация о сериале</h3>
-                            <div className={classes.movieInfo}>
-                                <h3 className={classes.movieInfoTitle}>Сюжет</h3>
-                                <p className={classes.movieInfoContent}>
-                                    {series?.description ?? ''}
-                                </p>
-                            </div>
-                            <div className={classes.movieExtraInfo}>
-                                <div className={classes.extraInfoWrapper}>
-                                    <div className={classes.extraInfoCard}>
-                                        <span className={classes.infoCardLabel}>Год выпуска</span>
-                                        <span className={classes.infoCardText}>{movieYear}</span>
-                                    </div>
-                                    <div className={classes.extraInfoCard}>
-                                        <span className={classes.infoCardLabel}>Жанр</span>
-                                        <span className={classes.infoCardText}>{series ? series.genres.map(genre => genre.name).join(',') : ''}</span>
-                                    </div>
-                                    <div className={classes.extraInfoCard}>
-                                        <span className={classes.infoCardLabel}>Длительность</span>
-                                        <span className={classes.infoCardText}>3 сезона</span>
-                                    </div>
-                                    <div className={classes.extraInfoCard}>
-                                        <span className={classes.infoCardLabel}>Страна</span>
-                                        <span className={classes.infoCardText}>{series ? series.countries.map(country => country.name).join(',') : ''}</span>
+                            <div className={classes.movieAdditional}>
+                                <div className={classes.movieInfo}>
+                                    <h3 className={classes.movieInfoTitle}>Сюжет</h3>
+                                    <p className={classes.movieInfoContent}>
+                                        {series?.description ?? ''}
+                                    </p>
+                                </div>
+                                <div className={classes.movieExtraInfo}>
+                                    <div className={classes.extraInfoWrapper}>
+                                        <div className={classes.extraInfoCard}>
+                                            <span className={classes.infoCardLabel}>Год выпуска</span>
+                                            <span className={classes.infoCardText}>{movieYear}</span>
+                                        </div>
+                                        <div className={classes.extraInfoCard}>
+                                            <span className={classes.infoCardLabel}>Жанр</span>
+                                            <span className={classes.infoCardText}>{series ? series.genres.map(genre => genre.name).join(',') : ''}</span>
+                                        </div>
+                                        <div className={classes.extraInfoCard}>
+                                            <span className={classes.infoCardLabel}>Длительность</span>
+                                            <span className={classes.infoCardText}>3 сезона</span>
+                                        </div>
+                                        <div className={classes.extraInfoCard}>
+                                            <span className={classes.infoCardLabel}>Страна</span>
+                                            <span className={classes.infoCardText}>{series ? series.countries.map(country => country.name).join(',') : ''}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

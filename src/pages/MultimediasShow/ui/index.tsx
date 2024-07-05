@@ -113,7 +113,6 @@ const MultimediasShowPage = () => {
                                         </p>
                                     </div>
                                     <div className={classes.mainActors}>
-                                        {/*В главных ролях: {movie?.actors ? movie.actors.map(actor => `${actor.first_name} ${actor.last_name}`).join(', ') : ''}*/}
                                         В главных ролях: {getActors().join(', ')}
                                     </div>
                                 </div>
