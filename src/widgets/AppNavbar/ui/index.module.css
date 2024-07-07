@@ -6,7 +6,6 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    width: fit-content;
     width: 90%;
 }
 
@@ -179,4 +178,199 @@
 
 .category:hover {
     background-color: rgba(255, 255, 255, .3);
+}
+
+.login {
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 24px;
+    background-color: rgba(41,41,41,.65);
+    border: none;
+    margin-left: 20px;
+    font-size: 16px;
+    transition: all .2s ease;
+    cursor: pointer;
+}
+
+.login:hover {
+    background-color: #333;
+}
+
+.loginContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginBrand {
+    width: 206px;
+    height: 64px;
+    object-fit: cover;
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.loginTitle {
+    font-size: 26px;
+    line-height: 30px;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.loginDescription {
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0;
+}
+
+.phoneContainer {
+    position: relative;
+    width: fit-content;
+    height: 48px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.phone {
+    width: 340px;
+    height: 100%;
+    border-radius: 20px;
+    font-size: 16px;
+    border: 2px solid #ffffff1f;
+    caret-color: #ececec;
+    color: #ececec;
+    font-weight: 600;
+    transition: all .2s ease;
+    background-color: #222;
+    padding: 0 25px 0 32px;
+    appearance: none;
+    outline: none;
+    box-sizing: border-box;
+}
+.phone:hover,
+.phone:focus {
+    background-color: #4e4e4e;
+    border-color: #ffffff3d;
+}
+.phone::-webkit-inner-spin-button {
+    display: none;
+}
+
+.phoneIdentifier {
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 48%;
+    left: 14px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.continueBtn {
+    width: 340px;
+    margin-bottom: 20px;
+    height: 48px;
+    border-radius: 16px;
+    padding: 12px 20px;
+    color: #141414;
+    background-color: #fddd2d;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.continueBtn:disabled {
+    background-color: #ba9b00;
+    cursor: not-allowed;
+}
+
+.privacyPolicy {
+    color: #8c8c8c;
+    font-size: 14px;
+    width: 340px;
+    font-weight: 400;
+    line-height: 18px;
+    margin: 0;
+}
+
+.privacyPolicyLink {
+    color: #fddd2d;
+}
+
+.back {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.resendDescription {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.resend {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+.loginDescription:last-child {
+    margin-bottom: 40px;
+}
+
+.otpInput {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
+    outline: none;
+    caret-color: #fff;
+    color: #fff;
+    font-size: 24px;
+    height: 46px;
+    width: 32px !important;
+}
+
+.otpInput:focus {
+    border-bottom-color: #fddd2d;
+}
+
+.loader {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #1a1a1a;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.errors {
+    margin-top: 10px;
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin: 0;
 }

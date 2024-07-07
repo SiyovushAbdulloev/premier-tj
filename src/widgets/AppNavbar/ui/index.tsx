@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import classes from './index.module.css'
 import Logo from 'src/shared/assets/images/logo.png'
 import {ReactComponent as Burger} from 'src/shared/assets/icons/burger.svg'
@@ -19,9 +19,20 @@ import {Roles} from "src/shared/config/routes/roles";
 import {useNavigate} from 'react-router-dom'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import {logoutAdmin} from "src/entities/Auth";
+import {
+    checkOTP,
+    getIsCheckingOtp,
+    getIsSendingEmail,
+    getOtpErrors,
+    logoutAdmin,
+    logoutUser,
+    sendEmail
+} from "src/entities/Auth";
 import {ModalNav} from "src/shared/ui/ModalNav";
 import {ReactComponent as Cancel} from "src/shared/assets/icons/cancel.svg"
+import {NativeModal} from "src/shared/ui/NativeModal";
+import {ReactComponent as Back} from "src/shared/assets/icons/back.svg"
+import OTPInput from "react-otp-input";
 
 const navigations = [
     {
@@ -108,9 +119,57 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const [showUser, setShowUser] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [navItem, setNavItem] = useState<string>('movies')
+    const [showLogin, setShowLogin] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const [sent, setSent] = useState<boolean>(false)
+    const [resent, setResent] = useState<boolean>(false)
+    const [email, setEmail] = useState<string>('')
+    const [otp, setOtp] = useState<string>('')
+    const [canResend, setCanResend] = useState<boolean>(false)
+    const [time, setTime] = useState<number>(60)
+    const timerRef = useRef<any>()
+    const isSendingEmail = useSelector(getIsSendingEmail)
+    const isCheckingOtp = useSelector(getIsCheckingOtp)
+    const otpErrors = useSelector(getOtpErrors)
+
+    useEffect(() => {
+        if (sent) {
+            timerRef.current = setInterval(() => {
+                setTime((prev) => prev - 1)
+            }, 100)
+
+            return () => {
+                if (timerRef.current) {
+                    clearInterval(timerRef.current)
+                }
+            }
+        }
+    }, [sent])
+
+    useEffect(() => {
+        if (resent) {
+            timerRef.current = setInterval(() => {
+                setTime((prev) => prev - 1)
+            }, 100)
+
+            return () => {
+                if (timerRef.current) {
+                    clearInterval(timerRef.current)
+                }
+            }
+        }
+    }, [resent])
+
+    useEffect(() => {
+        if (time === 0) {
+            clearInterval(timerRef.current)
+            timerRef.current = null
+            setCanResend(true)
+            setResent(false)
+        }
+    }, [time])
 
     const goAdmin = () => {
         navigate(RoutesConfig.admin_main.path)
@@ -118,6 +177,14 @@ const AppNavbar = (props: React.PropsWithChildren) => {
 
     const logout = async () => {
         const data = await dispatch(logoutAdmin())
+        if (data.type.includes('fulfilled')) {
+            dispatch(userActions.setAuthData(undefined))
+            navigate(RoutesConfig.main.path)
+        }
+    }
+
+    const logoutSimpleUser = async () => {
+        const data = await dispatch(logoutUser())
         if (data.type.includes('fulfilled')) {
             dispatch(userActions.setAuthData(undefined))
             navigate(RoutesConfig.main.path)
@@ -148,7 +215,6 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     }
 
     const onSubNavItemPage = (subNavItem: any) => {
-        console.log({subNavItem})
         switch (navItem) {
             case 'movies':
                 navigate(RoutesConfig.movies_list.path, {state: {type: subNavItem.type, value: subNavItem.value}})
@@ -171,8 +237,172 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         navigate(RoutesConfig.free_media.path)
     }
 
+    const onLogin = () => {
+        setShowLogin(true)
+    }
+
+    const onContinue = async () => {
+        const response = await dispatch(sendEmail({email}))
+        if (response.type.includes('fulfilled')) {
+            setSent(true)
+        }
+    }
+
+    const onLoginModal = (value: boolean) => {
+        setShowLogin(value)
+        setSent(false)
+        onBack()
+        setEmail('')
+    }
+
+    const onBack = () => {
+        setSent(false)
+        setResent(false)
+        setCanResend(false)
+        clearInterval(timerRef.current)
+        timerRef.current = null
+        setTime(60)
+        setOtp('')
+    }
+
+    const onSend = async () => {
+        const response = await dispatch(checkOTP({
+            email,
+            otp
+        }))
+        if (response.type.includes('fulfilled')) {
+            await dispatch(userActions.setAuthData(response.payload.user))
+            onLoginModal(false)
+            setShowUser(false)
+        }
+    }
+
+    const onResendOTP = async () => {
+        const response = await dispatch(sendEmail({email}))
+        if (response.type.includes('fulfilled')) {
+            timerRef.current = null
+            setTime(60)
+            setCanResend(false)
+            setResent(true)
+        }
+    }
+    console.log({authData})
     return (
         <div className={classes.navbar}>
+            <NativeModal
+                value={showLogin}
+                onChange={onLoginModal}
+            >
+                {!sent ? (
+                    <div className={classes.loginContent}>
+                        <img
+                            src={Logo}
+                            alt="Brand"
+                            className={classes.loginBrand}
+                        />
+                        <h1 className={classes.loginTitle}>Введите номер телефона</h1>
+                        <p className={classes.loginDescription}>
+                            чтобы войти или зарегистрироваться на PREMIER-TJ
+                        </p>
+                        <div className={classes.phoneContainer}>
+                            <input
+                                className={classes.phone}
+                                type="text"
+                                value={email}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            />
+                            <span className={classes.phoneIdentifier}>@</span>
+                        </div>
+                        <button
+                            className={classes.continueBtn}
+                            onClick={onContinue}
+                            disabled={email.length === 0}
+                        >
+                            {isSendingEmail ? (
+                                <span className={classes.loader}></span>
+                            ) : 'Продолжить'}
+                        </button>
+                        <p className={classes.privacyPolicy}>
+                            Нажимая «Продолжить», я принимаю условия <span className={classes.privacyPolicyLink}>Пользовательского соглашения</span> ООО «ПРЕМЬЕР»
+                        </p>
+                    </div>
+                ) : (
+                    <div className={classes.loginContent}>
+                        <button
+                            className={classes.back}
+                            onClick={onBack}
+                        >
+                            <Back width={20} height={20} />
+                        </button>
+                        <img
+                            src={Logo}
+                            alt="Brand"
+                            className={classes.loginBrand}
+                        />
+                        <h1 className={classes.loginTitle}>Введите номер из СМС</h1>
+                        <p className={classes.loginDescription}>
+                            Код отправлен на номер телефона +992937555103
+                        </p>
+                        <OTPInput
+                            value={otp}
+                            onChange={setOtp}
+                            numInputs={6}
+                            renderSeparator={<span>&nbsp;&nbsp;&nbsp;</span>}
+                            renderInput={(props) => {
+                                return (
+                                    <input {...props} className={className(classes.otpInput, undefined, [props.className ?? ''])} />
+                                )
+                            }}
+                        />
+                        {otpErrors ? (
+                            <div className={classes.errors}>
+                                {otpErrors && Object.keys(otpErrors).map((key: string) => {
+                                    return (
+                                        <div key={key}>
+                                            {otpErrors[key].map((message: string) => {
+                                                return (
+                                                    <p
+                                                        key={message}
+                                                        className={classes.error}
+                                                    >
+                                                        {message}
+                                                    </p>
+                                                )
+                                            })}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ) : null}
+                        {time ? (
+                            <p className={classes.resendDescription}>Отправить код повторно можно через {time} сек.</p>
+                        ) : null}
+                        {canResend ? (
+                            <button
+                                className={classes.resend}
+                                onClick={onResendOTP}
+                            >
+                                {isSendingEmail ? (
+                                    <span className={classes.loader} style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>
+                                ) : 'Отправить код повторно'}
+                            </button>
+                        ) : null}
+                        <button
+                            className={classes.continueBtn}
+                            onClick={onSend}
+                            disabled={otp.length < 6}
+                        >
+                            {isCheckingOtp ? (
+                                <span className={classes.loader}></span>
+                            ) : 'Отправить'}
+                        </button>
+                        <p className={classes.privacyPolicy}>
+                            Если нужна помощь, пиши нам
+                            на help@premier.rj
+                        </p>
+                    </div>
+                )}
+            </NativeModal>
             <div onClick={onMain}>
                 <img
                     className={classes.brand}
@@ -276,7 +506,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     >
                                         <User width={32} height={32} />
                                     </button>
-                                    +992989335555
+                                    {authData.email}
                                 </div>
                                 <ul className={classes.profileItems}>
                                     <div className={classes.profileItem}>
@@ -297,7 +527,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     </div>
                                     <div
                                         className={classes.profileItem}
-                                        onClick={logout}
+                                        onClick={logoutSimpleUser}
                                     >
                                         <Logout width={24} height={24} />
                                         Выйти из аккаунта
@@ -325,7 +555,12 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                     </ModalNav>
                 </div>
             ) : (
-                <button>Войти</button>
+                <button
+                    onClick={onLogin}
+                    className={classes.login}
+                >
+                    Войти
+                </button>
             )}
         </div>
     )

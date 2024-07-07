@@ -1,0 +1,70 @@
+.modal {
+    position: fixed;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.75);
+    overflow: hidden;
+    overflow-y: auto;
+    transition: opacity .3s;
+    z-index: -1;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.modalActive {
+    opacity: 1;
+    z-index: 4;
+}
+
+.modalContentContainer {
+    padding: 40px 40px 20px 20px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    background-color: #1a1a1a;
+}
+
+.modalContent {
+    position: relative;
+    margin: 20px;
+    width: 100%;
+    transform: translateY(-50px);
+    transition: opacity .3s, transform .3s;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 500px;
+    min-height: 300px;
+}
+
+.modalContent::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+    background-color: #1a1a1a;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+    background-color: #fddd2d;
+    border-radius: 20px;
+}
+
+.close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: fit-content;
+    height: fit-content;
+    padding: 0;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}

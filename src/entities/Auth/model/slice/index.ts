@@ -1,6 +1,8 @@
 import {AuthSchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getAuthUser, getCsrfToken, loginAdmin} from "src/entities/Auth";
+import {sendEmail} from "../services/sendEmail"
+import {checkOTP} from "../services/checkOTP"
 
 const initialState: AuthSchema = {
     data: {
@@ -10,6 +12,9 @@ const initialState: AuthSchema = {
         loginErrors: undefined,
         isLogging: false,
         isFetching: false,
+        isSendingEmail: false,
+        isCheckingOTP: false,
+        otpErrors: undefined,
     }
 }
 
@@ -52,6 +57,29 @@ export const authSlice = createSlice({
             .addCase(getAuthUser.rejected, (state, action) => {
                 // @ts-ignore
                 state.data.isFetching = false
+            })
+            .addCase(sendEmail.fulfilled, (state, action) => {
+                state.data.isSendingEmail = false
+            })
+            .addCase(sendEmail.pending, (state, action) => {
+                state.data.isSendingEmail = true
+            })
+            .addCase(sendEmail.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isSendingEmail = false
+            })
+            .addCase(checkOTP.fulfilled, (state, action) => {
+                state.data.isCheckingOTP = false
+                localStorage.setItem('token', action.payload.token)
+            })
+            .addCase(checkOTP.pending, (state, action) => {
+                state.data.isCheckingOTP = true
+            })
+            .addCase(checkOTP.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isCheckingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = action.payload
             })
     }
 })
