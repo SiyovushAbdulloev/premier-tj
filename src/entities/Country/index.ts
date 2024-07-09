@@ -6,6 +6,8 @@ import {
     getStoreErrors,
     getIsFetchingAll,
     getIsFetchinList,
+    getUpdateErrors,
+    getIsUpdating,
 } from "./model/selectors";
 import {countryActions, countryReducer} from "./model/slice";
 import {Country, CountrySchema, Pagination} from "./types";
@@ -34,5 +36,7 @@ export {
     getAllCountries,
     getListCountries,
     getIsFetchinList,
+    getUpdateErrors,
+    getIsUpdating,
 }
 export type {Country, CountrySchema, Pagination}

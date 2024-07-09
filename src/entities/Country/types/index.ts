@@ -18,6 +18,8 @@ export interface CountrySchema {
     fetching: boolean
     isStoring: boolean
     storeErrors: InputError | undefined
+    isUpdating: boolean
+    updateErrors: InputError | undefined
     isFetchingAll: boolean
     isFetchingList: boolean
 }

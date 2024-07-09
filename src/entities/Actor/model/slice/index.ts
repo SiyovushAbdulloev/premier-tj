@@ -4,6 +4,7 @@ import {getActors} from '../services/getActors'
 import {storeActor} from '../services/storeActor'
 import {updateActor} from '../services/updateActor'
 import {getAllActors} from '../services/getAllActors'
+import {InputError} from "src/entities/Auth";
 
 const initialState: ActorSchema = {
     data: [],
@@ -26,6 +27,12 @@ export const actorSlice = createSlice({
     reducers: {
         setData: (state, action: PayloadAction<Array<Actor>>) => {
             state.data = action.payload
+        },
+        setStoreErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.storeErrors = action.payload
+        },
+        setUpdateErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.updateErrors = action.payload
         },
     },
     extraReducers(builder) {

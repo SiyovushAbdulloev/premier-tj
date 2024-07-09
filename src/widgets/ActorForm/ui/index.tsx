@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 import {
-    Actor,
+    Actor, actorActions,
     getIsStoring,
     getIsUpdating,
     getStoreErrors,
@@ -57,7 +57,9 @@ const ActorForm = (props: Props) => {
 
         //@ts-ignore
         if (data.type.includes('fulfilled')) {
-            navigate(RoutesConfig.admin_actors.path)
+            dispatch(actorActions.setStoreErors(undefined))
+            dispatch(actorActions.setUpdateErors(undefined))
+            goBack()
         }
     }
 

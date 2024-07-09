@@ -2,8 +2,10 @@ import {Country, CountrySchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getCountries} from '../services/getCountries'
 import {storeCountry} from '../services/storeCountry'
+import {updateCountry} from '../services/updateCountry'
 import {getAllCountries} from '../services/getAllCountries'
 import {getListCountries} from '../services/getListCountries'
+import {InputError} from "src/entities/Auth";
 
 const initialState: CountrySchema = {
     data: [],
@@ -15,6 +17,8 @@ const initialState: CountrySchema = {
     fetching: false,
     isStoring: false,
     storeErrors: undefined,
+    isUpdating: false,
+    updateErrors: undefined,
     isFetchingAll: false,
     isFetchingList: false
 }
@@ -25,6 +29,12 @@ export const countrySlice = createSlice({
     reducers: {
         setData: (state, action: PayloadAction<Array<Country>>) => {
             state.data = action.payload
+        },
+        setStoreErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.storeErrors = action.payload
+        },
+        setUpdateErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.updateErrors = action.payload
         },
     },
     extraReducers(builder) {
@@ -52,6 +62,17 @@ export const countrySlice = createSlice({
                 state.isStoring = false
                 //@ts-ignore
                 state.storeErrors = action.payload
+            })
+            .addCase(updateCountry.pending, (state, action) => {
+                state.isUpdating = true
+            })
+            .addCase(updateCountry.fulfilled, (state, action) => {
+                state.isUpdating = false
+            })
+            .addCase(updateCountry.rejected, (state, action) => {
+                state.isUpdating = false
+                //@ts-ignore
+                state.updateErrors = action.payload
             })
             .addCase(getAllCountries.pending, (state, action) => {
                 state.isFetchingAll = true

@@ -1,7 +1,7 @@
 import classes from './index.module.css'
 import {FormType} from "src/shared/constants/formType";
 import {
-    Genre,
+    Genre, genreActions,
     getIsStoring,
     getIsUpdating,
     getStoreErrors,
@@ -42,7 +42,9 @@ const GenreForm = (props: Props) => {
         }
 
         if (data.type.includes('fulfilled')) {
-            navigate(RoutesConfig.admin_genres.path)
+            dispatch(genreActions.setStoreErors(undefined))
+            dispatch(genreActions.setUpdateErors(undefined))
+            goBack()
         }
     }
 

@@ -5,6 +5,7 @@ import {storeGenre} from '../services/storeGenre'
 import {updateGenre} from '../services/updateGenre'
 import {getAllGenres} from '../services/getAllGenres'
 import {getListGenres} from '../services/getListGenres'
+import {InputError} from "src/entities/Auth";
 
 const initialState: GenreSchema = {
     data: [],
@@ -28,6 +29,12 @@ export const genreSlice = createSlice({
     reducers: {
         setData: (state, action: PayloadAction<Array<Genre>>) => {
             state.data = action.payload
+        },
+        setStoreErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.storeErrors = action.payload
+        },
+        setUpdateErors: (state, action: PayloadAction<InputError | undefined>) => {
+            state.updateErrors = action.payload
         },
     },
     extraReducers(builder) {

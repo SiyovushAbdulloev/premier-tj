@@ -7,6 +7,7 @@ import {ReactComponent as Multimedia} from 'src/shared/assets/icons/movie.svg'
 import {ReactComponent as Subscriptions} from 'src/shared/assets/icons/shield.svg'
 import {ReactComponent as Countries} from 'src/shared/assets/icons/globe.svg'
 import {ReactComponent as Actors} from 'src/shared/assets/icons/user.svg'
+import {ReactComponent as Mail} from 'src/shared/assets/icons/mail.svg'
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {className} from "src/shared/utils/className";
@@ -52,7 +53,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
             {
                 path: RoutesConfig.admin_page_sections.path,
                 icon: function () {
-                    return <Multimedia width={20} height={20} />
+                    return <Genre width={20} height={20} />
                 },
                 label: 'Категории'
             },
@@ -87,7 +88,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
             {
                 path: RoutesConfig.admin_subscription_requests.path,
                 icon: function () {
-                    return <Actors width={20} height={20} />
+                    return <Mail width={20} height={20} />
                 },
                 label: 'Заявки'
             },

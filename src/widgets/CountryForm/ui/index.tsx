@@ -1,6 +1,14 @@
 import classes from './index.module.css'
 import {FormType} from "src/shared/constants/formType";
-import {Country, getIsStoring, getStoreErrors, storeCountry, updateCountry} from "src/entities/Country";
+import {
+    Country,
+    countryActions,
+    getIsStoring,
+    getIsUpdating,
+    getStoreErrors, getUpdateErrors,
+    storeCountry,
+    updateCountry
+} from "src/entities/Country";
 import {TextField} from "src/shared/ui/TextField";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
@@ -18,6 +26,8 @@ const CountryForm = (props: Props) => {
     const dispatch = useAppDispatch()
     const isStoring = useSelector(getIsStoring)
     const errors = useSelector(getStoreErrors)
+    const isUpdating = useSelector(getIsUpdating)
+    const updateErrors = useSelector(getUpdateErrors)
     const navigate = useNavigate()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,7 +42,9 @@ const CountryForm = (props: Props) => {
         }
 
         if (data.type.includes('fulfilled')) {
-            navigate(RoutesConfig.admin_countries.path)
+            dispatch(countryActions.setStoreErors(undefined))
+            dispatch(countryActions.setUpdateErors(undefined))
+            goBack()
         }
     }
 
@@ -78,6 +90,22 @@ const CountryForm = (props: Props) => {
                     </div>
                 )
             })}
+            {updateErrors && Object.keys(updateErrors).map((key: string) => {
+                return (
+                    <div key={key}>
+                        {updateErrors[key].map((message: string) => {
+                            return (
+                                <p
+                                    key={message}
+                                    className={classes.error}
+                                >
+                                    {message}
+                                </p>
+                            )
+                        })}
+                    </div>
+                )
+            })}
             <div className={classes.actions}>
                 <button
                     className={classes.formAction}
@@ -86,7 +114,7 @@ const CountryForm = (props: Props) => {
                     Назад
                 </button>
                 <button className={classes.formAction}>
-                    {isStoring ? <Loading width={24} height={24} /> : props.type === FormType.CREATE ? 'Создать' : 'Изменить'}
+                    {(isStoring || isUpdating) ? <Loading width={24} height={24} /> : props.type === FormType.CREATE ? 'Создать' : 'Изменить'}
                 </button>
             </div>
         </form>
