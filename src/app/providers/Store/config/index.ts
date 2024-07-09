@@ -12,6 +12,7 @@ import {seriesReducer} from "src/entities/Series";
 import {serieSeasonReducer} from "src/entities/SerieSeason";
 import {seasonEpisodeReducer} from "src/entities/SeasonEpisode";
 import {mainPageSectionReducer} from "src/entities/MainPageSection";
+import {subscriptionRequestReducer} from "src/entities/SubscriptionRequest";
 
 export function createReduxStore(initialState: StateSchema) {
     const rootReducers = {
@@ -27,6 +28,7 @@ export function createReduxStore(initialState: StateSchema) {
         serieSeason: serieSeasonReducer,
         seasonEpisode: seasonEpisodeReducer,
         mainPageSection: mainPageSectionReducer,
+        subscriptionRequest: subscriptionRequestReducer,
     }
 
     return configureStore({

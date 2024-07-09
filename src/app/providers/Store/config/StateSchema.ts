@@ -10,6 +10,7 @@ import {SeriesSchema} from "src/entities/Series";
 import {SerieSeasonSchema} from "src/entities/SerieSeason";
 import {SeasonEpisodeSchema} from "src/entities/SeasonEpisode";
 import {MainPageSectionSchema} from "src/entities/MainPageSection";
+import {SubscriptionRequestSchema} from "src/entities/SubscriptionRequest";
 
 export interface StateSchema {
     user: UserSchema
@@ -24,4 +25,5 @@ export interface StateSchema {
     serieSeason: SerieSeasonSchema
     seasonEpisode: SeasonEpisodeSchema
     mainPageSection: MainPageSectionSchema
+    subscriptionRequest: SubscriptionRequestSchema
 }

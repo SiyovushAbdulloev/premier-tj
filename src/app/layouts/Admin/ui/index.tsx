@@ -84,6 +84,13 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 },
                 label: 'Актеры'
             },
+            {
+                path: RoutesConfig.admin_subscription_requests.path,
+                icon: function () {
+                    return <Actors width={20} height={20} />
+                },
+                label: 'Заявки'
+            },
         ]
     }, [])
 

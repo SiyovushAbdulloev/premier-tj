@@ -1,0 +1,88 @@
+.showPage {
+
+}
+
+.fetching {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto 0;
+}
+
+.section {
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #f6f8fa;
+    margin-bottom: 20px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.sectionTitle {
+    font-size: 24px;
+    color: #f97316;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.infoField {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.infoField:last-child {
+    margin-bottom: 0;
+}
+
+.infoFieldLabel,
+.infoFieldValue {
+    font-size: 17px;
+    color: #00000099;
+}
+
+.infoFieldValue {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.action {
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s ease;
+    border: 1px solid transparent;
+}
+
+.reject {
+    background-color: #ff4d4f;
+}
+
+.reject:hover {
+    border-color: #ff4d4f;
+    background-color: #fff;
+    color: #ff4d4f;
+}
+
+.approve {
+    background-color: #52c41a;
+}
+
+.approve:hover {
+    border-color: #52c41a;
+    background-color: #fff;
+    color: #52c41a;
+}

@@ -45,6 +45,8 @@ import {SeriesListPage} from "src/pages/SeriesList";
 import {MultimediasListPage} from "src/pages/MultimediasList";
 import {FreeMediaPage} from "src/pages/FreeMedia";
 import {MultimediasShowPage} from "src/pages/MultimediasShow";
+import {SubscriptionRequestsPage} from "src/pages/SubscriptionRequests";
+import {SubscriptionRequestsShowPage} from "src/pages/SubscriptionRequestsShow";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -97,6 +99,8 @@ export enum AppRoutes {
     'SERIES_SHOW' = 'series_show',
     'FREE_MEDIA' = 'free_media',
     'MULTIMEDIAS_SHOW' = 'multimedias_show',
+    'ADMIN_SUBSCRIPTION_REQUESTS' = 'admin_subscription_requests',
+    'ADMIN_SUBSCRIPTION_REQUESTS_SHOW' = 'admin_subscription_requests_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
 }
@@ -143,6 +147,8 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.SERIES_SHOW]: '/series/:id/show',
     [AppRoutes.FREE_MEDIA]: '/free',
     [AppRoutes.MULTIMEDIAS_SHOW]: '/shows/:id/show',
+    [AppRoutes.ADMIN_SUBSCRIPTION_REQUESTS]: '/admin/subscription-requests',
+    [AppRoutes.ADMIN_SUBSCRIPTION_REQUESTS_SHOW]: '/admin/subscription-requests/:id/show',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.NOT_FOUND]: '*',
 }
@@ -475,6 +481,22 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,
         roles: [Roles.USER, Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SUBSCRIPTION_REQUESTS]: {
+        path: RoutesPath.admin_subscription_requests,
+        element: <SubscriptionRequestsPage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SUBSCRIPTION_REQUESTS_SHOW]: {
+        path: RoutesPath.admin_subscription_requests_show,
+        element: <SubscriptionRequestsShowPage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
     },
     [AppRoutes.UNAUTHORIZED]: {
         path: RoutesPath.unauthorized,
