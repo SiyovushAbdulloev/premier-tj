@@ -50,7 +50,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 label: 'Сериалы'
             },
             {
-                path: RoutesConfig.admin_main_page_sections.path,
+                path: RoutesConfig.admin_page_sections.path,
                 icon: function () {
                     return <Multimedia width={20} height={20} />
                 },

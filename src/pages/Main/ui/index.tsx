@@ -7,14 +7,14 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import React, {useEffect, useState} from "react";
 import {
-    getAllMainPageSections,
+    getAllPageSections,
     getIsFetchingAll,
-    MainPageSection,
-    MainPageSectionType
-} from "src/entities/MainPageSection";
+    PageSection,
+    PageSectionType
+} from "src/entities/PageSection";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
-import {Media} from "src/entities/MainPageSection/types";
+import {Media} from "src/entities/PageSection/types";
 import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import ReactPlayer from "react-player";
@@ -23,7 +23,7 @@ import {MediaContent} from "src/entities/MediaContent";
 const MainPage = () => {
     const navigate = useNavigate()
     const isFetchingSections = useSelector(getIsFetchingAll)
-    const [sections, setSections] = useState<Array<MainPageSection>>([])
+    const [sections, setSections] = useState<Array<PageSection>>([])
     const dispatch = useAppDispatch()
     const [hovered, setHovered] = useState<{section: string, name: string, id: number}>({
         section: '',
@@ -33,9 +33,8 @@ const MainPage = () => {
 
     useEffect(() => {
         const fetchSections = async () => {
-            const data = await dispatch(getAllMainPageSections())
+            const data = await dispatch(getAllPageSections('main'))
             if (data.type.includes('fulfilled')) {
-                console.log({data})
                 setSections(data.payload)
             }
         }
@@ -59,13 +58,13 @@ const MainPage = () => {
 
     const onPage = (item: Media) => {
         switch (item.type) {
-            case MainPageSectionType.MOVIE:
+            case PageSectionType.MOVIE:
                 navigate(RoutesConfig.movies_show.path.replace(':id', `${item.data.id}`))
                 break
-            case MainPageSectionType.MULTIMEDIA:
+            case PageSectionType.MULTIMEDIA:
                 navigate(RoutesConfig.multimedias_show.path.replace(':id', `${item.data.id}`))
                 break
-            case MainPageSectionType.SERIES:
+            case PageSectionType.SERIES:
                 navigate(RoutesConfig.series_show.path.replace(':id', `${item.data.id}`))
                 break
         }
@@ -125,7 +124,7 @@ const MainPage = () => {
                         </SwiperSlide>
                     </CustomSwiper>
                     <div className={classes.sections}>
-                        {sections.map((section: MainPageSection) => (
+                        {sections.map((section: PageSection) => (
                             <div
                                 key={section.id}
                                 className={classes.section}

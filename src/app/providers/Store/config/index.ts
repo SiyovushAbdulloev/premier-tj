@@ -11,7 +11,7 @@ import {mediaContentReducer} from "src/entities/MediaContent";
 import {seriesReducer} from "src/entities/Series";
 import {serieSeasonReducer} from "src/entities/SerieSeason";
 import {seasonEpisodeReducer} from "src/entities/SeasonEpisode";
-import {mainPageSectionReducer} from "src/entities/MainPageSection";
+import {pageSectionReducer} from "src/entities/PageSection";
 import {subscriptionRequestReducer} from "src/entities/SubscriptionRequest";
 
 export function createReduxStore(initialState: StateSchema) {
@@ -27,7 +27,7 @@ export function createReduxStore(initialState: StateSchema) {
         series: seriesReducer,
         serieSeason: serieSeasonReducer,
         seasonEpisode: seasonEpisodeReducer,
-        mainPageSection: mainPageSectionReducer,
+        pageSection: pageSectionReducer,
         subscriptionRequest: subscriptionRequestReducer,
     }
 

@@ -34,9 +34,9 @@ import {SerieSeasonsEditPage} from "src/pages/SerieSeasonsEdit";
 import {SeasonEpisodesPage} from "src/pages/SeasonEpisodes";
 import {SeasonEpisodesCreatePage} from "src/pages/SeasonEpisodesCreate";
 import {SeasonEpisodesEditPage} from "src/pages/SeasonEpisodesEdit";
-import {MainPageSectionsPage} from "src/pages/MainPageSections";
-import {MainPageSectionsCreatePage} from "src/pages/MainPageSectionsCreate";
-import {MainPageSectionsEditPage} from "src/pages/MainPageSectionsEdit";
+import {PageSectionsPage} from "src/pages/PageSections";
+import {PageSectionsCreatePage} from "src/pages/PageSectionsCreate";
+import {PageSectionsEditPage} from "src/pages/PageSectionsEdit";
 import {MoviesShowPage} from "src/pages/MoviesShow";
 import {MovieTrailerShowPage} from "src/pages/MovieTrailerShow";
 import {SeriesShowPage} from "src/pages/SeriesShow";
@@ -88,9 +88,9 @@ export enum AppRoutes {
     'ADMIN_SERIE_SEASON_EPISODES' = 'admin_serie_season_episodes',
     'ADMIN_SERIE_SEASON_EPISODES_CREATE' = 'admin_serie_season_episodes_create',
     'ADMIN_SERIE_SEASON_EPISODES_EDIT' = 'admin_serie_season_episodes_edit',
-    'ADMIN_MAIN_PAGE_SECTIONS' = 'admin_main_page_sections',
-    'ADMIN_MAIN_PAGE_SECTIONS_CREATE' = 'admin_main_page_sections_create',
-    'ADMIN_MAIN_PAGE_SECTIONS_EDIT' = 'admin_main_page_sections_edit',
+    'ADMIN_PAGE_SECTIONS' = 'admin_page_sections',
+    'ADMIN_PAGE_SECTIONS_CREATE' = 'admin_page_sections_create',
+    'ADMIN_PAGE_SECTIONS_EDIT' = 'admin_page_sections_edit',
     'MOVIES_LIST' = 'movies_list',
     'MULTIMEDIAS_LIST' = 'multimedias_list',
     'MOVIES_SHOW' = 'movies_show',
@@ -136,9 +136,9 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_SERIE_SEASON_EPISODES]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes',
     [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_CREATE]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes/create',
     [AppRoutes.ADMIN_SERIE_SEASON_EPISODES_EDIT]: '/admin/series/:id/serie-seasons/:seasonId/season-episodes/:episodeId/edit',
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS]: '/admin/sections',
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_CREATE]: '/admin/sections/create',
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
+    [AppRoutes.ADMIN_PAGE_SECTIONS]: '/admin/sections',
+    [AppRoutes.ADMIN_PAGE_SECTIONS_CREATE]: '/admin/sections/create',
+    [AppRoutes.ADMIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
     [AppRoutes.MOVIES_LIST]: '/movies',
     [AppRoutes.MULTIMEDIAS_LIST]: '/shows',
     [AppRoutes.MOVIES_SHOW]: '/movies/:id/show',
@@ -394,25 +394,25 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         layout: ProjectLayouts.AdminLayout,
         roles: [Roles.ADMIN]
     },
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS]: {
-        path: RoutesPath.admin_main_page_sections,
-        element: <MainPageSectionsPage />,
+    [AppRoutes.ADMIN_PAGE_SECTIONS]: {
+        path: RoutesPath.admin_page_sections,
+        element: <PageSectionsPage />,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,
         roles: [Roles.ADMIN]
     },
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_CREATE]: {
-        path: RoutesPath.admin_main_page_sections_create,
-        element: <MainPageSectionsCreatePage />,
+    [AppRoutes.ADMIN_PAGE_SECTIONS_CREATE]: {
+        path: RoutesPath.admin_page_sections_create,
+        element: <PageSectionsCreatePage />,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,
         roles: [Roles.ADMIN]
     },
-    [AppRoutes.ADMIN_MAIN_PAGE_SECTIONS_EDIT]: {
-        path: RoutesPath.admin_main_page_sections_edit,
-        element: <MainPageSectionsEditPage />,
+    [AppRoutes.ADMIN_PAGE_SECTIONS_EDIT]: {
+        path: RoutesPath.admin_page_sections_edit,
+        element: <PageSectionsEditPage />,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,
