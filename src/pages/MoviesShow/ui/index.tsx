@@ -16,6 +16,8 @@ import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
+import ReactPlayer from "react-player";
+import {Modal} from "src/shared/ui/Modal";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -23,6 +25,7 @@ const MoviesShowPage = () => {
     const {id} = useParams()
     const navigate = useNavigate()
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
+    const [showTrailer, setShowTrailer] = useState<boolean>(false)
 
     useEffect(() => {
         dispatch(getMovie(parseInt(id ?? '0')))
@@ -48,7 +51,8 @@ const MoviesShowPage = () => {
     }, [movie])
 
     const onTrailer = () => {
-        navigate(RoutesConfig.movie_trailer_show.path.replace(':id', `${id}`))
+        setShowTrailer(true)
+        // navigate(RoutesConfig.movie_trailer_show.path.replace(':id', `${id}`))
     }
 
     const getActors = (): Array<string> => {
@@ -60,6 +64,22 @@ const MoviesShowPage = () => {
 
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
+            <Modal
+                value={showTrailer}
+                onChange={(value: boolean) => setShowTrailer(value)}
+                style={{
+                    backgroundColor: '#000',
+                    maxWidth: '800px',
+                    color: '#ececec'
+                }}
+            >
+                <ReactPlayer
+                    width={'100%'}
+                    height={'100%'}
+                    url={movie?.trailer ?? ''}
+                    controls={true}
+                />
+            </Modal>
             {fetching ? (
                 <>
                     <Fetching className={classes.fetching} />
