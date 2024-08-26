@@ -33,7 +33,6 @@ export const getAllSeries = createAsyncThunk(
             if (!response.ok) {
                 // @ts-ignore
                 const res = await response.json()
-                console.log({data})
                 // return rejectWithValue(data.errors)
             } else {
                 const res = await response.json()

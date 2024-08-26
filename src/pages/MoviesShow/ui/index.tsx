@@ -18,6 +18,7 @@ import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
+import {getAuthUserData} from "src/entities/User";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -26,11 +27,11 @@ const MoviesShowPage = () => {
     const navigate = useNavigate()
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
+    const authData = useSelector(getAuthUserData)
 
     useEffect(() => {
         dispatch(getMovie(parseInt(id ?? '0')))
             .then(data => {
-                console.log({data})
                 setMovie(data.payload)
             })
     }, [])
@@ -60,6 +61,20 @@ const MoviesShowPage = () => {
             return []
         }
         return movie.actors.map(actor => actor.first_name + ' ' + actor.last_name)
+    }
+
+    const getPlayBtnText = (): string => {
+        if (authData) {
+            return 'Смотреть'
+        }
+        if (!movie?.subscription_ids) {
+            return 'Смотреть бесплатно'
+        }
+        return 'Смотреть по подписке'
+    }
+
+    const onPlay = () => {
+
     }
 
     return (
@@ -119,7 +134,7 @@ const MoviesShowPage = () => {
                                     <div className={classes.detailActions}>
                                         <button className={className(classes.detailAction, undefined, [classes.actionSee])}>
                                             <Play className={className(classes.icon, undefined, [classes.iconSee])} />
-                                            Смотреть по подписке
+                                            {getPlayBtnText()}
                                         </button>
                                         <button
                                             className={className(classes.detailAction, undefined, [classes.actionTrailer])}

@@ -27,7 +27,6 @@ const MultimediasShowPage = () => {
     useEffect(() => {
         dispatch(getMultimedia(parseInt(id ?? '0')))
             .then(data => {
-                console.log({data})
                 setMultimedia(data.payload)
             })
     }, [])

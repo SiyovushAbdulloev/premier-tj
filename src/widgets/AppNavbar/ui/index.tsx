@@ -286,7 +286,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
             setResent(true)
         }
     }
-    console.log({authData})
+
     return (
         <div className={classes.navbar}>
             <NativeModal

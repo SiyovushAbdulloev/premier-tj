@@ -28,7 +28,6 @@ const SubscriptionRequestsShowPage = () => {
         const fetchData = async () => {
             const response = await dispatch(getSubscriptionRequest(parseInt(id ?? '0')))
             if (response.type.includes('fulfilled')) {
-                console.log("Data:", response.payload)
                 setData(response.payload)
             }
         }

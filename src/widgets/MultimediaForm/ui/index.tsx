@@ -199,7 +199,6 @@ const MultimediaForm = (props: Props) => {
             setReleasedAt(props.data.released_at)
             setFileUrl(props.data.file)
             setPosterUrl(props.data.poster)
-            console.log("multimedia:", props.data)
         }
     }, [props.data])
 

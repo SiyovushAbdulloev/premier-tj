@@ -27,7 +27,6 @@ export const storeMediaContent = createAsyncThunk(
                 return rejectWithValue(res.errors)
             } else {
                 const res = await response.json()
-                console.log({res})
             }
         } catch (error) {
             console.log({error})
