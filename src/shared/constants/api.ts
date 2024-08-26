@@ -1,1 +1,1 @@
-export const APP_URL = 'http://localhost'
+export const APP_URL = 'https://premier.tw1.su'
