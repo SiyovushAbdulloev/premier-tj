@@ -10,10 +10,11 @@ export const getCsrfToken = createAsyncThunk(
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    'Referer': 'http://localhost:3000'
+                    // 'Referer': 'http://localhost:3000'
                 },
                 credentials: 'include'
             })
+
             const token = getCookie('XSRF-TOKEN')
             return token.substring(0, token.length - 3)
 
