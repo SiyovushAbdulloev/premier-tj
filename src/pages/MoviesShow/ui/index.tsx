@@ -112,18 +112,22 @@ const MoviesShowPage = () => {
                                 <div className={classes.detailDescription}>
                                     <h3 className={classes.movieName}>{movie?.name ?? ''}</h3>
                                     <div className={classes.movieRating}>
-                                        <div className={classes.ratingItem}>
-                                            <Play width={14} height={14} />
-                                            8.5
-                                        </div>
-                                        <div className={classes.ratingItem}>
-                                            <Kinopoisk stroke={'#fff'} width={14} height={14} />
-                                            6.3
-                                        </div>
-                                        <div className={classes.ratingItem}>
-                                            <IMDB stroke={'#fff'} width={18} height={18} />
-                                            6.2
-                                        </div>
+                                        {/*<div className={classes.ratingItem}>*/}
+                                        {/*    <Play width={14} height={14} />*/}
+                                        {/*    8.5*/}
+                                        {/*</div>*/}
+                                        {movie?.kinopoisk ? (
+                                            <div className={classes.ratingItem}>
+                                                <Kinopoisk stroke={'#fff'} width={14} height={14} />
+                                                {movie?.kinopoisk}
+                                            </div>
+                                        ) : null}
+                                        {movie?.imdb ? (
+                                            <div className={classes.ratingItem}>
+                                                <IMDB stroke={'#fff'} width={18} height={18} />
+                                                {movie?.imdb}
+                                            </div>
+                                        ) : null}
                                     </div>
                                     <div className={classes.detailMeta}>
                                         <span className={classes.detailMetaItem}>{movieYear}</span>

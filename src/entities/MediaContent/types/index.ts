@@ -23,6 +23,8 @@ export interface MediaContent {
     genres: Array<Genre>
     countries: Array<Country>
     actors: Array<Actor>
+    kinopoisk?: string
+    imdb?: string
 }
 
 export interface MediaContentSchema {

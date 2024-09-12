@@ -46,6 +46,8 @@ const MovieForm = (props: Props) => {
     const [trailerUrl, setTrailerUrl] = useState<string>(props.data ? props.data.trailer ?? '' : '')
     const [posterUrl, setPosterUrl] = useState<string>(props.data ? props.data.poster ?? '' : '')
     const [releasedAt, setReleasedAt] = useState<string>(props.data ? props.data.released_at : '')
+    const [kinopoisk, setKinopoisk] = useState<string>(props.data ? props.data.kinopoisk ?? '' : '')
+    const [imdb, setImdb] = useState<string>(props.data ? props.data.imdb ?? '' : '')
     const fileRef = useRef<File | undefined>(undefined)
     const posterRef = useRef<File | undefined>(undefined)
     const trailerRef = useRef<File | undefined>(undefined)
@@ -95,6 +97,12 @@ const MovieForm = (props: Props) => {
         }
         if (trailerRef.current) {
             content.append('trailer', trailerRef.current)
+        }
+        if (kinopoisk.length) {
+            content.append('kinopoisk', kinopoisk)
+        }
+        if (imdb.length) {
+            content.append('imdb', imdb)
         }
         content.append('released_at', releasedAt)
         content.append('type', '2')
@@ -235,6 +243,8 @@ const MovieForm = (props: Props) => {
             setFileUrl(props.data.file)
             setPosterUrl(props.data.poster ?? '')
             setTrailerUrl(props.data.trailer ?? '')
+            setKinopoisk(props.data.kinopoisk ?? '')
+            setImdb(props.data.imdb ?? '')
         }
     }, [props.data])
 
@@ -392,6 +402,24 @@ const MovieForm = (props: Props) => {
                             value={releasedAt}
                             label={'Дата релиза'}
                             placeholder={'Формат:18/12/2019'}
+                        />
+                    </div>
+                    <div className={classes.group}>
+                        <TextField
+                            style={{'width': '45%'}}
+                            id={'kinopoisk'}
+                            onChange={(value: string) => setKinopoisk(value)}
+                            value={kinopoisk}
+                            label={'Рейтинг в Кинопоиск'}
+                            placeholder={'8,4'}
+                        />
+                        <TextField
+                            style={{'width': '45%'}}
+                            id={'imdb'}
+                            onChange={(value: string) => setImdb(value)}
+                            value={imdb}
+                            label={'Рейтинг в IMDB'}
+                            placeholder={'8,4'}
                         />
                     </div>
                     <div className={classes.group}>
