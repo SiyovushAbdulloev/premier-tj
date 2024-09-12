@@ -125,7 +125,7 @@ const SeasonEpisodeForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_serie_season_episodes.path.replace(':id', id ?? '0').replace(':seasonId', seasonId ?? '0'))
+        navigate(-1)
     }
 
     useEffect(() => {

@@ -72,7 +72,7 @@ const ActorForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_actors.path)
+        navigate(-1)
     }
 
     useEffect(() => {

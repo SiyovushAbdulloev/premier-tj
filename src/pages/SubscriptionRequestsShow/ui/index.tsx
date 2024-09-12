@@ -49,7 +49,7 @@ const SubscriptionRequestsShowPage = () => {
     }
 
     const back = () => {
-        navigate(RoutesConfig.admin_subscription_requests.path)
+        navigate(-1)
     }
 
     return (

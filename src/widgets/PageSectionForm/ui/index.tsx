@@ -91,7 +91,7 @@ const PageSectionForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_page_sections.path)
+        navigate(-1)
     }
 
     useEffect(() => {

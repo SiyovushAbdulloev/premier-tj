@@ -54,7 +54,7 @@ const SerieSeasonsPage = () => {
     }
 
     const onBack = () => {
-        navigate(RoutesConfig.admin_series.path)
+        navigate(-1)
     }
 
     const onDestroy = (season: number) => {

@@ -53,7 +53,7 @@ const GenreForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_genres.path)
+        navigate(-1)
     }
 
     useEffect(() => {

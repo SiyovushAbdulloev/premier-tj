@@ -184,7 +184,7 @@ const MultimediaForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_multimedias.path)
+        navigate(-1)
     }
 
     useEffect(() => {

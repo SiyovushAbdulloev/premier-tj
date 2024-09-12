@@ -53,7 +53,7 @@ const CountryForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_countries.path)
+        navigate(-1)
     }
 
     useEffect(() => {

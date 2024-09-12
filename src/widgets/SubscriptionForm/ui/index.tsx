@@ -98,7 +98,7 @@ const SubscriptionForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_subscriptions.path)
+        navigate(-1)
     }
 
     useEffect(() => {

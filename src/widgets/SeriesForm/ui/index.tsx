@@ -178,7 +178,7 @@ const SeriesForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_series.path)
+        navigate(-1)
     }
 
     useEffect(() => {

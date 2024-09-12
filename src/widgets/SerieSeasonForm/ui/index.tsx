@@ -83,7 +83,7 @@ const SerieSeasonForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_serie_seasons.path.replace(':id', id ?? '0'))
+        navigate(-1)
     }
 
     useEffect(() => {

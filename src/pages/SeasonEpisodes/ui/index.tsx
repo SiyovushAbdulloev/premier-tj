@@ -53,9 +53,7 @@ const SeasonEpisodesPage = () => {
     }
 
     const onBack = () => {
-        navigate(RoutesConfig.admin_serie_seasons.path
-            .replace(':id', `${id}`)
-            .replace(':seasonId', `${seasonId}`))
+        navigate(-1)
     }
 
     const onEdit = (episode: number) => {

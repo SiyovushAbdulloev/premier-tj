@@ -226,7 +226,7 @@ const MovieForm = (props: Props) => {
     }
 
     const goBack = () => {
-        navigate(RoutesConfig.admin_movies.path)
+        navigate(-1)
     }
 
     useEffect(() => {
