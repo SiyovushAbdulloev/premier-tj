@@ -15,6 +15,10 @@ export const getCsrfToken = createAsyncThunk(
                 credentials: 'include'
             })
 
+            //TODO: when upload the app to hosting do not forget:
+            //TODO: 1) change server url in frontend
+            //TODO: 2) change state_full and session_domain in laravel app
+
             const token = getCookie('XSRF-TOKEN')
             return token.substring(0, token.length - 3)
 
