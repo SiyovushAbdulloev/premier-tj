@@ -20,6 +20,8 @@ export interface Series {
     actors: Array<Actor>
     countries: Array<Country>
     seasons: Array<SerieSeason>
+    kinopoisk?: string
+    imdb?: string
 }
 
 export interface SeriesSchema {

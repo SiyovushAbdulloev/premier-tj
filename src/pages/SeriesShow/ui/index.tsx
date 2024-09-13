@@ -17,6 +17,8 @@ import {getIsFetchingUserSeries, getUserSeries, Series} from "src/entities/Serie
 import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {getAuthUserData} from "src/entities/User";
+import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
+import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 
 const SeriesShowPage = () => {
     const authData = useSelector(getAuthUserData)
@@ -133,6 +135,24 @@ const SeriesShowPage = () => {
                             <div className={classes.detailContainer}>
                                 <div className={classes.detailDescription}>
                                     <h3 className={classes.movieName}>{series?.name ?? ''}</h3>
+                                    <div className={classes.movieRating}>
+                                        {/*<div className={classes.ratingItem}>*/}
+                                        {/*    <Play width={14} height={14} />*/}
+                                        {/*    8.5*/}
+                                        {/*</div>*/}
+                                        {series?.kinopoisk ? (
+                                            <div className={classes.ratingItem}>
+                                                <Kinopoisk stroke={'#fff'} width={14} height={14} />
+                                                {series?.kinopoisk}
+                                            </div>
+                                        ) : null}
+                                        {series?.imdb ? (
+                                            <div className={classes.ratingItem}>
+                                                <IMDB stroke={'#fff'} width={18} height={18} />
+                                                {series?.imdb}
+                                            </div>
+                                        ) : null}
+                                    </div>
                                     <div className={classes.detailMeta}>
                                         <span className={classes.detailMetaItem}>{movieYear}</span>
                                         <span className={classes.detailMetaItem}>{series ? series.countries.map(country => country.name).join(',') : ''}</span>

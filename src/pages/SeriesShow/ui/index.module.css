@@ -68,6 +68,25 @@
     margin: 0;
 }
 
+.movieRating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: -15px;
+}
+
+.ratingItem {
+    padding: 6px;
+    border-radius: 4px;
+    background-color: #222;
+    color: #ececec;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .detailMeta {
     display: flex;
     gap: 15px;
