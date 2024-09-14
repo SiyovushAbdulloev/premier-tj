@@ -12,6 +12,8 @@ import {className} from "src/shared/utils/className";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
 import ReactPlayer from "react-player";
 import {Marquee} from "src/shared/ui/Marquee";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const MultimediasListPage = () => {
     const navigate = useNavigate()
@@ -397,8 +399,22 @@ const MultimediasListPage = () => {
                                 )
                             })}
                         </div>
-                        {isFetchingMovies ? (
-                            <Fetching className={classes.fetchingMore} />
+                        {/*{isFetchingMovies ? (*/}
+                        {/*    <Fetching className={classes.fetchingMore} />*/}
+                        {/*) : null}*/}
+                        {(loading || isFetchingMovies) ? (
+                            <div className={classes.sections}>
+                                {Array.from(Array(8).keys()).map(index => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={className(classes.section, null, [classes.skeleton])}
+                                        >
+                                            <Skeleton height={'100%'} width={'100%'} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         ) : null}
                     </div>
                 </>

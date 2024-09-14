@@ -34,6 +34,10 @@
     cursor: pointer;
 }
 
+.skeleton {
+    margin-bottom: 20px;
+}
+
 .freeLabel {
     color: #ececec;
     padding: 10px;

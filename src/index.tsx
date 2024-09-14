@@ -5,6 +5,7 @@ import App from 'src/app/App';
 import {ErrorBoundary} from 'src/app/providers/ErrorBoundary';
 import {BrowserRouter} from 'react-router-dom';
 import {StoreProvider} from 'src/app/providers/Store'
+import {SkeletonTheme} from "react-loading-skeleton";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ root.render(
         <StoreProvider>
             <BrowserRouter>
                 <ErrorBoundary>
-                    <App/>
+                    <SkeletonTheme baseColor={'#313131'} highlightColor={'#525252'}>
+                        <App/>
+                    </SkeletonTheme>
                 </ErrorBoundary>
             </BrowserRouter>
         </StoreProvider>

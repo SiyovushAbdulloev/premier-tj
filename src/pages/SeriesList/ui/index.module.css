@@ -27,6 +27,10 @@
     height: 234px;
 }
 
+.skeleton {
+    margin-bottom: 20px;
+}
+
 .contentImg {
     width: 100%;
     height: 194px;

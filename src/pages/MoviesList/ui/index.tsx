@@ -12,6 +12,8 @@ import {className} from "src/shared/utils/className";
 import {Genre, getListGenres, getIsFetchingList} from "src/entities/Genre";
 import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
 import {Marquee} from "src/shared/ui/Marquee";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const MoviesListPage = () => {
     const navigate = useNavigate()
@@ -316,6 +318,7 @@ const MoviesListPage = () => {
                 ) : (
                 <>
                     <div className={classes.pageWrapper}>
+
                         <h1 className={classes.pageTitle}>Фильмы смотреть онлайн</h1>
                         <div className={classes.filters}>
                             <div
@@ -541,8 +544,22 @@ const MoviesListPage = () => {
                                 <h1 className={classes.noRecords}>Нет фильмов</h1>
                             ) : null}
                         </div>
-                        {isFetchingMovies ? (
-                            <Fetching className={classes.fetchingMore} />
+                        {/*{isFetchingMovies ? (*/}
+                        {/*    <Fetching className={classes.fetchingMore} />*/}
+                        {/*) : null}*/}
+                        {(loading || isFetchingMovies) ? (
+                            <div className={classes.sections}>
+                                {Array.from(Array(8).keys()).map(index => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={className(classes.section, null, [classes.skeleton])}
+                                        >
+                                                <Skeleton height={'100%'} width={'100%'} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         ) : null}
                     </div>
                 </>

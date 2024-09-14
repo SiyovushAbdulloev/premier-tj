@@ -13,10 +13,12 @@ import ReactPlayer from "react-player";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
 import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
 import {Marquee} from "src/shared/ui/Marquee";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const SeriesListPage = () => {
     const navigate = useNavigate()
-    const isFetchingMovies = useSelector(getIsFetchingListSeries)
+    const isFetchingSeries = useSelector(getIsFetchingListSeries)
     const [firstTime, setFirstTime] = useState<boolean>(false)
     const [series, setSeries] = useState<Array<Series>>([])
     const dispatch = useAppDispatch()
@@ -282,8 +284,8 @@ const SeriesListPage = () => {
     }
 
     return (
-        <div className={classes.mainPage} style={{minHeight: isFetchingMovies ? '100vh' : 'fit-content'}}>
-            {isFetchingMovies && firstTime ? (
+        <div className={classes.mainPage} style={{minHeight: isFetchingSeries ? '100vh' : 'fit-content'}}>
+            {isFetchingSeries && firstTime ? (
                 <Fetching className={classes.fetching} />
                 ) : (
                 <>
@@ -480,8 +482,22 @@ const SeriesListPage = () => {
                                 )
                             })}
                         </div>
-                        {isFetchingMovies ? (
-                            <Fetching className={classes.fetchingMore} />
+                        {/*{isFetchingSeries ? (*/}
+                        {/*    <Fetching className={classes.fetchingMore} />*/}
+                        {/*) : null}*/}
+                        {(loading || isFetchingSeries) ? (
+                            <div className={classes.sections}>
+                                {Array.from(Array(8).keys()).map(index => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={className(classes.section, null, [classes.skeleton])}
+                                        >
+                                            <Skeleton height={'100%'} width={'100%'} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         ) : null}
                     </div>
                 </>
