@@ -25,6 +25,7 @@ export interface MediaContent {
     actors: Array<Actor>
     kinopoisk?: string
     imdb?: string
+    slug: string
 }
 
 export interface MediaContentSchema {

@@ -3,7 +3,7 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const getMediaContent = createAsyncThunk(
     'mediaContent/getMediaContent',
-    async (data: number, {getState, rejectWithValue}) => {
+    async (data: string, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken

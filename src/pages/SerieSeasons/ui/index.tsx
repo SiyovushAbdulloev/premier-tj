@@ -26,12 +26,12 @@ const SerieSeasonsPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [searchParams] = useSearchParams()
-    const {id} = useParams()
+    const {slug} = useParams()
 
     useEffect(() => {
         dispatch(getSerieSeasons({
             page: parseInt(searchParams.get('id') ?? '1'),
-            serie: parseInt(id ?? '0')
+            serie: slug ?? ''
         }))
     }, [])
 
@@ -42,15 +42,15 @@ const SerieSeasonsPage = () => {
     }
 
     const onCreate = () => {
-        navigate(RoutesConfig.admin_serie_seasons_create.path.replace(':id', `${id}`))
+        navigate(RoutesConfig.admin_serie_seasons_create.path.replace(':slug', `${slug}`))
     }
 
     const onEdit = (season: number) => {
-        navigate(RoutesConfig.admin_serie_seasons_edit.path.replace(':id', `${id}`).replace(':seasonId', `${season}`))
+        navigate(RoutesConfig.admin_serie_seasons_edit.path.replace(':slug', `${slug}`).replace(':seasonId', `${season}`))
     }
 
     const onEpisodes = (season: number) => {
-        navigate(RoutesConfig.admin_serie_season_episodes.path.replace(':id', `${id}`).replace(':seasonId', `${season}`))
+        navigate(RoutesConfig.admin_serie_season_episodes.path.replace(':slug', `${slug}`).replace(':seasonId', `${season}`))
     }
 
     const onBack = () => {
@@ -59,7 +59,7 @@ const SerieSeasonsPage = () => {
 
     const onDestroy = (season: number) => {
         if (window.confirm('Вы действительно хотите удалить этот сезон? Связанные с ним серии будут удалены.')) {
-            dispatch(destroySerieSeason({id: season, serie: parseInt(id ?? '0')}))
+            dispatch(destroySerieSeason({id: season, serie: slug ?? ''}))
                 .then(data => {
                     fetchSerieSeasons(pagination.current_page)
                 })

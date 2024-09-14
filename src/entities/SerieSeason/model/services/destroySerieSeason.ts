@@ -3,7 +3,7 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const destroySerieSeason = createAsyncThunk(
     'serieSeason/destroySerieSeason',
-    async (data: {id: number, serie: number}, {rejectWithValue, getState}) => {
+    async (data: {id: number, serie: string}, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken

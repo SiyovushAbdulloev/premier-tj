@@ -50,13 +50,13 @@ const MultimediasPage = () => {
         navigate(RoutesConfig.admin_multimedias_create.path)
     }
 
-    const onEdit = (id: number) => {
-        navigate(RoutesConfig.admin_multimedias_edit.path.replace(':id', `${id}`))
+    const onEdit = (slug: string) => {
+        navigate(RoutesConfig.admin_multimedias_edit.path.replace(':slug', `${slug}`))
     }
 
-    const onDestroy = (id: number) => {
+    const onDestroy = (slug: string) => {
         if (window.confirm('Вы действительно хотите удалить этот файл?')) {
-            dispatch(destroyMediaContent(id))
+            dispatch(destroyMediaContent(slug))
                 .then(data => {
                     onSearch()
                 })
@@ -129,13 +129,13 @@ const MultimediasPage = () => {
                                         <div className={classes.tableActions}>
                                             <button
                                                 className={classes.createModel}
-                                                onClick={() => onEdit(data.id)}
+                                                onClick={() => onEdit(data.slug)}
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 className={classes.destroy}
-                                                onClick={() => onDestroy(data.id)}
+                                                onClick={() => onDestroy(data.slug)}
                                             >
                                                 Delete
                                             </button>

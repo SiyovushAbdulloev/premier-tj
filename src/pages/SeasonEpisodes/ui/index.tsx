@@ -26,12 +26,12 @@ const SeasonEpisodesPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [searchParams] = useSearchParams()
-    const {id, seasonId} = useParams()
+    const {slug, seasonId} = useParams()
 
     useEffect(() => {
         dispatch(getSeasonEpisodes({
             page: parseInt(searchParams.get('id') ?? '1'),
-            serie: parseInt(id ?? '0'),
+            serie: slug ?? '',
             serie_season: parseInt(seasonId ?? '0')
         }))
     }, [])
@@ -40,7 +40,7 @@ const SeasonEpisodesPage = () => {
         // @ts-ignore
         dispatch(getSeasonEpisodes({
             page: value,
-            serie: parseInt(id ?? '0'),
+            serie: slug ?? '',
             serie_season: parseInt(seasonId ?? '0')
         }))
         navigate(location.pathname + `?page=${value}`)
@@ -48,7 +48,7 @@ const SeasonEpisodesPage = () => {
 
     const onCreate = () => {
         navigate(RoutesConfig.admin_serie_season_episodes_create.path
-            .replace(':id', `${id}`)
+            .replace(':slug', `${slug}`)
             .replace(':seasonId', `${seasonId}`))
     }
 
@@ -58,7 +58,7 @@ const SeasonEpisodesPage = () => {
 
     const onEdit = (episode: number) => {
         navigate(RoutesConfig.admin_serie_season_episodes_edit.path
-            .replace(':id', `${id}`)
+            .replace(':slug', `${slug}`)
             .replace(':seasonId', `${seasonId}`)
             .replace(':episodeId', `${episode}`))
     }
@@ -67,7 +67,7 @@ const SeasonEpisodesPage = () => {
         if (window.confirm('Вы действительно хотите удалить эту серию?')) {
             dispatch(destroySeasonEpisode({
                 id: episode,
-                serie: parseInt(id ?? '0'),
+                serie: slug ?? '',
                 serie_season: parseInt(seasonId ?? '0')
             }))
                 .then(data => {

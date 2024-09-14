@@ -97,7 +97,7 @@ const SeriesForm = (props: Props) => {
         } else {
             content.append('_method', 'PUT')
             response  = await dispatch(updateSeries({
-                id: props.data?.id,
+                slug: props.data?.slug,
                 data: content
             }))
         }

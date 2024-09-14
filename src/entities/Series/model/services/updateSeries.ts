@@ -4,14 +4,14 @@ import {APP_URL} from "src/shared/constants/api";
 export const updateSeries = createAsyncThunk(
     'series/updateSeries',
     async (data: {
-        id: number | undefined
+        slug: string | undefined
         data: any
     }, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
-            const response = await fetch(APP_URL + `/api/admin/series/${data.id}`, {
+            const response = await fetch(APP_URL + `/api/admin/series/${data.slug}`, {
                 method: 'POST',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,

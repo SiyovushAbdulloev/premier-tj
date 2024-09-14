@@ -223,7 +223,7 @@ const SeriesListPage = () => {
     }
 
     const onPage = (item: Series) => {
-        navigate(RoutesConfig.series_show.path.replace(':id', `${item.id}`))
+        navigate(RoutesConfig.series_show.path.replace(':slug', `${item.slug}`))
     }
 
     const onGenreOptionSelect = (option: SelectedOption) => {

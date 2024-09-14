@@ -7,13 +7,13 @@ import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getMediaContent} from "src/entities/MediaContent";
 
 const MultimediasEditPage = () => {
-    const {id} = useParams()
+    const {slug} = useParams()
     const [data, setData] = useState(undefined)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         // @ts-ignore
-        dispatch(getMediaContent(id))
+        dispatch(getMediaContent(slug))
             .then(data => {
                 setData(data.payload)
             })

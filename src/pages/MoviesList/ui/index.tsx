@@ -234,7 +234,7 @@ const MoviesListPage = () => {
     }
 
     const onPage = (item: MediaContent) => {
-        navigate(RoutesConfig.movies_show.path.replace(':id', `${item.id}`))
+        navigate(RoutesConfig.movies_show.path.replace(':slug', `${item.slug}`))
     }
 
     const onGenreOptionSelect = (option: SelectedOption) => {

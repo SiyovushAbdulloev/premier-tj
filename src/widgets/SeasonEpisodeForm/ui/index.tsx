@@ -47,7 +47,7 @@ const SeasonEpisodeForm = (props: Props) => {
     const errors = useSelector(getStoreErrors)
     const updateErrors = useSelector(getUpdateErrors)
     const navigate = useNavigate()
-    const {id, seasonId} = useParams()
+    const {slug, seasonId} = useParams()
     const isFetchingAllSubscriptions = useSelector(getIsFetchingAll)
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +71,7 @@ const SeasonEpisodeForm = (props: Props) => {
         if (props.type === FormType.CREATE) {
             response  = await dispatch(storeSeasonEpisode({
                 data: content,
-                serie: parseInt(id ?? '0'),
+                serie: slug ?? '',
                 serie_season: parseInt(seasonId ?? '0')
             }))
         } else {
@@ -79,7 +79,7 @@ const SeasonEpisodeForm = (props: Props) => {
             response  = await dispatch(updateSeasonEpisode({
                 id: props.data?.id ?? 0,
                 data: content,
-                serie: parseInt(id ?? '0'),
+                serie: slug ?? '',
                 serie_season: parseInt(seasonId ?? '0')
             }))
         }

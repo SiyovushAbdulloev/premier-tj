@@ -3,12 +3,12 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const getSeasonEpisode = createAsyncThunk(
     'seasonEpisode/getSeasonEpisode',
-    async (data: {id: number, serie: number, serie_season: number}, {getState, rejectWithValue}) => {
+    async (data: {id: number, serie: string, serie_season: number}, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
-            if (data.id != 0 && data.serie != 0 && data.serie_season != 0) {
+            if (data.id != 0 && data.serie.length != 0 && data.serie_season != 0) {
                 const response = await fetch(APP_URL + `/api/admin/series/${data.serie}/serie-seasons/${data.serie_season}/season-episodes/${data.id}`, {
                     method: 'GET',
                     headers: {

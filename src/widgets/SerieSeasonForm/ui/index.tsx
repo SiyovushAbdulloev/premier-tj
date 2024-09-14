@@ -37,7 +37,7 @@ const SerieSeasonForm = (props: Props) => {
     const errors = useSelector(getStoreErrors)
     const updateErrors = useSelector(getUpdateErrors)
     const navigate = useNavigate()
-    const {id} = useParams()
+    const {slug} = useParams()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -53,14 +53,14 @@ const SerieSeasonForm = (props: Props) => {
         if (props.type === FormType.CREATE) {
             response  = await dispatch(storeSerieSeason({
                 data: content,
-                serie: parseInt(id ?? '0')
+                serie: slug ?? ''
             }))
         } else {
             content.append('_method', 'PUT')
             response  = await dispatch(updateSerieSeason({
                 id: props.data?.id ?? 0,
                 data: content,
-                serie: parseInt(id ?? '0')
+                serie: slug ?? ''
             }))
         }
 

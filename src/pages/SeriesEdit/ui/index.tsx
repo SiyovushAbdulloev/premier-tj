@@ -7,13 +7,13 @@ import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getSeries} from "src/entities/Series";
 
 const SeriesEditPage = () => {
-    const {id} = useParams()
+    const {slug} = useParams()
     const [data, setData] = useState(undefined)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         // @ts-ignore
-        dispatch(getSeries(id))
+        dispatch(getSeries(slug ?? ''))
             .then(data => {
                 setData(data.payload)
             })

@@ -7,7 +7,7 @@ import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getSeasonEpisode} from "src/entities/SeasonEpisode";
 
 const SeasonEpisodesEditPage = () => {
-    const {id, seasonId, episodeId} = useParams()
+    const {slug, seasonId, episodeId} = useParams()
     const [data, setData] = useState(undefined)
     const dispatch = useAppDispatch()
 
@@ -15,7 +15,7 @@ const SeasonEpisodesEditPage = () => {
         // @ts-ignore
         dispatch(getSeasonEpisode({
             id: parseInt(episodeId ?? '0'),
-            serie: parseInt(id ?? '0'),
+            serie: slug ?? '',
             serie_season: parseInt(seasonId ?? '0')
         }))
             .then(data => {

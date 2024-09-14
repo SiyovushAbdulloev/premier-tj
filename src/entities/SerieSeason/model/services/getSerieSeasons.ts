@@ -5,14 +5,14 @@ export const getSerieSeasons = createAsyncThunk(
     'serieSeason/getSerieSeasons',
     async (data: {
         page: undefined|number,
-        serie: number
+        serie: string
     }, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
             const page = data ? data.page ?? 1 : 1
 
-            if (data.serie != 0) {
+            if (data.serie.length != 0) {
                 let uri = `/api/admin/series/${data.serie}/serie-seasons`
 
                 uri += `?page=${page}`

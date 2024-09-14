@@ -44,17 +44,17 @@ const SeriesPage = () => {
         navigate(RoutesConfig.admin_series_create.path)
     }
 
-    const onEdit = (id: number) => {
-        navigate(RoutesConfig.admin_series_edit.path.replace(':id', `${id}`))
+    const onEdit = (slug: string) => {
+        navigate(RoutesConfig.admin_series_edit.path.replace(':slug', `${slug}`))
     }
 
-    const onSeasons = (id: number) => {
-        navigate(RoutesConfig.admin_serie_seasons.path.replace(':id', `${id}`))
+    const onSeasons = (slug: string) => {
+        navigate(RoutesConfig.admin_serie_seasons.path.replace(':slug', `${slug}`))
     }
 
-    const onDestroy = (id: number) => {
+    const onDestroy = (slug: string) => {
         if (window.confirm('Вы действительно хотите удалить этот сериал? Связанные с ним сезоны и серии будут удалены.')) {
-            dispatch(destroySeries(id))
+            dispatch(destroySeries(slug))
                 .then(data => {
                     onSearch()
                 })
@@ -136,19 +136,19 @@ const SeriesPage = () => {
                                         <div className={classes.tableActions}>
                                             <button
                                                 className={classes.createModel}
-                                                onClick={() => onSeasons(data.id)}
+                                                onClick={() => onSeasons(data.slug)}
                                             >
                                                 Seasons
                                             </button>
                                             <button
                                                 className={classes.createModel}
-                                                onClick={() => onEdit(data.id)}
+                                                onClick={() => onEdit(data.slug)}
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 className={classes.destroy}
-                                                onClick={() => onDestroy(data.id)}
+                                                onClick={() => onDestroy(data.slug)}
                                             >
                                                 Delete
                                             </button>

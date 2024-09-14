@@ -20,12 +20,12 @@ import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 const MultimediasShowPage = () => {
     const dispatch = useAppDispatch()
     const fetching = useSelector(getIsFetchingMovie)
-    const {id} = useParams()
+    const {slug} = useParams()
     const navigate = useNavigate()
     const [multimedia, setMultimedia] = useState<MediaContent | undefined>(undefined)
 
     useEffect(() => {
-        dispatch(getMultimedia(parseInt(id ?? '0')))
+        dispatch(getMultimedia(slug ?? ''))
             .then(data => {
                 setMultimedia(data.payload)
             })
@@ -45,10 +45,6 @@ const MultimediasShowPage = () => {
         const [hours, minutes] = multimedia.duration.split(':')
         return `${parseInt(hours)}ч ${parseInt(minutes)}мин`
     }, [multimedia])
-
-    const onTrailer = () => {
-        navigate(RoutesConfig.movie_trailer_show.path.replace(':id', `${id}`))
-    }
 
     const getActors = (): Array<string> => {
         if (!multimedia) {

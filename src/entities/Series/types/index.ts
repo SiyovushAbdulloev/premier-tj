@@ -22,6 +22,7 @@ export interface Series {
     seasons: Array<SerieSeason>
     kinopoisk?: string
     imdb?: string
+    slug: string
 }
 
 export interface SeriesSchema {

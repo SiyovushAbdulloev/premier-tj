@@ -24,7 +24,7 @@ const SeriesShowPage = () => {
     const authData = useSelector(getAuthUserData)
     const dispatch = useAppDispatch()
     const fetching = useSelector(getIsFetchingUserSeries)
-    const {id} = useParams()
+    const {slug} = useParams()
     const navigate = useNavigate()
     const [currentSeason, setCurrentSeason] = useState(0)
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
@@ -32,7 +32,7 @@ const SeriesShowPage = () => {
     const [series, setSeries] = useState<Series | undefined>(undefined)
 
     useEffect(() => {
-        dispatch(getUserSeries(parseInt(id ?? '0')))
+        dispatch(getUserSeries(slug ?? ''))
             .then(data => {
                 setSeries(data.payload)
             })

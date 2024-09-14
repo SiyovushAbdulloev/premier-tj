@@ -23,14 +23,14 @@ import {getAuthUserData} from "src/entities/User";
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
     const fetching = useSelector(getIsFetchingMovie)
-    const {id} = useParams()
+    const {slug} = useParams()
     const navigate = useNavigate()
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
 
     useEffect(() => {
-        dispatch(getMovie(parseInt(id ?? '0')))
+        dispatch(getMovie(slug ?? ''))
             .then(data => {
                 setMovie(data.payload)
             })

@@ -11,12 +11,12 @@ import ReactPlayer from 'react-player'
 const MovieTrailerShowPage = () => {
     const dispatch = useAppDispatch()
     const fetching = useSelector(getIsFetchingMovie)
-    const {id} = useParams()
+    const {slug} = useParams()
     const navigate = useNavigate()
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
 
     useEffect(() => {
-        dispatch(getMovie(parseInt(id ?? '0'))) //TODO: Consider also for series, multimedia
+        dispatch(getMovie(slug ?? ''))
             .then(data => {
                 setMovie(data.payload)
             })

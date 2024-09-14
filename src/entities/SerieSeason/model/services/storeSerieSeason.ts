@@ -5,7 +5,7 @@ export const storeSerieSeason = createAsyncThunk(
     'serieSeason/storeSerieSeason',
     async (data: {
         data: any,
-        serie: number
+        serie: string
     }, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
