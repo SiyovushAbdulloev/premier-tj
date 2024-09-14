@@ -126,67 +126,68 @@ const SeriesShowPage = () => {
                 ) : (
                     <div className={classes.detail}>
                         <div className={classes.detailWrapper}>
-                            <div className={classes.detailWrapperOverlay}></div>
                             <img
                                 src={series ? series.poster : ''}
                                 alt="Background(poster)"
                                 className={classes.detailWrapperBckg}
                             />
-                            <div className={classes.detailContainer}>
-                                <div className={classes.detailDescription}>
-                                    <h3 className={classes.movieName}>{series?.name ?? ''}</h3>
-                                    <div className={classes.movieRating}>
-                                        {/*<div className={classes.ratingItem}>*/}
-                                        {/*    <Play width={14} height={14} />*/}
-                                        {/*    8.5*/}
-                                        {/*</div>*/}
-                                        {series?.kinopoisk ? (
-                                            <div className={classes.ratingItem}>
-                                                <Kinopoisk stroke={'#fff'} width={14} height={14} />
-                                                {series?.kinopoisk}
-                                            </div>
-                                        ) : null}
-                                        {series?.imdb ? (
-                                            <div className={classes.ratingItem}>
-                                                <IMDB stroke={'#fff'} width={18} height={18} />
-                                                {series?.imdb}
-                                            </div>
-                                        ) : null}
+                            <div className={classes.overlay}>
+                                <div className={classes.detailContainer}>
+                                    <div className={classes.detailDescription}>
+                                        <h3 className={classes.movieName}>{series?.name ?? ''}</h3>
+                                        <div className={classes.movieRating}>
+                                            {/*<div className={classes.ratingItem}>*/}
+                                            {/*    <Play width={14} height={14} />*/}
+                                            {/*    8.5*/}
+                                            {/*</div>*/}
+                                            {series?.kinopoisk ? (
+                                                <div className={classes.ratingItem}>
+                                                    <Kinopoisk stroke={'#fff'} width={14} height={14} />
+                                                    {series?.kinopoisk}
+                                                </div>
+                                            ) : null}
+                                            {series?.imdb ? (
+                                                <div className={classes.ratingItem}>
+                                                    <IMDB stroke={'#fff'} width={18} height={18} />
+                                                    {series?.imdb}
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                        <div className={classes.detailMeta}>
+                                            <span className={classes.detailMetaItem}>{movieYear}</span>
+                                            <span className={classes.detailMetaItem}>{series ? series.countries.map(country => country.name).join(',') : ''}</span>
+                                            <span className={classes.detailMetaItem}>{series ? series.genres.map(genre => genre.name).join(',') : ''}</span>
+                                            <span className={classes.detailMetaLabel}>3 сезона</span>
+                                        </div>
+                                        <div className={classes.detailActions}>
+                                            {/*{authData ? (*/}
+                                            {/*    <button className={className(classes.detailAction, undefined, [classes.actionSee])}>*/}
+                                            {/*        <Play className={className(classes.icon, undefined, [classes.iconSee])} />*/}
+                                            {/*        Смотреть по подписке*/}
+                                            {/*    </button>*/}
+                                            {/*) : null}*/}
+                                            <button
+                                                className={className(classes.detailAction, undefined, [classes.actionTrailer])}
+                                                onClick={onTrailer}
+                                            >
+                                                <Camera className={className(classes.icon, undefined, [classes.iconTrailer])} />
+                                                Трейлер
+                                            </button>
+                                            <button className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
+                                                <Favourites className={className(classes.icon, undefined, [classes.iconTrailer])} />
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className={classes.detailMeta}>
-                                        <span className={classes.detailMetaItem}>{movieYear}</span>
-                                        <span className={classes.detailMetaItem}>{series ? series.countries.map(country => country.name).join(',') : ''}</span>
-                                        <span className={classes.detailMetaItem}>{series ? series.genres.map(genre => genre.name).join(',') : ''}</span>
-                                        <span className={classes.detailMetaLabel}>3 сезона</span>
-                                    </div>
-                                    <div className={classes.detailActions}>
-                                        {/*{authData ? (*/}
-                                        {/*    <button className={className(classes.detailAction, undefined, [classes.actionSee])}>*/}
-                                        {/*        <Play className={className(classes.icon, undefined, [classes.iconSee])} />*/}
-                                        {/*        Смотреть по подписке*/}
-                                        {/*    </button>*/}
-                                        {/*) : null}*/}
-                                        <button
-                                            className={className(classes.detailAction, undefined, [classes.actionTrailer])}
-                                            onClick={onTrailer}
-                                        >
-                                            <Camera className={className(classes.icon, undefined, [classes.iconTrailer])} />
-                                            Трейлер
-                                        </button>
-                                        <button className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
-                                            <Favourites className={className(classes.icon, undefined, [classes.iconTrailer])} />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className={classes.detailContentContainer}>
-                                    <div className={classes.detailContent}>
-                                        <h3 className={classes.detailContentTitle}>Описание</h3>
-                                        <p className={classes.detailContentText}>
-                                            {series?.description ?? ''}
-                                        </p>
-                                    </div>
-                                    <div className={classes.mainActors}>
-                                        В главных ролях: {getActors().join(', ')}
+                                    <div className={classes.detailContentContainer}>
+                                        <div className={classes.detailContent}>
+                                            <h3 className={classes.detailContentTitle}>Описание</h3>
+                                            <p className={classes.detailContentText}>
+                                                {series?.description ?? ''}
+                                            </p>
+                                        </div>
+                                        <div className={classes.mainActors}>
+                                            В главных ролях: {getActors().join(', ')}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
