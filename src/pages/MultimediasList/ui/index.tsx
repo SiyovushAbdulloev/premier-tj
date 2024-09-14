@@ -342,18 +342,15 @@ const MultimediasListPage = () => {
                                                 <Play className={classes.playIcon} />
                                             </button>
                                             <span
-                                                className={classes.contentLabel}
+                                                className={className(classes.contentLabel, null, [classes.marquee])}
                                                 style={{opacity: hovered === item.id ? '1' : '0'}}
                                             >
-                                        <span className={classes.contentName}>
-                                            {item.name.length > 15 ? (
-                                                <Marquee text={item.name} />
-                                            ) : (
-                                                item.name
-                                            )}
-                                        </span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
-                                    </span>
+                                                <span className={classes.child}>
+                                                    <span className={classes.contentName}>
+                                                        {item.name} / {item.genres.map(genre => genre.name).join(', ')}
+                                                    </span>
+                                                </span>
+                                            </span>
                                         </div>
                                     )
                                 }
@@ -383,18 +380,15 @@ const MultimediasListPage = () => {
                                             <Play className={classes.playIcon} />
                                         </button>
                                         <span
-                                            className={classes.contentLabel}
+                                            className={className(classes.contentLabel, null, [classes.marquee])}
                                             style={{opacity: hovered === item.id ? '1' : '0'}}
                                         >
-                                        <span className={classes.contentName}>
-                                            {item.name.length > 15 ? (
-                                                <Marquee text={item.name} />
-                                            ) : (
-                                                item.name
-                                            )}
+                                            <span className={classes.child}>
+                                                <span className={classes.contentName}>
+                                                    {item.name} / {item.genres.map(genre => genre.name).join(', ')}
+                                                </span>
+                                            </span>
                                         </span>
-                                        <span className={classes.contentGenre}>/ {item.genres.map(genre => genre.name).join(', ')}</span>
-                                    </span>
                                     </div>
                                 )
                             })}

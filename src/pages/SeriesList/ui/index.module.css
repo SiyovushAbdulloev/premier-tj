@@ -77,24 +77,57 @@
     transition: all .1s ease;
     user-select: none;
     pointer-events: none;
+    overflow: hidden;
+}
+
+@-webkit-keyframes scroll {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    100% {
+        -webkit-transform: translate(-100%, 0);
+        transform: translate(-100%, 0)
+    }
+}
+
+@-moz-keyframes scroll {
+    0% {
+        -moz-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    100% {
+        -moz-transform: translate(-100%, 0);
+        transform: translate(-100%, 0)
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0)
+    }
+}
+
+.marquee .child {
+    -webkit-animation: scroll 3.5s infinite linear;
+    -moz-animation: scroll 3.5s infinite linear;
+    animation: scroll 3.5s infinite linear;
+    width: 100%;
+    display: flex;
 }
 
 .contentName {
     color: #ececec;
     font-size: 16px;
-    display: block;
-    width: 35%;
-    word-break: break-word;
+    white-space: nowrap;
 }
 
 .contentGenre {
     color: #8a8a8a;
     font-size: 16px;
-    display: block;
-    width: 65%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .fetchingMore {
