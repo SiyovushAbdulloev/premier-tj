@@ -11,10 +11,14 @@ import {ReactComponent as Mail} from 'src/shared/assets/icons/mail.svg'
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {className} from "src/shared/utils/className";
+import {logoutAdmin} from "src/entities/Auth";
+import {userActions} from "src/entities/User";
+import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 
 const AdminLayout = (props: React.PropsWithChildren) => {
     const navigate = useNavigate()
     const location = useLocation()
+    const dispatch = useAppDispatch()
 
     const goMain = () => {
         navigate(RoutesConfig.main.path)
@@ -95,6 +99,14 @@ const AdminLayout = (props: React.PropsWithChildren) => {
         ]
     }, [])
 
+    const logout = async () => {
+        const data = await dispatch(logoutAdmin())
+        if (data.type.includes('fulfilled')) {
+            dispatch(userActions.setAuthData(undefined))
+            navigate(RoutesConfig.main.path)
+        }
+    }
+
     return (
         <div className={classes.adminLayout}>
             <div className={classes.navbar}>
@@ -106,7 +118,7 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 />
                 <div className={classes.user}>
                     <h5 className={classes.username}>Admin</h5>
-                    <button className={classes.logout}>Выход</button>
+                    <button onClick={logout} className={classes.logout}>Выход</button>
                 </div>
             </div>
             <div className={classes.sidebar}>

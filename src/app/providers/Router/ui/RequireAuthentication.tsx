@@ -12,7 +12,7 @@ interface RequireAuthenticationProps extends React.PropsWithChildren {
 const RequireAuthentication = (props: RequireAuthenticationProps): any => {
     const authData = useSelector(getAuthUserData)
     const location = useLocation()
-    console.log({authData})
+
     if (props.route.require_auth) {
         if (authData === undefined && !props.route.allow_without_auth) {
             return <Navigate to={RoutesPath.main} state={{from: location}}/>

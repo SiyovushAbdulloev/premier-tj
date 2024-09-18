@@ -6,6 +6,8 @@ import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getAuthUser, getIsLogging, getLoginErrors, loginAdmin} from "src/entities/Auth";
 import {useSelector} from "react-redux";
 import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
+import {RoutesConfig} from "src/shared/config/routes";
+import {useNavigate} from "react-router-dom";
 const AdminLoginPage = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -13,6 +15,7 @@ const AdminLoginPage = () => {
     const dispatch = useAppDispatch()
     const errors = useSelector(getLoginErrors)
     const isLogging = useSelector(getIsLogging)
+    const navigate = useNavigate()
 
     const onRemember = () => {
         setRemember(!remember)
@@ -36,6 +39,7 @@ const AdminLoginPage = () => {
         }))
         if (data.type.includes('fulfilled')) {
             dispatch(getAuthUser())
+            navigate(RoutesConfig.admin_main.path)
         }
     }
 
