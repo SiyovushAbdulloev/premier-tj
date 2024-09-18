@@ -14,3 +14,4 @@ export const getIsFetchingOne = (state: StateSchema): boolean => state.mediaCont
 export const getIsFetchingAll = (state: StateSchema): boolean => state.mediaContent.isFetchingAll
 export const getIsFetchingMovie = (state: StateSchema): boolean => state.mediaContent.isFetchingMovie
 export const getIsFetchingAllMovies = (state: StateSchema): boolean => state.mediaContent.isFetchingAllMovies
+export const getIsSearching = (state: StateSchema): boolean => state.mediaContent.isSearching

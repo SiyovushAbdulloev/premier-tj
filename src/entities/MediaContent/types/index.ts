@@ -40,4 +40,5 @@ export interface MediaContentSchema {
     isFetchingAll: boolean
     isFetchingMovie: boolean
     isFetchingAllMovies: boolean
+    isSearching: boolean
 }

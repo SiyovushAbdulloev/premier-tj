@@ -287,6 +287,10 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         }
     }
 
+    const onSearchPage = () => {
+        navigate(RoutesConfig.search.path)
+    }
+
     return (
         <div className={classes.navbar}>
             <NativeModal
@@ -461,7 +465,8 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                 </ModalNav>
             </div>
             <SearchInput
-                placeholder={'Фильм, актер, жанр'}
+                onChange={(value) => onSearchPage()}
+                placeholder={'Фильм, сериал'}
                 style={{
                 'width': '473px',
                 'height': '40px',

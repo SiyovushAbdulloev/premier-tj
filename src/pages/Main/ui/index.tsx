@@ -19,6 +19,7 @@ import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import ReactPlayer from "react-player";
 import {MediaContent} from "src/entities/MediaContent";
+import {className} from "src/shared/utils/className";
 
 const MainPage = () => {
     const navigate = useNavigate()
@@ -59,13 +60,13 @@ const MainPage = () => {
     const onPage = (item: Media) => {
         switch (item.type) {
             case PageSectionType.MOVIE:
-                navigate(RoutesConfig.movies_show.path.replace(':id', `${item.data.id}`))
+                navigate(RoutesConfig.movies_show.path.replace(':slug', `${item.data.slug}`))
                 break
             case PageSectionType.MULTIMEDIA:
-                navigate(RoutesConfig.multimedias_show.path.replace(':id', `${item.data.id}`))
+                navigate(RoutesConfig.multimedias_show.path.replace(':slug', `${item.data.slug}`))
                 break
             case PageSectionType.SERIES:
-                navigate(RoutesConfig.series_show.path.replace(':id', `${item.data.id}`))
+                navigate(RoutesConfig.series_show.path.replace(':slug', `${item.data.slug}`))
                 break
         }
     }
@@ -193,12 +194,15 @@ const MainPage = () => {
                                                                 <Play className={classes.playIcon} />
                                                             </button>
                                                             <span
-                                                                className={classes.contentLabel}
+                                                                className={className(classes.itemContentLabel, null, [classes.marquee])}
                                                                 style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
                                                             >
-                                                        <span className={classes.contentName}>{item.data.name}</span>
-                                                        <span className={classes.contentGenre}>/ {item.data.genres.map(genre => genre.name).join(',')}</span>
-                                                    </span>
+                                                                <span className={classes.child}>
+                                                                    <span className={classes.itemContentName}>
+                                                                        {item.data.name} / {item.data.genres.map(genre => genre.name).join(', ')}
+                                                                    </span>
+                                                                </span>
+                                                            </span>
                                                         </div>
                                                     </SwiperSlide>
                                                 )

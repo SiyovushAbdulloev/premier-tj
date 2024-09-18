@@ -538,9 +538,6 @@ const MoviesListPage = () => {
                                 <h1 className={classes.noRecords}>Нет фильмов</h1>
                             ) : null}
                         </div>
-                        {/*{isFetchingMovies ? (*/}
-                        {/*    <Fetching className={classes.fetchingMore} />*/}
-                        {/*) : null}*/}
                         {(loading || isFetchingMovies) ? (
                             <div className={classes.sections}>
                                 {Array.from(Array(8).keys()).map(index => {

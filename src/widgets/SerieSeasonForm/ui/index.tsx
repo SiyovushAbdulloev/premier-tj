@@ -83,6 +83,7 @@ const SerieSeasonForm = (props: Props) => {
     }
 
     const goBack = () => {
+        console.log("BACK")
         navigate(-1)
     }
 
