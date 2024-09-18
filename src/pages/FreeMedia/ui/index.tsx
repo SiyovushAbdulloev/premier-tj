@@ -19,13 +19,14 @@ import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import ReactPlayer from "react-player";
 import {MediaContent} from "src/entities/MediaContent";
+import {className} from "src/shared/utils/className";
 
 const FreeMediaPage = () => {
     const navigate = useNavigate()
     const isFetchingSections = useSelector(getIsFetchingAll)
     const [sections, setSections] = useState<Array<PageSection>>([])
     const dispatch = useAppDispatch()
-    const [hovered, setHovered] = useState<{section: string, name: string, id: number}>({
+    const [hovered, setHovered] = useState<{ section: string, name: string, id: number }>({
         section: '',
         name: '',
         id: 0
@@ -59,12 +60,13 @@ const FreeMediaPage = () => {
     const onPage = (item: Media) => {
         switch (item.type) {
             case PageSectionType.MOVIE:
-                navigate(RoutesConfig.movies_show.path.replace(':id', `${item.data.id}`))
+                navigate(RoutesConfig.movies_show.path.replace(':slug', `${item.data.slug}`))
                 break
             case PageSectionType.MULTIMEDIA:
+                navigate(RoutesConfig.multimedias_show.path.replace(':slug', `${item.data.slug}`))
                 break
             case PageSectionType.SERIES:
-                navigate(RoutesConfig.series_show.path.replace(':id', `${item.data.id}`))
+                navigate(RoutesConfig.series_show.path.replace(':slug', `${item.data.slug}`))
                 break
         }
     }
@@ -72,8 +74,8 @@ const FreeMediaPage = () => {
     return (
         <div className={classes.mainPage} style={{height: isFetchingSections ? '700px' : 'fit-content'}}>
             {isFetchingSections ? (
-                <Fetching className={classes.fetching} />
-                ) : (
+                <Fetching className={classes.fetching}/>
+            ) : (
                 <>
                     <div className={classes.sections}>
                         {sections.map((section: PageSection) => (
@@ -142,15 +144,18 @@ const FreeMediaPage = () => {
                                                                 className={classes.playBtn}
                                                                 style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
                                                             >
-                                                                <Play className={classes.playIcon} />
+                                                                <Play className={classes.playIcon}/>
                                                             </button>
                                                             <span
-                                                                className={classes.contentLabel}
+                                                                className={className(classes.itemContentLabel, null, [classes.marquee])}
                                                                 style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
                                                             >
-                                                        <span className={classes.contentName}>{item.data.name}</span>
-                                                        <span className={classes.contentGenre}>/ {item.data.genres.map(genre => genre.name).join(',')}</span>
-                                                    </span>
+                                                                <span className={classes.child}>
+                                                                    <span className={classes.itemContentName}>
+                                                                        {item.data.name} / {item.data.genres.map(genre => genre.name).join(', ')}
+                                                                    </span>
+                                                                </span>
+                                                            </span>
                                                         </div>
                                                     </SwiperSlide>
                                                 )
