@@ -74,6 +74,7 @@ const SeriesShowPage = () => {
                 description: episode.description,
                 duration: episode.duration,
                 poster: episode.poster,
+                file: episode.file,
             }
         })
     }, [series, currentSeason])
@@ -101,6 +102,7 @@ const SeriesShowPage = () => {
                     height={'100%'}
                     url={series?.trailer ?? ''}
                     controls={true}
+                    playing={showTrailer}
                 />
             </Modal>
             <Modal
@@ -217,7 +219,7 @@ const SeriesShowPage = () => {
                                     >
                                         <div
                                             className={classes.episodeAvatar}
-                                            onClick={() => setEpisode(episode.poster)}
+                                            onClick={() => setEpisode(episode.file)}
                                         >
                                             <img
                                                 src={episode.poster}
@@ -279,7 +281,7 @@ const SeriesShowPage = () => {
                                         </div>
                                         <div className={classes.extraInfoCard}>
                                             <span className={classes.infoCardLabel}>Длительность</span>
-                                            <span className={classes.infoCardText}>3 сезона</span>
+                                            <span className={classes.infoCardText}>{series?.seasons ? series.seasons.length : 0} сезон</span>
                                         </div>
                                         <div className={classes.extraInfoCard}>
                                             <span className={classes.infoCardLabel}>Страна</span>

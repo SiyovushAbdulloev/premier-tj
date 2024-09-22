@@ -1,6 +1,6 @@
 import classes from './index.module.css'
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading.svg'
 import {useNavigate, useParams} from "react-router-dom";
@@ -28,6 +28,8 @@ const MoviesShowPage = () => {
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
+    const reactPlayerRef = useRef<any>()
+    const [trailer, setTrailer] = useState<string>('')
 
     useEffect(() => {
         dispatch(getMovie(slug ?? ''))
@@ -77,11 +79,23 @@ const MoviesShowPage = () => {
 
     }
 
+    const onShowTrailer = (value: boolean) => {
+        setShowTrailer(value)
+    }
+
+    useEffect(() => {
+        if (showTrailer) {
+            setTrailer(movie?.trailer ?? '')
+        } else {
+            setTrailer('')
+        }
+    }, [showTrailer])
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
                 value={showTrailer}
-                onChange={(value: boolean) => setShowTrailer(value)}
+                onChange={onShowTrailer}
                 style={{
                     backgroundColor: '#000',
                     maxWidth: '800px',
@@ -89,10 +103,12 @@ const MoviesShowPage = () => {
                 }}
             >
                 <ReactPlayer
+                    ref={reactPlayerRef}
                     width={'100%'}
                     height={'100%'}
-                    url={movie?.trailer ?? ''}
+                    url={trailer}
                     controls={true}
+                    playing={showTrailer}
                 />
             </Modal>
             {fetching ? (
