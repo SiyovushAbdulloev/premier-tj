@@ -1,13 +1,13 @@
 import classes from './index.module.css'
 import {Table, TableColumn} from "src/shared/ui/Table";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {destroyCountry, getCountries, getData, getFetching, getPagination} from "src/entities/Country";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
 import {Input} from "src/shared/ui/Input";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 
 const CountriesPage = () => {
@@ -18,22 +18,27 @@ const CountriesPage = () => {
     const fetching = useSelector(getFetching)
     const navigate = useNavigate()
     const location = useLocation()
-    const params = useParams() //TODO: Get page from url param. DO IT WHEN FIX REFRESHING IN ADMIN PANEL
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
-        dispatch(getCountries())
+        const q = searchParams.get('q') ?? ''
+        dispatch(getCountries({
+            page: parseInt(searchParams.get('page') ?? '1'),
+            q
+        }))
+        setSearch(q)
     }, [])
 
     const fetchCountries = (value: number) => {
         // @ts-ignore
         dispatch(getCountries({page: value}))
-        navigate(location.pathname + `?page=${value}`)
+        navigate(location.pathname + `?page=${value}&q=${search}`)
     }
 
     const onSearch = () => {
         // @ts-ignore
         dispatch(getCountries({page: pagination.current_page, q: search}))
-        navigate(location.pathname + `?page=${pagination.current_page}?q=${search}`)
+        navigate(location.pathname + `?page=${pagination.current_page}&q=${search}`)
     }
 
     const onCreate = () => {
@@ -106,6 +111,10 @@ const CountriesPage = () => {
                             <TableColumn
                                 label={'Наименование'}
                                 prop={'name'}
+                            />
+                            <TableColumn
+                                label={'Код'}
+                                prop={'code'}
                             />
                             <TableColumn
                                 label={'Действия'}

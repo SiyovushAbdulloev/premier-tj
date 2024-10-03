@@ -23,6 +23,7 @@ interface Props {
 }
 const CountryForm = (props: Props) => {
     const [name, setName] = useState<string>(props.data ? props.data.name : '')
+    const [code, setCode] = useState<string>(props.data ? props.data.code : '')
     const dispatch = useAppDispatch()
     const isStoring = useSelector(getIsStoring)
     const errors = useSelector(getStoreErrors)
@@ -35,10 +36,10 @@ const CountryForm = (props: Props) => {
         let data
 
         if (props.type === FormType.CREATE) {
-            data  = await dispatch(storeCountry(name))
+            data  = await dispatch(storeCountry({name, code}))
         } else {
             //@ts-ignore
-            data  = await dispatch(updateCountry({name, id: props.data.id}))
+            data  = await dispatch(updateCountry({name, code, id: props.data.id}))
         }
 
         if (data.type.includes('fulfilled')) {
@@ -52,6 +53,10 @@ const CountryForm = (props: Props) => {
         setName(value)
     }
 
+    const onCode = (value: string) => {
+        setCode(value)
+    }
+
     const goBack = () => {
         navigate(-1)
     }
@@ -59,6 +64,7 @@ const CountryForm = (props: Props) => {
     useEffect(() => {
         if (props.data) {
             setName(props.data.name)
+            setCode(props.data.code)
         }
     }, [props.data])
 
@@ -73,6 +79,13 @@ const CountryForm = (props: Props) => {
                 id={'name'}
                 placeholder={'Таджикистан'}
                 label={'Наименование'}
+            />
+            <TextField
+                onChange={onCode}
+                value={code}
+                id={'code'}
+                placeholder={'tg'}
+                label={'Код'}
             />
             {errors && Object.keys(errors).map((key: string) => {
                 return (

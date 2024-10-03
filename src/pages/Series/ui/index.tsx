@@ -22,16 +22,18 @@ const SeriesPage = () => {
     const [searchParams] = useSearchParams()
 
     useEffect(() => {
+        const q = searchParams.get('q') ?? ''
         dispatch(getAllSeries({
             page: parseInt(searchParams.get('id') ?? '1'),
-            q: searchParams.get('q') ?? ''
+            q
         }))
+        setSearch(q)
     }, [])
 
     const fetchSeries = (value: number) => {
         // @ts-ignore
         dispatch(getAllSeries({page: value}))
-        navigate(location.pathname + `?page=${value}`)
+        navigate(location.pathname + `?page=${value}&q=${search}`)
     }
 
     const onSearch = () => {

@@ -3,7 +3,7 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const updateCountry = createAsyncThunk(
     'country/updateGenre',
-    async (data: { name: string, id: number }, {rejectWithValue, getState}) => {
+    async (data: { name: string, code: string, id: number }, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
@@ -16,7 +16,7 @@ export const updateCountry = createAsyncThunk(
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify({name: data.name}),
+                body: JSON.stringify({name: data.name, code: data.code}),
                 credentials: 'include'
             })
 

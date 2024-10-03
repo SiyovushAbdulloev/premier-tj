@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading_admin.svg'
 import {ReactComponent as Plus} from 'src/shared/assets/icons/plus.svg'
 import {Input} from "src/shared/ui/Input";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 
 const GenresPage = () => {
@@ -18,22 +18,27 @@ const GenresPage = () => {
     const fetching = useSelector(getFetching)
     const navigate = useNavigate()
     const location = useLocation()
-    const params = useParams() //TODO: Get page from url param. DO IT WHEN FIX REFRESHING IN ADMIN PANEL
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
-        dispatch(getGenres())
+        const q = searchParams.get('q') ?? ''
+        dispatch(getGenres({
+            page: parseInt(searchParams.get('page') ?? '1'),
+            q
+        }))
+        setSearch(q)
     }, [])
 
     const fetchGenres = (value: number) => {
         // @ts-ignore
         dispatch(getGenres({page: value}))
-        navigate(location.pathname + `?page=${value}`)
+        navigate(location.pathname + `?page=${value}&q=${search}`)
     }
 
     const onSearch = () => {
         // @ts-ignore
         dispatch(getGenres({page: pagination.current_page, q: search}))
-        navigate(location.pathname + `?page=${pagination.current_page}?q=${search}`)
+        navigate(location.pathname + `?page=${pagination.current_page}&q=${search}`)
     }
 
     const onCreate = () => {

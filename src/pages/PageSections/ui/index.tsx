@@ -45,7 +45,7 @@ const PageSectionsPage = () => {
     const fetchSections = (value: number) => {
         // @ts-ignore
         dispatch(getPageSections({page: value}))
-        setSearchParams({'page': value + ''})
+        setSearchParams({'page': value + '', 'p': searchParams.get('p') ?? ''})
     }
 
     const onCreate = () => {

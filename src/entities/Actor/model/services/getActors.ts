@@ -14,7 +14,7 @@ export const getActors = createAsyncThunk(
             uri += `?page=${page}`
 
             if (q.length) {
-                uri += `&&q=${q}`
+                uri += `&q=${q}`
             }
 
             const response = await fetch(APP_URL + uri, {
