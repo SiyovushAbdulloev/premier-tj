@@ -6,6 +6,6 @@ export const getNotFound = (state: StateSchema): boolean => state.auth.data.notF
 export const getLoginErrors = (state: StateSchema): InputError | undefined => state.auth.data.loginErrors
 export const getIsLogging = (state: StateSchema): boolean => state.auth.data.isLogging
 export const getIsFetching = (state: StateSchema): boolean => state.auth.data.isFetching
-export const getIsSendingEmail = (state: StateSchema): boolean => state.auth.data.isSendingEmail
+export const getIsSendingOTP = (state: StateSchema): boolean => state.auth.data.isSendingOTP
 export const getIsCheckingOtp = (state: StateSchema): boolean => state.auth.data.isCheckingOTP
 export const getOtpErrors = (state: StateSchema): InputError | undefined => state.auth.data.otpErrors

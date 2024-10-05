@@ -62,7 +62,7 @@ const SubscriptionRequestsShowPage = () => {
                         <h2 className={classes.sectionTitle}>Пользователь</h2>
                         <div className={classes.infoField}>
                             <span className={classes.infoFieldLabel}>Почта:</span>
-                            <span className={classes.infoFieldLabel}>{data ? data.user.email : ''}</span>
+                            {/*<span className={classes.infoFieldLabel}>{data ? data.user.email : ''}</span>*/}
                         </div>
                     </section>
                     <section className={classes.section}>

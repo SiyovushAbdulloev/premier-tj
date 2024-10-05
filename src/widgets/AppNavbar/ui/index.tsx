@@ -20,19 +20,21 @@ import {useNavigate} from 'react-router-dom'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {
-    checkOTP,
+    checkLoginOTP,
     getIsCheckingOtp,
-    getIsSendingEmail,
+    getIsSendingOTP,
     getOtpErrors,
     logoutAdmin,
     logoutUser,
-    sendEmail
+    sendLoginOtp,
+    sendRegisterOtp,
 } from "src/entities/Auth";
 import {ModalNav} from "src/shared/ui/ModalNav";
 import {ReactComponent as Cancel} from "src/shared/assets/icons/cancel.svg"
 import {NativeModal} from "src/shared/ui/NativeModal";
 import {ReactComponent as Back} from "src/shared/assets/icons/back.svg"
 import OTPInput from "react-otp-input";
+import {checkRegisterOTP} from "src/entities/Auth/model/services/checkRegisterOTP";
 
 const navigations = [
     {
@@ -120,17 +122,20 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const [showMenu, setShowMenu] = useState(false)
     const [navItem, setNavItem] = useState<string>('movies')
     const [showLogin, setShowLogin] = useState<boolean>(false)
+    const [showRegister, setShowRegister] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [sent, setSent] = useState<boolean>(false)
     const [resent, setResent] = useState<boolean>(false)
-    const [email, setEmail] = useState<string>('')
+    const [phone, setPhone] = useState<string>('')
+    const [firstname, setFirstname] = useState<string>('')
+    const [lastname, setLastname] = useState<string>('')
     const [otp, setOtp] = useState<string>('')
     const [canResend, setCanResend] = useState<boolean>(false)
     const [time, setTime] = useState<number>(60)
     const timerRef = useRef<any>()
-    const isSendingEmail = useSelector(getIsSendingEmail)
+    const isSendingEmail = useSelector(getIsSendingOTP)
     const isCheckingOtp = useSelector(getIsCheckingOtp)
     const otpErrors = useSelector(getOtpErrors)
 
@@ -241,8 +246,15 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowLogin(true)
     }
 
-    const onContinue = async () => {
-        const response = await dispatch(sendEmail({email}))
+    const onRegisterContinue = async () => {
+        const response = await dispatch(sendRegisterOtp({phone}))
+        if (response.type.includes('fulfilled')) {
+            setSent(true)
+        }
+    }
+
+    const onLoginContinue = async () => {
+        const response = await dispatch(sendLoginOtp({phone}))
         if (response.type.includes('fulfilled')) {
             setSent(true)
         }
@@ -252,7 +264,11 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowLogin(value)
         setSent(false)
         onBack()
-        setEmail('')
+        setPhone('')
+    }
+
+    const onRegisterModal = (value: boolean) => {
+        setShowRegister(value)
     }
 
     const onBack = () => {
@@ -265,9 +281,9 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setOtp('')
     }
 
-    const onSend = async () => {
-        const response = await dispatch(checkOTP({
-            email,
+    const onLoginSend = async () => {
+        const response = await dispatch(checkLoginOTP({
+            phone,
             otp
         }))
         if (response.type.includes('fulfilled')) {
@@ -277,8 +293,33 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         }
     }
 
-    const onResendOTP = async () => {
-        const response = await dispatch(sendEmail({email}))
+    const onRegisterSend = async () => {
+        const response = await dispatch(checkRegisterOTP({
+            phone,
+            first_name: firstname,
+            last_name: lastname,
+            otp
+        }))
+        if (response.type.includes('fulfilled')) {
+            console.log({response})
+            await dispatch(userActions.setAuthData(response.payload.user))
+            onRegisterModal(false)
+            setShowUser(false)
+        }
+    }
+
+    const onRegisterResendOTP = async () => {
+        const response = await dispatch(sendRegisterOtp({phone}))
+        if (response.type.includes('fulfilled')) {
+            timerRef.current = null
+            setTime(60)
+            setCanResend(false)
+            setResent(true)
+        }
+    }
+
+    const onLoginResendOTP = async () => {
+        const response = await dispatch(sendLoginOtp({phone}))
         if (response.type.includes('fulfilled')) {
             timerRef.current = null
             setTime(60)
@@ -291,6 +332,12 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         navigate(RoutesConfig.search.path)
     }
 
+    const showRegisterModal = () => {
+        setPhone('')
+        setShowLogin(false)
+        setShowRegister(true)
+    }
+    console.log({authData})
     return (
         <div className={classes.navbar}>
             <NativeModal
@@ -312,22 +359,22 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                             <input
                                 className={classes.phone}
                                 type="text"
-                                value={email}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                                value={phone}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
                             />
                             <span className={classes.phoneIdentifier}>@</span>
                         </div>
                         <button
                             className={classes.continueBtn}
-                            onClick={onContinue}
-                            disabled={email.length === 0}
+                            onClick={onLoginContinue}
+                            disabled={phone.length === 0}
                         >
                             {isSendingEmail ? (
                                 <span className={classes.loader}></span>
                             ) : 'Продолжить'}
                         </button>
-                        <p className={classes.privacyPolicy}>
-                            Нажимая «Продолжить», я принимаю условия <span className={classes.privacyPolicyLink}>Пользовательского соглашения</span> ООО «ПРЕМЬЕР»
+                        <p className={classes.registerLabel} onClick={showRegisterModal}>
+                            У меня нет аккаунта
                         </p>
                     </div>
                 ) : (
@@ -384,7 +431,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         {canResend ? (
                             <button
                                 className={classes.resend}
-                                onClick={onResendOTP}
+                                onClick={onLoginResendOTP}
                             >
                                 {isSendingEmail ? (
                                     <span className={classes.loader} style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>
@@ -393,7 +440,136 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         ) : null}
                         <button
                             className={classes.continueBtn}
-                            onClick={onSend}
+                            onClick={onLoginSend}
+                            disabled={otp.length < 6}
+                        >
+                            {isCheckingOtp ? (
+                                <span className={classes.loader}></span>
+                            ) : 'Отправить'}
+                        </button>
+                        <p className={classes.privacyPolicy}>
+                            Если нужна помощь, пиши нам
+                            на help@premier.rj
+                        </p>
+                    </div>
+                )}
+            </NativeModal>
+            <NativeModal
+                value={showRegister}
+                onChange={onRegisterModal}
+            >
+                {!sent ? (
+                    <div className={classes.loginContent}>
+                        <img
+                            src={Logo}
+                            alt="Brand"
+                            className={classes.loginBrand}
+                        />
+                        <h1 className={classes.loginTitle}>Зарегистрироваться</h1>
+                        <div className={classes.field}>
+                            <input
+                                type="text"
+                                className={classes.fieldInput}
+                                placeholder={"Телефон"}
+                                value={phone}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+                            />
+                        </div>
+                        <div className={classes.field}>
+                            <input
+                                type="text"
+                                className={classes.fieldInput}
+                                placeholder={"Имя"}
+                                value={firstname}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFirstname(e.target.value)}
+                            />
+                        </div>
+                        <div className={classes.field}>
+                            <input
+                                type="text"
+                                className={classes.fieldInput}
+                                placeholder={"Фамилия"}
+                                value={lastname}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastname(e.target.value)}
+                            />
+                        </div>
+                        <button
+                            className={classes.continueBtn}
+                            onClick={onRegisterContinue}
+                            disabled={!phone.length || !firstname.length || !lastname.length}
+                        >
+                            {isSendingEmail ? (
+                                <span className={classes.loader}></span>
+                            ) : 'Продолжить'}
+                        </button>
+                        <p className={classes.privacyPolicy}>
+                            Нажимая «Продолжить», я принимаю условия <span className={classes.privacyPolicyLink}>Пользовательского соглашения</span> ООО «ПРЕМЬЕР»
+                        </p>
+                    </div>
+                ) : (
+                    <div className={classes.loginContent}>
+                        <button
+                            className={classes.back}
+                            onClick={onBack}
+                        >
+                            <Back width={20} height={20} />
+                        </button>
+                        <img
+                            src={Logo}
+                            alt="Brand"
+                            className={classes.loginBrand}
+                        />
+                        <h1 className={classes.loginTitle}>Введите номер из СМС</h1>
+                        <p className={classes.loginDescription}>
+                            Код отправлен на номер телефона {phone}
+                        </p>
+                        <OTPInput
+                            value={otp}
+                            onChange={setOtp}
+                            numInputs={6}
+                            renderSeparator={<span>&nbsp;&nbsp;&nbsp;</span>}
+                            renderInput={(props) => {
+                                return (
+                                    <input {...props} className={className(classes.otpInput, undefined, [props.className ?? ''])} />
+                                )
+                            }}
+                        />
+                        {otpErrors ? (
+                            <div className={classes.errors}>
+                                {otpErrors && Object.keys(otpErrors).map((key: string) => {
+                                    return (
+                                        <div key={key}>
+                                            {otpErrors[key].map((message: string) => {
+                                                return (
+                                                    <p
+                                                        key={message}
+                                                        className={classes.error}
+                                                    >
+                                                        {message}
+                                                    </p>
+                                                )
+                                            })}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ) : null}
+                        {time ? (
+                            <p className={classes.resendDescription}>Отправить код повторно можно через {time} сек.</p>
+                        ) : null}
+                        {canResend ? (
+                            <button
+                                className={classes.resend}
+                                onClick={onRegisterResendOTP}
+                            >
+                                {isSendingEmail ? (
+                                    <span className={classes.loader} style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>
+                                ) : 'Отправить код повторно'}
+                            </button>
+                        ) : null}
+                        <button
+                            className={classes.continueBtn}
+                            onClick={onRegisterSend}
                             disabled={otp.length < 6}
                         >
                             {isCheckingOtp ? (
@@ -511,7 +687,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     >
                                         <User width={32} height={32} />
                                     </button>
-                                    {authData.email}
+                                    {authData.first_name + " " + authData.last_name} ({authData.phone})
                                 </div>
                                 <ul className={classes.profileItems}>
                                     <div className={classes.profileItem}>

@@ -9,7 +9,7 @@ export interface Auth {
     loginErrors: InputError | undefined
     isLogging: boolean
     isFetching: boolean
-    isSendingEmail: boolean
+    isSendingOTP: boolean
     isCheckingOTP: boolean
     otpErrors: InputError | undefined
 }

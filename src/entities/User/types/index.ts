@@ -2,9 +2,9 @@ import {Role} from "src/entities/Role";
 
 export interface User {
     id: number
-    full_name: string
+    first_name: string
+    last_name: string
     phone: string
-    email: string
     roles: Array<Role>
 }
 

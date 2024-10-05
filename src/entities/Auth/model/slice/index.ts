@@ -1,8 +1,10 @@
 import {AuthSchema} from "../../types/index";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getAuthUser, getCsrfToken, loginAdmin} from "src/entities/Auth";
-import {sendEmail} from "../services/sendEmail"
-import {checkOTP} from "../services/checkOTP"
+import {sendLoginOtp} from "../services/sendLoginOtp"
+import {sendRegisterOtp} from "../services/sendRegisterOtp"
+import {checkLoginOTP} from "../services/checkLoginOTP"
+import {checkRegisterOTP} from "../services/checkRegisterOTP"
 
 const initialState: AuthSchema = {
     data: {
@@ -12,7 +14,7 @@ const initialState: AuthSchema = {
         loginErrors: undefined,
         isLogging: false,
         isFetching: false,
-        isSendingEmail: false,
+        isSendingOTP: false,
         isCheckingOTP: false,
         otpErrors: undefined,
     }
@@ -58,24 +60,47 @@ export const authSlice = createSlice({
                 // @ts-ignore
                 state.data.isFetching = false
             })
-            .addCase(sendEmail.fulfilled, (state, action) => {
-                state.data.isSendingEmail = false
+            .addCase(sendLoginOtp.fulfilled, (state, action) => {
+                state.data.isSendingOTP = false
             })
-            .addCase(sendEmail.pending, (state, action) => {
-                state.data.isSendingEmail = true
+            .addCase(sendLoginOtp.pending, (state, action) => {
+                state.data.isSendingOTP = true
             })
-            .addCase(sendEmail.rejected, (state, action) => {
+            .addCase(sendLoginOtp.rejected, (state, action) => {
                 // @ts-ignore
-                state.data.isSendingEmail = false
+                state.data.isSendingOTP = false
             })
-            .addCase(checkOTP.fulfilled, (state, action) => {
+            .addCase(sendRegisterOtp.fulfilled, (state, action) => {
+                state.data.isSendingOTP = false
+            })
+            .addCase(sendRegisterOtp.pending, (state, action) => {
+                state.data.isSendingOTP = true
+            })
+            .addCase(sendRegisterOtp.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isSendingOTP = false
+            })
+            .addCase(checkLoginOTP.fulfilled, (state, action) => {
                 state.data.isCheckingOTP = false
                 localStorage.setItem('token', action.payload.token)
             })
-            .addCase(checkOTP.pending, (state, action) => {
+            .addCase(checkLoginOTP.pending, (state, action) => {
                 state.data.isCheckingOTP = true
             })
-            .addCase(checkOTP.rejected, (state, action) => {
+            .addCase(checkLoginOTP.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isCheckingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = action.payload
+            })
+            .addCase(checkRegisterOTP.fulfilled, (state, action) => {
+                state.data.isCheckingOTP = false
+                localStorage.setItem('token', action.payload.token)
+            })
+            .addCase(checkRegisterOTP.pending, (state, action) => {
+                state.data.isCheckingOTP = true
+            })
+            .addCase(checkRegisterOTP.rejected, (state, action) => {
                 // @ts-ignore
                 state.data.isCheckingOTP = false
                 // @ts-ignore

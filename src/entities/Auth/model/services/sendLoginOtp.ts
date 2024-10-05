@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
 
-export const sendEmail = createAsyncThunk(
-    'auth/sendEmail',
-    async (data: {email: string}, {getState, rejectWithValue}) => {
+export const sendLoginOtp = createAsyncThunk(
+    'auth/sendLoginOtp',
+    async (data: { phone: string }, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
