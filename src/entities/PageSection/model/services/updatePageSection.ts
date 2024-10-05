@@ -5,25 +5,20 @@ export const updatePageSection = createAsyncThunk(
     'pageSection/updatePageSection',
     async (data: {
         id: number
-        label: string,
-        media: Array<{type: string, id: number}>
+        data: any
     }, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
             const response = await fetch(APP_URL + `/api/admin/page-sections/${data.id}`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify({
-                    label: data.label,
-                    media: data.media,
-                }),
+                body: data.data,
                 credentials: 'include'
             })
 

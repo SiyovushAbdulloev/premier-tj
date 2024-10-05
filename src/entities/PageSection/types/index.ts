@@ -19,6 +19,7 @@ export interface PageSection {
     label: string
     media: Array<Media>
     page: Page
+    ad_url?: string
 }
 
 export interface PageSectionSchema {

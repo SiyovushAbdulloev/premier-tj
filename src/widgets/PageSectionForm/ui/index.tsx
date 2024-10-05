@@ -1,11 +1,10 @@
 import classes from './index.module.css'
 import {FormType} from "src/shared/constants/formType";
 import {TextField} from "src/shared/ui/TextField";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading_admin.svg";
 import {className} from "src/shared/utils/className";
@@ -29,13 +28,14 @@ import {Option, SearchableSelect} from "src/shared/ui/SearchableSelect";
 import {SelectedOption} from "src/shared/ui/SearchableSelect/ui";
 import {getAllMediaContents, getIsFetchingAll, MediaContent} from "src/entities/MediaContent";
 import {ReactComponent as Cancel} from "src/shared/assets/icons/cancel_badge.svg"
+import {Upload} from "src/shared/ui/Upload";
 
 interface Props {
     type: FormType
     data?: PageSection
 }
 
-const Types: {[key: string]: string} = {
+const Types: { [key: string]: string } = {
     'movie': 'Кино',
     'multimedia': 'Stand up/Новости',
     'series': 'Сериалы',
@@ -43,13 +43,19 @@ const Types: {[key: string]: string} = {
 
 const PageSectionForm = (props: Props) => {
     const [label, setLabel] = useState<string>(props.data ? props.data.label : '')
+    const [adUrl, setAdUrl] = useState<string>(props.data ? props.data.ad_url ?? '' : '')
     const [page, setPage] = useState<string>(props.data ? props.data.page.value : '')
     const [files, setFiles] = useState<Array<MediaContent | Series>>([])
     const [showModal, setShowModal] = useState<boolean>(false)
     const [selectedType, setSelectedType] = useState<string>('')
-    const [selectedFiles, setSelectedFiles] = useState<Array<{type: string, id: number, name: string}>>(props.data ? props.data.media.map(file => ({id: file.data.id, name: file.data.name, type: file.type})) : [])
+    const [selectedFiles, setSelectedFiles] = useState<Array<{
+        type: string,
+        id: number,
+        name: string
+    }>>(props.data ? props.data.media.map(file => ({id: file.data.id, name: file.data.name, type: file.type})) : [])
     const [pages, setPages] = useState<Array<Page>>([])
     const isFetchingPages = useSelector(getIsFetchingPages)
+    const adRef = useRef<File | undefined>(undefined)
 
     const dispatch = useAppDispatch()
     const isStoring = useSelector(getIsStoring)
@@ -67,16 +73,27 @@ const PageSectionForm = (props: Props) => {
         let response
 
         if (props.type === FormType.CREATE) {
-            response  = await dispatch(storePageSection({
-                label,
-                media: selectedFiles.map(file => ({type: file.type, id: file.id})),
-                page,
-            }))
+            const formdata = new FormData()
+            formdata.append('label', label)
+            formdata.append('page', page)
+            formdata.append('ad', adRef.current ?? '')
+            selectedFiles.map(file => ({type: file.type, id: file.id})).forEach((item, index) => {
+                formdata.append(`media[${index}][type]`, item.type)
+                formdata.append(`media[${index}][id]`, item.id + '')
+            })
+            response = await dispatch(storePageSection(formdata))
         } else {
-            response  = await dispatch(updatePageSection({
+            const formdata = new FormData()
+            formdata.append('label', label)
+            formdata.append('ad', adRef.current ?? '')
+            formdata.append('_method', 'PUT')
+            selectedFiles.map(file => ({type: file.type, id: file.id})).forEach((item, index) => {
+                formdata.append(`media[${index}][type]`, item.type)
+                formdata.append(`media[${index}][id]`, item.id + '')
+            })
+            response = await dispatch(updatePageSection({
                 id: props.data?.id ?? 0,
-                label,
-                media: selectedFiles.map(file => ({type: file.type, id: file.id}))
+                data: formdata
             }))
         }
 
@@ -97,6 +114,7 @@ const PageSectionForm = (props: Props) => {
     useEffect(() => {
         if (props.data) {
             setLabel(props.data.label)
+            setAdUrl(props.data.ad_url ?? '');
             setPage(props.data.page.value)
             setSelectedFiles(props.data.media.map(file => ({id: file.data.id, name: file.data.name, type: file.type})))
         }
@@ -232,8 +250,8 @@ const PageSectionForm = (props: Props) => {
                 </div>
             </Modal>
             {isFetchingOne ? (
-                <Fetching className={classes.fetching} />
-                ) : (
+                <Fetching className={classes.fetching}/>
+            ) : (
                 <>
                     <div className={className(classes.group, {}, [classes.end])}>
                         <TextField
@@ -244,7 +262,20 @@ const PageSectionForm = (props: Props) => {
                             label={'Наименование'}
                             placeholder={'Премьеры месяца'}
                         />
+                        <Upload
+                            ref={adRef}
+                            placeholder={'Загрузите изображение рекламы...'}
+                            sizeLimit={100000}
+                            extensions={['image/png', 'image/jpg', 'image/jpeg']}
+                        />
                     </div>
+                    {adUrl.length ? (
+                        <img
+                            className={classes.fileUrl}
+                            src={adUrl}
+                            alt="Poster"
+                        />
+                    ) : null}
                     <div className={className(classes.group, {}, [classes.end])}>
                         <SearchableSelect
                             height={pages.length > 5 ? 220 : null}
@@ -330,7 +361,8 @@ const PageSectionForm = (props: Props) => {
                             Назад
                         </button>
                         <button className={classes.formAction}>
-                            {(isStoring || isUpdating) ? <Loading width={24} height={24} /> : props.type === FormType.CREATE ? 'Создать' : 'Изменить'}
+                            {(isStoring || isUpdating) ? <Loading width={24}
+                                                                  height={24}/> : props.type === FormType.CREATE ? 'Создать' : 'Изменить'}
                         </button>
                     </div>
                 </>

@@ -3,11 +3,7 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const storePageSection = createAsyncThunk(
     'pageSection/storePageSection',
-    async (data: {
-        label: string,
-        media: Array<{type: string, id: number}>,
-        page: string
-    }, {rejectWithValue, getState}) => {
+    async (data: any, {rejectWithValue, getState}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
@@ -17,10 +13,9 @@ export const storePageSection = createAsyncThunk(
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify(data),
+                body: data,
                 credentials: 'include'
             })
 

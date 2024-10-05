@@ -210,6 +210,13 @@ const MainPage = () => {
                                         })}
                                     </CustomSwiper>
                                 </div>
+                                {section.ad_url ? (
+                                    <img
+                                        src={section.ad_url}
+                                        alt="Ad"
+                                        className={classes.adImage}
+                                    />
+                                ) : null}
                             </div>
                         ))}
                     </div>
