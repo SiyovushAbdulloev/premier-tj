@@ -62,23 +62,33 @@ export const authSlice = createSlice({
             })
             .addCase(sendLoginOtp.fulfilled, (state, action) => {
                 state.data.isSendingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = null
             })
             .addCase(sendLoginOtp.pending, (state, action) => {
                 state.data.isSendingOTP = true
+                // @ts-ignore
+                state.data.otpErrors = null
             })
             .addCase(sendLoginOtp.rejected, (state, action) => {
-                // @ts-ignore
                 state.data.isSendingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = action.payload
             })
             .addCase(sendRegisterOtp.fulfilled, (state, action) => {
                 state.data.isSendingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = null
             })
             .addCase(sendRegisterOtp.pending, (state, action) => {
                 state.data.isSendingOTP = true
+                // @ts-ignore
+                state.data.otpErrors = null
             })
             .addCase(sendRegisterOtp.rejected, (state, action) => {
-                // @ts-ignore
                 state.data.isSendingOTP = false
+                // @ts-ignore
+                state.data.otpErrors = null
             })
             .addCase(checkLoginOTP.fulfilled, (state, action) => {
                 state.data.isCheckingOTP = false
@@ -88,7 +98,6 @@ export const authSlice = createSlice({
                 state.data.isCheckingOTP = true
             })
             .addCase(checkLoginOTP.rejected, (state, action) => {
-                // @ts-ignore
                 state.data.isCheckingOTP = false
                 // @ts-ignore
                 state.data.otpErrors = action.payload

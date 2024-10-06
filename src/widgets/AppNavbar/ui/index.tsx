@@ -337,7 +337,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowLogin(false)
         setShowRegister(true)
     }
-
+    console.log({otpErrors})
     return (
         <div className={classes.navbar}>
             <NativeModal
@@ -353,7 +353,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         />
                         <h1 className={classes.loginTitle}>Введите номер телефона</h1>
                         <p className={classes.loginDescription}>
-                            чтобы войти или зарегистрироваться на PREMIER-TJ
+                            чтобы войти на PREMIER-TJ
                         </p>
                         <div className={classes.phoneContainer}>
                             <input
@@ -363,6 +363,26 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
                             />
                             <span className={classes.phoneIdentifier}>@</span>
+                            {otpErrors ? (
+                                <div className={classes.errors}>
+                                    {otpErrors && Object.keys(otpErrors).map((key: string) => {
+                                        return (
+                                            <div key={key}>
+                                                {otpErrors[key].map((message: string) => {
+                                                    return (
+                                                        <p
+                                                            key={message}
+                                                            className={classes.error}
+                                                        >
+                                                            {message}
+                                                        </p>
+                                                    )
+                                                })}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            ) : null}
                         </div>
                         <button
                             className={classes.continueBtn}
@@ -392,7 +412,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         />
                         <h1 className={classes.loginTitle}>Введите номер из СМС</h1>
                         <p className={classes.loginDescription}>
-                            Код отправлен на номер телефона +992937555103
+                            Код отправлен на номер телефона {phone}
                         </p>
                         <OTPInput
                             value={otp}

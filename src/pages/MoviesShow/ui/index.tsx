@@ -19,8 +19,7 @@ import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {getAuthUserData} from "src/entities/User";
-import {Simulate} from "react-dom/test-utils";
-import play = Simulate.play;
+import {APP_URL} from "src/shared/constants/api";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
