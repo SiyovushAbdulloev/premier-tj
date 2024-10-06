@@ -19,6 +19,8 @@ import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {getAuthUserData} from "src/entities/User";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -27,9 +29,12 @@ const MoviesShowPage = () => {
     const navigate = useNavigate()
     const [movie, setMovie] = useState<MediaContent | undefined>(undefined)
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
+    const [showFile, setShowFile] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
-    const reactPlayerRef = useRef<any>()
+    const trailerRef = useRef<any>()
+    const fileRef = useRef<any>()
     const [trailer, setTrailer] = useState<string>('')
+    const [file, setFile] = useState<string>('')
 
     useEffect(() => {
         dispatch(getMovie(slug ?? ''))
@@ -76,11 +81,15 @@ const MoviesShowPage = () => {
     }
 
     const onPlay = () => {
-
+        setShowFile(true)
     }
 
     const onShowTrailer = (value: boolean) => {
         setShowTrailer(value)
+    }
+
+    const onShowFile = (value: boolean) => {
+        setShowFile(value)
     }
 
     useEffect(() => {
@@ -90,6 +99,14 @@ const MoviesShowPage = () => {
             setTrailer('')
         }
     }, [showTrailer])
+
+    useEffect(() => {
+        if (showFile) {
+            setFile(movie?.file ?? '')
+        } else {
+            setFile('')
+        }
+    }, [showFile])
 
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
@@ -103,12 +120,30 @@ const MoviesShowPage = () => {
                 }}
             >
                 <ReactPlayer
-                    ref={reactPlayerRef}
+                    ref={trailerRef}
                     width={'100%'}
                     height={'100%'}
                     url={trailer}
                     controls={true}
                     playing={showTrailer}
+                />
+            </Modal>
+            <Modal
+                value={showFile}
+                onChange={onShowFile}
+                style={{
+                    backgroundColor: '#000',
+                    maxWidth: '800px',
+                    color: '#ececec'
+                }}
+            >
+                <ReactPlayer
+                    ref={fileRef}
+                    width={'100%'}
+                    height={'100%'}
+                    url={file}
+                    controls={true}
+                    playing={showFile}
                 />
             </Modal>
             {fetching ? (
@@ -152,7 +187,7 @@ const MoviesShowPage = () => {
                                             <span className={classes.detailMetaLabel}>{movieDuration}</span>
                                         </div>
                                         <div className={classes.detailActions}>
-                                            <button className={className(classes.detailAction, undefined, [classes.actionSee])}>
+                                            <button onClick={onPlay} className={className(classes.detailAction, undefined, [classes.actionSee])}>
                                                 <Play className={className(classes.icon, undefined, [classes.iconSee])} />
                                                 {getPlayBtnText()}
                                             </button>

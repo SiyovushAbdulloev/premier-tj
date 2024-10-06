@@ -1,6 +1,6 @@
 import classes from './index.module.css'
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading.svg'
 import {useNavigate, useParams} from "react-router-dom";
@@ -16,6 +16,9 @@ import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
+import ReactPlayer from "react-player";
+import {Modal} from "src/shared/ui/Modal";
+import {getAuthUserData} from "src/entities/User";
 
 const MultimediasShowPage = () => {
     const dispatch = useAppDispatch()
@@ -23,6 +26,10 @@ const MultimediasShowPage = () => {
     const {slug} = useParams()
     const navigate = useNavigate()
     const [multimedia, setMultimedia] = useState<MediaContent | undefined>(undefined)
+    const [showFile, setShowFile] = useState<boolean>(false)
+    const [file, setFile] = useState<string>('')
+    const fileRef = useRef<any>()
+    const authData = useSelector(getAuthUserData)
 
     useEffect(() => {
         dispatch(getMultimedia(slug ?? ''))
@@ -53,8 +60,42 @@ const MultimediasShowPage = () => {
         return multimedia.actors.map(actor => actor.first_name + ' ' + actor.last_name)
     }
 
+    const onShowFile = (value: boolean) => {
+        setShowFile(value)
+    }
+
+    useEffect(() => {
+        if (showFile) {
+            setFile(multimedia?.file ?? '')
+        } else {
+            setFile('')
+        }
+    }, [showFile])
+
+    const onPlay = () => {
+        setShowFile(true)
+    }
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
+            <Modal
+                value={showFile}
+                onChange={onShowFile}
+                style={{
+                    backgroundColor: '#000',
+                    maxWidth: '800px',
+                    color: '#ececec'
+                }}
+            >
+                <ReactPlayer
+                    ref={fileRef}
+                    width={'100%'}
+                    height={'100%'}
+                    url={file}
+                    controls={true}
+                    playing={showFile}
+                />
+            </Modal>
             {fetching ? (
                 <>
                     <Fetching className={classes.fetching} />
@@ -91,10 +132,12 @@ const MultimediasShowPage = () => {
                                             <span className={classes.detailMetaLabel}>{movieDuration}</span>
                                         </div>
                                         <div className={classes.detailActions}>
-                                            <button className={className(classes.detailAction, undefined, [classes.actionSee])}>
-                                                <Play className={className(classes.icon, undefined, [classes.iconSee])} />
-                                                Смотреть по подписке
-                                            </button>
+                                            {authData ? (
+                                                <button onClick={onPlay} className={className(classes.detailAction, undefined, [classes.actionSee])}>
+                                                    <Play className={className(classes.icon, undefined, [classes.iconSee])} />
+                                                    Смотреть
+                                                </button>
+                                            ) : null}
                                             <button className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
                                                 <Favourites className={className(classes.icon, undefined, [classes.iconTrailer])} />
                                             </button>
