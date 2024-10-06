@@ -4,7 +4,6 @@ import {APP_URL} from "src/shared/constants/api";
 export const rejectSubscriptionRequest = createAsyncThunk(
     'series/rejectSubscriptionRequest',
     async (data: number, {getState, rejectWithValue}) => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken

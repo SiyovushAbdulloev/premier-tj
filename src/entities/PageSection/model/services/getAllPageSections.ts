@@ -3,11 +3,11 @@ import {APP_URL} from "src/shared/constants/api";
 
 export const getAllPageSections = createAsyncThunk(
     'pageSections/getAllPageSections',
-    async (data: string, {getState, rejectWithValue}) => {
+    async (data: { p: string, page: number }, {getState, rejectWithValue}) => {
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
-            let uri = `/api/sections/all/${data}`
+            let uri = `/api/sections/all/${data.p}?page=${data.page}`
 
             const response = await fetch(APP_URL + uri, {
                 method: 'GET',
@@ -25,7 +25,7 @@ export const getAllPageSections = createAsyncThunk(
                 // return rejectWithValue(data.errors)
             } else {
                 const res = await response.json()
-                return res.data
+                return res
             }
         } catch (error) {
             console.log({error})

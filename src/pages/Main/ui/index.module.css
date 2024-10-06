@@ -39,6 +39,7 @@
 
 .sectionItems {
     height: 235px;
+    display: block;
 }
 
 .mainSlide {

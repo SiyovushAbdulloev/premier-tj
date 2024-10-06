@@ -6,7 +6,6 @@ export const getSubscriptionRequests = createAsyncThunk(
     async (data: {
         page: number
     } | undefined, {getState, rejectWithValue}) => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken

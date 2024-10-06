@@ -9,7 +9,6 @@ export const getAllMultimedias = createAsyncThunk(
         years?: Array<string>,
         page?: number
     } | undefined, {getState, rejectWithValue}) => {
-        await new Promise(resolve => setTimeout(resolve, 5000));
         try {
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken

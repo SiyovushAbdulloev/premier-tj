@@ -337,7 +337,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowLogin(false)
         setShowRegister(true)
     }
-    console.log({authData})
+
     return (
         <div className={classes.navbar}>
             <NativeModal
