@@ -18,7 +18,6 @@ export const getAuthUser = createAsyncThunk(
             })
 
             if (!response.ok) {
-                console.log("THERE is no user")
                 // @ts-ignore
                 // const data = await response.json()
                 // return rejectWithValue(data.errors)

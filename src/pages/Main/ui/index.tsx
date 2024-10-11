@@ -249,7 +249,6 @@ const MainPage = () => {
                                 <div className={classes.sectionItems}>
                                     <CustomSwiper views={2} style={{height: '100%'}}>
                                         {section.media.map((item, index) => {
-                                            console.log({item})
                                             return (
                                                 (
                                                     <SwiperSlide

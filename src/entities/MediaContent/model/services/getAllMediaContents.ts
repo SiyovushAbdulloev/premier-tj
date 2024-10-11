@@ -24,8 +24,7 @@ export const getAllMediaContents = createAsyncThunk(
             if (!response.ok) {
                 // @ts-ignore
                 const res = await response.json()
-                console.log({data})
-                // return rejectWithValue(data.errors)
+                return rejectWithValue(res.errors)
             } else {
                 const res = await response.json()
                 return res

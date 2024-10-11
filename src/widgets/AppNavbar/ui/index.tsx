@@ -301,7 +301,6 @@ const AppNavbar = (props: React.PropsWithChildren) => {
             otp
         }))
         if (response.type.includes('fulfilled')) {
-            console.log({response})
             await dispatch(userActions.setAuthData(response.payload.user))
             onRegisterModal(false)
             setShowUser(false)
@@ -337,7 +336,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowLogin(false)
         setShowRegister(true)
     }
-    console.log({otpErrors})
+
     return (
         <div className={classes.navbar}>
             <NativeModal
