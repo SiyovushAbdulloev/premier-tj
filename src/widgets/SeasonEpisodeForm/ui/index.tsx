@@ -5,11 +5,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading_admin.svg";
 import {Option, SearchableMultipleSelect} from "src/shared/ui/SearchableMultipleSelect";
-import {Genre, getAllGenres, getIsFetchingAll as getIsFetchingAllGenres} from "src/entities/Genre";
 import {SelectedOption} from "src/shared/ui/SearchableMultipleSelect/ui";
 import {Upload} from "src/shared/ui/Upload";
 import {className} from "src/shared/utils/className";
@@ -286,6 +284,7 @@ const SeasonEpisodeForm = (props: Props) => {
                         <button
                             className={classes.formAction}
                             onClick={goBack}
+                            type={'button'}
                         >
                             Назад
                         </button>

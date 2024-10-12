@@ -37,11 +37,11 @@ export const getAllSeries = createAsyncThunk(
             } else {
                 const res = await response.json()
                 return {
-                    data: res[0].data,
+                    data: res.data,
                     pagination: {
-                        current_page: res[0].meta.current_page,
-                        last_page: res[0].meta.last_page,
-                        per_page: res[0].meta.per_page,
+                        current_page: res.meta.current_page,
+                        last_page: res.meta.last_page,
+                        per_page: res.meta.per_page,
                     }
                 }
             }

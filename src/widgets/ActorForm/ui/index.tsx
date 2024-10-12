@@ -149,6 +149,7 @@ const ActorForm = (props: Props) => {
                 <button
                     className={classes.formAction}
                     onClick={goBack}
+                    type={'button'}
                 >
                     Назад
                 </button>

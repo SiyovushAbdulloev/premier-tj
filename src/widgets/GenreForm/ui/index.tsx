@@ -14,7 +14,6 @@ import React, {useEffect, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 
 interface Props {
@@ -110,6 +109,7 @@ const GenreForm = (props: Props) => {
                 <button
                     className={classes.formAction}
                     onClick={goBack}
+                    type={'button'}
                 >
                     Назад
                 </button>

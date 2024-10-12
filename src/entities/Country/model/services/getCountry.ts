@@ -23,8 +23,7 @@ export const getCountry = createAsyncThunk(
                 const res = await response.json()
                 return rejectWithValue(res.errors)
             } else {
-                const res = await response.json()
-                return res.data
+                return await response.json()
             }
         } catch (error) {
             console.log({error})

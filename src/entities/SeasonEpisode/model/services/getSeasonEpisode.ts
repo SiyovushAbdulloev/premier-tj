@@ -24,8 +24,7 @@ export const getSeasonEpisode = createAsyncThunk(
                     const res = await response.json()
                     // return rejectWithValue(data.errors)
                 } else {
-                    const res = await response.json()
-                    return res.data
+                    return await response.json()
                 }
             }
         } catch (error) {

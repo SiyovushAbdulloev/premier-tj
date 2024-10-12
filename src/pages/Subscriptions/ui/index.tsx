@@ -90,6 +90,14 @@ const SubscriptionsPage = () => {
                                 prop={'name'}
                             />
                             <TableColumn
+                                label={'Цена(сомони)'}
+                                prop={'price'}
+                            />
+                            <TableColumn
+                                label={'Длительность(дни)'}
+                                prop={'duration'}
+                            />
+                            <TableColumn
                                 label={'Действия'}
                                 prop={''}
                                 row={(data: Subscription) => {

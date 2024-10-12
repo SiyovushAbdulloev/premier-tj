@@ -5,7 +5,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import {RoutesConfig} from "src/shared/config/routes";
 import {ReactComponent as Loading} from "src/shared/assets/icons/loading.svg";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading_admin.svg";
 import {Upload} from "src/shared/ui/Upload";
@@ -190,6 +189,7 @@ const SerieSeasonForm = (props: Props) => {
                         <button
                             className={classes.formAction}
                             onClick={goBack}
+                            type={'button'}
                         >
                             Назад
                         </button>
