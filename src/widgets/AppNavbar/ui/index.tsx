@@ -143,7 +143,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         if (sent) {
             timerRef.current = setInterval(() => {
                 setTime((prev) => prev - 1)
-            }, 100)
+            }, 1000)
 
             return () => {
                 if (timerRef.current) {
