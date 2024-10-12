@@ -3,6 +3,7 @@ import {className} from 'src/shared/utils/className';
 import {AppRouter} from 'src/app/providers/Router'
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {getAuthUser, getCsrfToken} from "src/entities/Auth";
+import {Toaster} from "react-hot-toast";
 function App() {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ function App() {
   return (
       <div className={className('app')}>
         <AppRouter />
+        <Toaster />
       </div>
   );
 }

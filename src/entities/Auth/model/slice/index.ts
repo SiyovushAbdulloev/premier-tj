@@ -5,6 +5,7 @@ import {sendLoginOtp} from "../services/sendLoginOtp"
 import {sendRegisterOtp} from "../services/sendRegisterOtp"
 import {checkLoginOTP} from "../services/checkLoginOTP"
 import {checkRegisterOTP} from "../services/checkRegisterOTP"
+import {updateProfile} from "../services/updateProfile"
 
 const initialState: AuthSchema = {
     data: {
@@ -17,6 +18,8 @@ const initialState: AuthSchema = {
         isSendingOTP: false,
         isCheckingOTP: false,
         otpErrors: undefined,
+        isUpdatingProfile: false,
+        profileErrors: undefined
     }
 }
 
@@ -114,6 +117,20 @@ export const authSlice = createSlice({
                 state.data.isCheckingOTP = false
                 // @ts-ignore
                 state.data.otpErrors = action.payload
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.data.isUpdatingProfile = false
+                state.data.profileErrors = undefined
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                state.data.isUpdatingProfile = true
+                state.data.profileErrors = undefined
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                // @ts-ignore
+                state.data.isUpdatingProfile = false
+                // @ts-ignore
+                state.data.profileErrors = action.payload
             })
     }
 })

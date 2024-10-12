@@ -12,6 +12,8 @@ export interface Auth {
     isSendingOTP: boolean
     isCheckingOTP: boolean
     otpErrors: InputError | undefined
+    isUpdatingProfile: boolean
+    profileErrors: InputError | undefined
 }
 
 export interface AuthSchema {

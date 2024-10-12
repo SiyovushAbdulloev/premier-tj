@@ -296,8 +296,8 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const onRegisterSend = async () => {
         const response = await dispatch(checkRegisterOTP({
             phone,
-            first_name: firstname,
-            last_name: lastname,
+            firstname: firstname,
+            lastname: lastname,
             otp
         }))
         if (response.type.includes('fulfilled')) {
@@ -335,6 +335,11 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setPhone('')
         setShowLogin(false)
         setShowRegister(true)
+    }
+
+    const onProfile = () => {
+        navigate(RoutesConfig.user_profile.path)
+        setShowUser(false)
     }
 
     return (
@@ -706,25 +711,25 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     >
                                         <User width={32} height={32} />
                                     </button>
-                                    {authData.first_name + " " + authData.last_name} ({authData.phone})
+                                    {authData.firstname + " " + authData.lastname} ({authData.phone})
                                 </div>
                                 <ul className={classes.profileItems}>
-                                    <div className={classes.profileItem}>
+                                    <div className={classes.profileItem} onClick={onProfile}>
                                         <Settings width={24} height={24} />
                                         Настройки профиля
                                     </div>
-                                    <div className={classes.profileItem}>
-                                        <Favourites width={24} height={24} />
-                                        Избранное
-                                    </div>
-                                    <div className={classes.profileItem}>
-                                        <Play width={24} height={24} />
-                                        Мои подписки
-                                    </div>
-                                    <div className={classes.profileItem}>
-                                        <PaymentType width={24} height={24} />
-                                        Способы оплата
-                                    </div>
+                                    {/*<div className={classes.profileItem}>*/}
+                                    {/*    <Favourites width={24} height={24} />*/}
+                                    {/*    Избранное*/}
+                                    {/*</div>*/}
+                                    {/*<div className={classes.profileItem}>*/}
+                                    {/*    <Play width={24} height={24} />*/}
+                                    {/*    Мои подписки*/}
+                                    {/*</div>*/}
+                                    {/*<div className={classes.profileItem}>*/}
+                                    {/*    <PaymentType width={24} height={24} />*/}
+                                    {/*    Способы оплата*/}
+                                    {/*</div>*/}
                                     <div
                                         className={classes.profileItem}
                                         onClick={logoutSimpleUser}

@@ -5,6 +5,7 @@ import {getSubscription} from "../services/getSubscription";
 import {storeSubscription} from "../services/storeSubscription";
 import {updateSubscription} from "../services/updateSubscription";
 import {getAllSubscriptions} from "../services/getAllSubscriptions";
+import {getSubscriptionsForWeb} from "../services/getSubscriptionsForWeb";
 
 const initialState: SubscriptionSchema = {
     data: [],
@@ -89,6 +90,15 @@ export const subscriptionSlice = createSlice({
                 state.isFetchingAll = false
             })
             .addCase(getAllSubscriptions.rejected, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getSubscriptionsForWeb.pending, (state, action) => {
+                state.isFetchingAll = true
+            })
+            .addCase(getSubscriptionsForWeb.fulfilled, (state, action) => {
+                state.isFetchingAll = false
+            })
+            .addCase(getSubscriptionsForWeb.rejected, (state, action) => {
                 state.isFetchingAll = false
             })
     }

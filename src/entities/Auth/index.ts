@@ -1,4 +1,15 @@
-import {getUnauthorized, getNotFound, getLoginErrors, getIsLogging, getIsFetching, getIsSendingOTP, getOtpErrors, getIsCheckingOtp} from "./model/selectors";
+import {
+    getUnauthorized,
+    getNotFound,
+    getLoginErrors,
+    getIsLogging,
+    getIsFetching,
+    getIsSendingOTP,
+    getOtpErrors,
+    getIsCheckingOtp,
+    getIsUpdatingProfile,
+    getProfileErrors,
+} from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
 import {getCsrfToken} from "./model/services/getCsrfToken";
@@ -9,6 +20,7 @@ import {sendLoginOtp} from "./model/services/sendLoginOtp";
 import {sendRegisterOtp} from "./model/services/sendRegisterOtp";
 import {checkLoginOTP} from "./model/services/checkLoginOTP";
 import {logoutUser} from "./model/services/logoutUser";
+import {updateProfile} from "./model/services/updateProfile";
 
 export {
     getUnauthorized,
@@ -29,5 +41,8 @@ export {
     getOtpErrors,
     checkLoginOTP,
     logoutUser,
+    getProfileErrors,
+    getIsUpdatingProfile,
+    updateProfile,
 }
 export type {Auth, AuthSchema, InputError}

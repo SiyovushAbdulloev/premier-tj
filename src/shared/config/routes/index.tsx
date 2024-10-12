@@ -48,6 +48,7 @@ import {MultimediasShowPage} from "src/pages/MultimediasShow";
 import {SubscriptionRequestsPage} from "src/pages/SubscriptionRequests";
 import {SubscriptionRequestsShowPage} from "src/pages/SubscriptionRequestsShow";
 import {SearchPage} from "src/pages/Search";
+import {UserProfilePage} from "src/pages/UserProfile";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -104,7 +105,8 @@ export enum AppRoutes {
     'ADMIN_SUBSCRIPTION_REQUESTS_SHOW' = 'admin_subscription_requests_show',
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
-    'SEARCH' = 'search'
+    'SEARCH' = 'search',
+    'USER_PROFILE' = 'user_profile'
 }
 
 export const RoutesPath: Record<AppRoutes, string> = {
@@ -153,6 +155,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_SUBSCRIPTION_REQUESTS_SHOW]: '/admin/subscription-requests/:id/show',
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.SEARCH]: '/search',
+    [AppRoutes.USER_PROFILE]: '/profile',
     [AppRoutes.NOT_FOUND]: '*',
 }
 
@@ -515,6 +518,14 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         require_auth: false,
         allow_without_auth: true,
         layout: ProjectLayouts.NoLayout,
+        roles: []
+    },
+    [AppRoutes.USER_PROFILE]: {
+        path: RoutesPath.user_profile,
+        element: <UserProfilePage/>,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AppLayout,
         roles: []
     },
     [AppRoutes.NOT_FOUND]: {

@@ -17,6 +17,7 @@ import {storeSubscription} from "./model/services/storeSubscription";
 import {updateSubscription} from "./model/services/updateSubscription";
 import {getSubscription} from "./model/services/getSubscription";
 import {getAllSubscriptions} from "./model/services/getAllSubscriptions";
+import {getSubscriptionsForWeb} from "./model/services/getSubscriptionsForWeb";
 
 export {
     getData,
@@ -36,5 +37,6 @@ export {
     getIsFetchingOne,
     getAllSubscriptions,
     getIsFetchingAll,
+    getSubscriptionsForWeb,
 }
 export type {Subscription, SubscriptionSchema}

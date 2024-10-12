@@ -1,0 +1,163 @@
+.profilePage {
+    margin-top: 40px;
+    min-height: 100vh;
+}
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    gap: 30px;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: #292929a6;
+    gap: 7px;
+}
+
+.tab {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-radius: 12px;
+    transition: all .2s ease;
+    color: #fff;
+    width: 248px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.tab.active {
+    background-color: rgba(41, 41, 41, 0.9);
+}
+
+.tab:hover {
+    background-color: rgba(41, 41, 41, 0.9);
+}
+
+.tabContent {
+    width: 100%;
+}
+
+.form {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #292929a6;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.fieldInput {
+    display: block;
+    width: 100%;
+    height: 46px;
+    border-radius: 16px;
+    font-size: 14px;
+    border: 2px solid #ffffff1f;
+    caret-color: #ececec;
+    color: #ececec;
+    font-weight: 500;
+    transition: all .2s ease;
+    background-color: #222;
+    padding: 0 22px 0 26px;
+    appearance: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.continueBtn, .buy {
+    width: 340px;
+    margin-bottom: 20px;
+    height: 48px;
+    border-radius: 16px;
+    padding: 12px 20px;
+    color: #141414;
+    background-color: #fddd2d;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.loader {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #1a1a1a;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.errors {
+    margin-top: 10px;
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin: 0;
+}
+
+.subscriptions {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #292929a6;
+    display: flex;
+    flex-direction: column;
+}
+
+.subscriptionLoader {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.subscription {
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.subscription:last-child {
+    border-bottom: 0;
+}
+
+.subscription .left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.subscription .left span {
+    color: #fff;
+}
+
+.subscription .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.subscription .actions .buy {
+    width: fit-content;
+}
