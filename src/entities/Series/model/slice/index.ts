@@ -7,6 +7,8 @@ import {getSeries} from "../services/getSeries";
 import {getAllSeriesWithoutPagination} from "../services/getAllSeriesWithoutPagination";
 import {getUserSeries} from "../services/getUserSeries";
 import {getListSeries} from "../services/getListSeries";
+import {addToFavourite} from "../services/addToFavourite";
+import {unFavourite} from "../services/unFavourite";
 
 const initialState: SeriesSchema = {
     data: [],
@@ -24,6 +26,7 @@ const initialState: SeriesSchema = {
     isFetchingAll: false,
     isFetchingUserSeries: false,
     isFetchingListSeries: false,
+    isFavouring: false
 }
 
 export const seriesSlice = createSlice({
@@ -112,6 +115,24 @@ export const seriesSlice = createSlice({
             })
             .addCase(getListSeries.rejected, (state, action) => {
                 state.isFetchingListSeries = false
+            })
+            .addCase(addToFavourite.pending, (state, action) => {
+                state.isFavouring = true
+            })
+            .addCase(addToFavourite.fulfilled, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(addToFavourite.rejected, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(unFavourite.pending, (state, action) => {
+                state.isFavouring = true
+            })
+            .addCase(unFavourite.fulfilled, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(unFavourite.rejected, (state, action) => {
+                state.isFavouring = false
             })
     }
 })

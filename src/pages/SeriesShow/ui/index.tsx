@@ -8,17 +8,18 @@ import {className} from "src/shared/utils/className";
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {ReactComponent as Camera} from "src/shared/assets/icons/camera.svg"
 import {ReactComponent as Favourites} from "src/shared/assets/icons/favourites.svg"
+import {ReactComponent as UnFavourites} from "src/shared/assets/icons/unfavourites.svg"
 import {SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
-import {RoutesConfig} from "src/shared/config/routes";
-import {getIsFetchingUserSeries, getUserSeries, Series} from "src/entities/Series";
+import {getIsFavouring, getIsFetchingUserSeries, getUserSeries, Series, addToFavourite, unFavourite} from "src/entities/Series";
 import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
-import {getAuthUserData} from "src/entities/User";
+import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
+import toast from "react-hot-toast";
 
 const SeriesShowPage = () => {
     const authData = useSelector(getAuthUserData)
@@ -30,6 +31,8 @@ const SeriesShowPage = () => {
     const [showTrailer, setShowTrailer] = useState<boolean>(false)
     const [episode, setEpisode] = useState<string>('')
     const [series, setSeries] = useState<Series | undefined>(undefined)
+    const isFavouring = useSelector(getIsFavouring)
+    const [isFavorited, setIsFavorited] = useState(false)
 
     useEffect(() => {
         dispatch(getUserSeries(slug ?? ''))
@@ -85,6 +88,59 @@ const SeriesShowPage = () => {
         }
         return series.actors.map(actor => actor.first_name + ' ' + actor.last_name)
     }
+
+    const onFavourite = async () => {
+        if (!isFavouring) {
+            const response = await dispatch(addToFavourite(series?.id ?? 0))
+            if (response.type.includes('fulfilled')) {
+                toast('Успешно добавлено в избранное')
+                setIsFavorited(true)
+                if (authData) {
+                    let favourites: Array<Favourite> = [...(authData?.favourites ?? [])]
+                    favourites.push(response.payload)
+                    dispatch(userActions.setAuthData({
+                        id: authData.id,
+                        firstname: authData.firstname,
+                        lastname: authData.lastname,
+                        phone: authData.phone,
+                        roles: authData.roles,
+                        favourites: favourites
+                    }))
+                }
+            }
+        }
+    }
+
+    const onUnFavourite = async () => {
+        if (!isFavouring) {
+            const favouriteId = (authData?.favourites ?? []).find(fav => fav.item.type === 'series' && fav.item.id === series?.id)?.id
+            const response = await dispatch(unFavourite(favouriteId ?? 0))
+            if (response.type.includes('fulfilled')) {
+                toast(response.payload.message)
+                setIsFavorited(false)
+                if (authData) {
+                    dispatch(userActions.setAuthData({
+                        id: authData.id,
+                        firstname: authData.firstname,
+                        lastname: authData.lastname,
+                        phone: authData.phone,
+                        roles: authData.roles,
+                        favourites: (authData.favourites ?? []).filter(fav => fav.id !== favouriteId)
+                    }))
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (!authData?.favourites || !series) {
+            setIsFavorited(false)
+            return
+        } else if (authData.favourites.length === 0) {
+            setIsFavorited(false)
+        }
+        setIsFavorited(!!authData.favourites.filter(fav => fav.item.type === 'series').find(fav => fav.item.id === series.id))
+    }, [authData, series])
 
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
@@ -175,9 +231,23 @@ const SeriesShowPage = () => {
                                                 <Camera className={className(classes.icon, undefined, [classes.iconTrailer])} />
                                                 Трейлер
                                             </button>
-                                            <button className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
-                                                <Favourites className={className(classes.icon, undefined, [classes.iconTrailer])} />
-                                            </button>
+                                            {authData ? !isFavorited ? (
+                                                <button onClick={onFavourite}
+                                                        className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
+                                                    {isFavouring ? <Fetching width={30} height={30}/> : (
+                                                        <Favourites
+                                                            className={className(classes.icon, undefined, [classes.iconTrailer])}/>
+                                                    )}
+                                                </button>
+                                            ) : (
+                                                <button onClick={onUnFavourite}
+                                                        className={className(classes.detailAction, undefined, [classes.actionTrailer])}>
+                                                    {isFavouring ? <Fetching width={30} height={30}/> : (
+                                                        <UnFavourites
+                                                            className={className(classes.icon, undefined, [classes.iconTrailer])}/>
+                                                    )}
+                                                </button>
+                                            ) : null}
                                         </div>
                                     </div>
                                     <div className={classes.detailContentContainer}>

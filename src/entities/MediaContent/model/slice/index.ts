@@ -10,6 +10,8 @@ import {getAllMultimedias} from "../services/getAllMultimedias";
 import {getMovie} from "../services/getMovie";
 import {getMultimedia} from "../services/getMultimedia";
 import {search} from "../services/search";
+import {addToFavourite} from "../services/addToFavourite";
+import {unFavourite} from "../services/unFavourite";
 
 const initialState: MediaContentSchema = {
     data: [],
@@ -27,7 +29,8 @@ const initialState: MediaContentSchema = {
     isFetchingAll: false,
     isFetchingMovie: false,
     isFetchingAllMovies: false,
-    isSearching: false
+    isSearching: false,
+    isFavouring: false
 }
 
 export const mediaContentSlice = createSlice({
@@ -143,6 +146,24 @@ export const mediaContentSlice = createSlice({
             })
             .addCase(search.rejected, (state, action) => {
                 state.isSearching = false
+            })
+            .addCase(addToFavourite.pending, (state, action) => {
+                state.isFavouring = true
+            })
+            .addCase(addToFavourite.fulfilled, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(addToFavourite.rejected, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(unFavourite.pending, (state, action) => {
+                state.isFavouring = true
+            })
+            .addCase(unFavourite.fulfilled, (state, action) => {
+                state.isFavouring = false
+            })
+            .addCase(unFavourite.rejected, (state, action) => {
+                state.isFavouring = false
             })
     }
 })

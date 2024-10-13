@@ -14,3 +14,4 @@ export const getIsFetchingOne = (state: StateSchema): boolean => state.series.is
 export const getIsFetchingAll = (state: StateSchema): boolean => state.series.isFetchingAll
 export const getIsFetchingUserSeries = (state: StateSchema): boolean => state.series.isFetchingUserSeries
 export const getIsFetchingListSeries = (state: StateSchema): boolean => state.series.isFetchingListSeries
+export const getIsFavouring = (state: StateSchema): boolean => state.series.isFavouring

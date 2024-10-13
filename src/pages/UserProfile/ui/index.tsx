@@ -5,17 +5,31 @@ import React, {FormEvent, useEffect, useMemo, useState} from "react";
 import 'react-loading-skeleton/dist/skeleton.css'
 import {className} from "src/shared/utils/className";
 import {useSelector} from "react-redux";
-import {getAuthUserData} from "src/entities/User";
+import {getAuthUserData, getFavourites, getIsFetchingFavourites} from "src/entities/User";
 import {getIsUpdatingProfile, getProfileErrors, updateProfile} from "src/entities/Auth";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import toast from "react-hot-toast";
 import {getIsFetchingAll, getSubscriptionsForWeb, Subscription} from "src/entities/Subscription";
 import {ReactComponent as Loader} from "src/shared/assets/icons/loading.svg"
+import {Link} from "react-router-dom";
+import {RoutesConfig} from "src/shared/config/routes";
 
 interface Tab {
     label: string
     value: string
     content: any
+}
+
+interface Favourite {
+    id: number
+    item: {
+        id: number
+        slug: string
+        name: string
+        poster: string
+        duration?: string
+        type: string
+    }
 }
 
 const UserProfilePage = () => {
@@ -27,6 +41,8 @@ const UserProfilePage = () => {
     const dispatch = useAppDispatch()
     const fetchingSubscriptions = useSelector(getIsFetchingAll)
     const [subscriptions, setSubscriptions] = useState<Array<Subscription>>([])
+    const [favourites, setFavourites] = useState<Array<Favourite>>([])
+    const isFetchingFavourites = useSelector(getIsFetchingFavourites)
 
     const onProfileChange = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -34,6 +50,22 @@ const UserProfilePage = () => {
         if (response.type.includes('fulfilled')) {
             toast.success(response.payload.message)
         }
+    }
+
+    const getFavouriteUrl = (favourite: Favourite): string => {
+        let url = ''
+        switch (favourite.item.type) {
+            case 'movie':
+                url = RoutesConfig.movies_show.path.replace(':slug', favourite.item.slug)
+                break
+            case 'multimedia':
+                url = RoutesConfig.multimedias_show.path.replace(':slug', favourite.item.slug)
+                break
+            case 'series':
+                url = RoutesConfig.series_show.path.replace(':slug', favourite.item.slug)
+                break
+        }
+        return url
     }
 
     const tabs: Array<Tab> = useMemo(() => {
@@ -116,15 +148,31 @@ const UserProfilePage = () => {
             },
             {
                 label: 'Избранное',
-                value: 'favourite',
+                value: 'my_favourites',
                 content: () => {
                     return (
-                        <></>
+                        <div className={classes.favourites}>
+                            {isFetchingFavourites ? <Loader className={classes.subscriptionLoader} /> : (
+                                favourites.map(favourite => {
+                                    return (
+                                        <Link to={getFavouriteUrl(favourite)} className={classes.favourite} key={favourite.id}>
+                                            <img src={favourite.item.poster} alt="Poster" className={classes.favouriteImg} />
+                                            <div className={classes.favouriteInfo}>
+                                                <span>Имя: {favourite.item.name}</span>
+                                                {favourite.item.duration ? (
+                                                    <span>Длительность: {favourite.item.duration}</span>
+                                                ) : null}
+                                            </div>
+                                        </Link>
+                                    )
+                                })
+                            )}
+                        </div>
                     )
                 }
             },
         ]
-    }, [firstname, lastname, authData, isUpdating, updateErrors, fetchingSubscriptions, subscriptions])
+    }, [firstname, lastname, authData, isUpdating, updateErrors, fetchingSubscriptions, subscriptions, favourites, isFetchingFavourites])
     const [activeTab, setActiveTab] = useState<string>(tabs[0].value)
 
     const onTab = (tab: Tab) => {
@@ -135,12 +183,19 @@ const UserProfilePage = () => {
         const fetchSubscriptions = async () => {
             const response = await dispatch(getSubscriptionsForWeb())
             if (response.type.includes('fulfilled')) {
-                console.log({response})
                 setSubscriptions(response.payload)
+            }
+        }
+        const fetchFavourites = async () => {
+            const response = await dispatch(getFavourites())
+            if (response.type.includes('fulfilled')) {
+                setFavourites(response.payload)
             }
         }
         if (activeTab === 'my_subscriptions') {
             fetchSubscriptions()
+        } else if (activeTab === 'my_favourites') {
+            fetchFavourites()
         }
     }, [activeTab])
 

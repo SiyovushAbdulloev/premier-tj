@@ -1,9 +1,11 @@
 import {User, UserSchema} from "../../types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {getAuthUser} from "src/entities/Auth";
+import {getFavourites} from "../services/getFavourites";
 
 const initialState: UserSchema = {
-    authData: undefined
+    authData: undefined,
+    isFetchingFavourites: false
 }
 
 export const userSlice = createSlice({
@@ -18,6 +20,15 @@ export const userSlice = createSlice({
         builder
             .addCase(getAuthUser.fulfilled, (state, action) => {
                 state.authData = action.payload
+            })
+            .addCase(getFavourites.fulfilled, (state, action) => {
+                state.isFetchingFavourites = false
+            })
+            .addCase(getFavourites.pending, (state, action) => {
+                state.isFetchingFavourites = true
+            })
+            .addCase(getFavourites.rejected, (state, action) => {
+                state.isFetchingFavourites = false
             })
     }
 })

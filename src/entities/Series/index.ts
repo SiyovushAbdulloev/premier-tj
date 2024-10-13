@@ -10,6 +10,7 @@ import {
     getIsFetchingAll,
     getIsFetchingUserSeries,
     getIsFetchingListSeries,
+    getIsFavouring,
 } from "./model/selectors";
 import {seriesActions, seriesReducer} from "./model/slice";
 import {Series, SeriesSchema} from "./types";
@@ -21,6 +22,8 @@ import {destroySeries} from "./model/services/destroySeries";
 import {getAllSeriesWithoutPagination} from "./model/services/getAllSeriesWithoutPagination";
 import {getUserSeries} from "./model/services/getUserSeries";
 import {getListSeries} from "./model/services/getListSeries";
+import {addToFavourite} from "./model/services/addToFavourite";
+import {unFavourite} from "./model/services/unFavourite";
 
 export {
     getData,
@@ -44,5 +47,8 @@ export {
     getIsFetchingUserSeries,
     getListSeries,
     getIsFetchingListSeries,
+    getIsFavouring,
+    addToFavourite,
+    unFavourite,
 }
 export type {Series, SeriesSchema}

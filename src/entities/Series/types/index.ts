@@ -37,4 +37,5 @@ export interface SeriesSchema {
     isFetchingAll: boolean
     isFetchingUserSeries: boolean
     isFetchingListSeries: boolean
+    isFavouring: boolean
 }
