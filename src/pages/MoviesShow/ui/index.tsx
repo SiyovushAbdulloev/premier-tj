@@ -27,7 +27,6 @@ import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import toast from "react-hot-toast";
-import {getAuthUser} from "src/entities/Auth";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -188,6 +187,8 @@ const MoviesShowPage = () => {
                     url={trailer}
                     controls={true}
                     playing={showTrailer}
+                    config={{ file: { attributes: { controlsList: 'nodownload' } } }}
+                    // onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             <Modal
@@ -206,6 +207,8 @@ const MoviesShowPage = () => {
                     url={file}
                     controls={true}
                     playing={showFile}
+                    config={{ file: { attributes: { controlsList: 'nodownload' } } }}
+                    onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             {fetching ? (

@@ -10,11 +10,14 @@
     padding-top: 70px;
     padding-bottom: 70px;
     margin-top: auto;
+    display: flex;
+    justify-content: space-around;
 }
 
 .footerWrapper {
-    width: 90%;
+    flex: 1;
     margin: 0 auto;
+    margin-left: 30px;
 }
 
 .footerNav {
@@ -59,4 +62,121 @@
     color: #8a8a8a;
     font-size: 16px;
     margin: 0;
+}
+
+.socialsSection {
+    display: flex;
+    flex-direction: column;
+    min-width: 550px;
+}
+
+.socialsSection .navGroupLabel {
+    margin-bottom: 10px;
+}
+
+.socialsTitle {
+    color: gray;
+    font-size: 16px;
+}
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.social {
+    padding: 10px;
+    background-color: #292929a6;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.platforms {
+    display: flex;
+    gap: 10px;
+    width: 437px;
+    flex-wrap: wrap;
+}
+
+.platform {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.platformItem {
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: #292929a6;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.platformItemSvg {
+    width: 108px;
+    height: 28px;
+}
+
+.allDevices {
+    width: 100%;
+}
+
+@media screen and (max-width: 1226px) {
+    .navGroup {
+        margin-right: 30px;
+    }
+
+    .socialsSection {
+        min-width: 500px;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .footer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 45px;
+    }
+
+    .footerWrapper {
+        margin-left: auto;
+    }
+
+    .navGroup {
+        margin-right: 90px;
+    }
+
+    .navGroup:last-child {
+        margin-right: 0;
+    }
+
+    .navGroupLabel,
+    .navItem,
+    .copyright,
+    .socialsTitle {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .socialsSection {
+        min-width: 320px;
+    }
+
+    .platforms {
+        width: 288px;
+        justify-content: center;
+    }
+
+    .platformItemSvg {
+        width: 80px;
+    }
 }

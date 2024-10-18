@@ -6,6 +6,7 @@ interface ModalNavProps extends React.PropsWithChildren{
     style?: CSSProperties
     onChange?: (value: boolean) => void
     value?: boolean
+    className?: string
 }
 
 const ModalNav = forwardRef((props: ModalNavProps, ref: ForwardedRef<any>) => {
@@ -34,7 +35,7 @@ const ModalNav = forwardRef((props: ModalNavProps, ref: ForwardedRef<any>) => {
 
     return (
         <div
-            className={className(classes.modal, {[classes.modalActive]: isOpen})}
+            className={className(classes.modal, {[classes.modalActive]: isOpen}, [props.className ?? ''])}
             style={{...style, 'bottom': `-${height + 20}px`}}
             ref={modalRef as MutableRefObject<HTMLDivElement>}
         >

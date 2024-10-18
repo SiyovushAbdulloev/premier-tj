@@ -35,6 +35,7 @@ import {NativeModal} from "src/shared/ui/NativeModal";
 import {ReactComponent as Back} from "src/shared/assets/icons/back.svg"
 import OTPInput from "react-otp-input";
 import {checkRegisterOTP} from "src/entities/Auth/model/services/checkRegisterOTP";
+import {ReactComponent as Search} from "src/shared/assets/icons/search.svg"
 
 const navigations = [
     {
@@ -240,6 +241,14 @@ const AppNavbar = (props: React.PropsWithChildren) => {
 
     const onFree = () => {
         navigate(RoutesConfig.free_media.path)
+    }
+
+    const onHome = () => {
+        navigate(RoutesConfig.main.path)
+    }
+
+    const onSearch = () => {
+        navigate(RoutesConfig.search.path)
     }
 
     const onLogin = () => {
@@ -607,166 +616,178 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                     </div>
                 )}
             </NativeModal>
-            <div onClick={onMain}>
-                <img
-                    className={classes.brand}
-                    src={Logo}
-                    alt="Premier-TJ"
-                />
-            </div>
-            <div className={classes.burgerMenu}>
-                <div
-                    className={classes.burger}
-                    onClick={() => setShowMenu(!showMenu)}
-                >
-                    {showMenu ? (
-                        <Cancel
-                            width={20}
-                            height={20}
-                        />
-                        ) : (
-                        <Burger
-                            width={20}
-                            height={20}
-                        />
-                    )}
-                    Каталог
+            <div className={classes.navbarWrapper}>
+                <div onClick={onMain}>
+                    <img
+                        className={classes.brand}
+                        src={Logo}
+                        alt="Premier-TJ"
+                    />
                 </div>
-                <ModalNav
-                    style={{right: '-230px', padding: '0'}}
-                    value={showMenu}
-                    onChange={(value: boolean) => setShowMenu(value)}
-                >
-                    <div className={classes.categoriesMenu}>
-                        <div className={classes.categories}>
-                            {navigations.map(nav => (
-                                <div
-                                    onMouseEnter={() => onNavItem(nav.value)}
-                                    key={nav.value}
-                                    className={classes.category}
-                                    onClick={() => onNavItemPage(nav.value)}
-                                >
-                                    {nav.label}
-                                </div>
-                            ))}
-                        </div>
-                        <div className={classes.categories}>
-                            {subItems.map(child => (
-                                <div
-                                    key={`${navItem}${child.value}`}
-                                    className={classes.category}
-                                    onClick={() => onSubNavItemPage(child)}
-                                >
-                                    {child.label}
-                                </div>
-                            ))}
-                        </div>
+                <div className={classes.burgerMenu}>
+                    <div
+                        className={classes.burger}
+                        onClick={() => setShowMenu(!showMenu)}
+                    >
+                        {showMenu ? (
+                            <Cancel
+                                width={20}
+                                height={20}
+                            />
+                        ) : (
+                            <Burger
+                                width={20}
+                                height={20}
+                            />
+                        )}
+                        Каталог
                     </div>
-                </ModalNav>
-            </div>
-            <SearchInput
-                onChange={(value) => onSearchPage()}
-                placeholder={'Фильм, сериал'}
-                style={{
-                'width': '473px',
-                'height': '40px',
-                'marginLeft': '60px',
-            }} />
-            <ul className={classes.navItems}>
-                <li className={classes.navItem}>
-                    <Home width={24} height={24} />
-                    Главная
-                </li>
-                <li className={classes.navItem} onClick={onFree}>
-                    <Discount width={24} height={24} />
-                    Бесплатно
-                </li>
-            </ul>
-            <button
-                className={classes.subscribe}
-                type={'button'}
-            >
-                30 дней за 1 сом
-            </button>
-            {authData ? (
-                <div className={classes.user}>
-                    <button
-                        type={'button'}
-                        onClick={() => setShowUser(!showUser)}
-                        className={classes.userBtn}
-                    >
-                        <User width={32} height={32} />
-                    </button>
                     <ModalNav
-                        value={showUser}
-                        onChange={(value: boolean) => setShowUser(value)}
+                        value={showMenu}
+                        onChange={(value: boolean) => setShowMenu(value)}
+                        className={classes.categoriesModal}
                     >
-                        {authData.roles[0].name !== Roles.ADMIN ? (
-                            <>
-                                <div className={classes.profile}>
-                                    <button
-                                        type={'button'}
-                                        onClick={() => setShowUser(!showUser)}
-                                        className={className(classes.userBtn, {[classes.profileBtn]: true})}
+                        <div className={classes.categoriesMenu}>
+                            <div className={classes.categories}>
+                                {navigations.map(nav => (
+                                    <div
+                                        onMouseEnter={() => onNavItem(nav.value)}
+                                        key={nav.value}
+                                        className={classes.category}
+                                        onClick={() => onNavItemPage(nav.value)}
                                     >
-                                        <User width={32} height={32} />
-                                    </button>
-                                    {authData.firstname + " " + authData.lastname} ({authData.phone})
-                                </div>
-                                <ul className={classes.profileItems}>
-                                    <div className={classes.profileItem} onClick={onProfile}>
-                                        <Settings width={24} height={24} />
-                                        Настройки профиля
+                                        {nav.label}
                                     </div>
-                                    {/*<div className={classes.profileItem}>*/}
-                                    {/*    <Favourites width={24} height={24} />*/}
-                                    {/*    Избранное*/}
-                                    {/*</div>*/}
-                                    {/*<div className={classes.profileItem}>*/}
-                                    {/*    <Play width={24} height={24} />*/}
-                                    {/*    Мои подписки*/}
-                                    {/*</div>*/}
-                                    {/*<div className={classes.profileItem}>*/}
-                                    {/*    <PaymentType width={24} height={24} />*/}
-                                    {/*    Способы оплата*/}
-                                    {/*</div>*/}
+                                ))}
+                            </div>
+                            <div className={classes.categories}>
+                                {subItems.map(child => (
+                                    <div
+                                        key={`${navItem}${child.value}`}
+                                        className={classes.category}
+                                        onClick={() => onSubNavItemPage(child)}
+                                    >
+                                        {child.label}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </ModalNav>
+                </div>
+                <SearchInput
+                    onChange={(value) => onSearchPage()}
+                    placeholder={'Фильм, сериал'}
+                    style={{
+                        'width': '473px',
+                        'height': '40px',
+                        'marginLeft': '60px',
+                    }}
+                    className={classes.searchInput}
+                />
+                <ul className={classes.navItems}>
+                    <li className={className(classes.navItem, null, [classes.additionalSearchInput])} onClick={onSearch}>
+                        <Search width={30} height={30} />
+                    </li>
+                    <li className={className(classes.navItem, null, [classes.home])} onClick={onHome}>
+                        <Home width={24} height={24} />
+                        Главная
+                    </li>
+                    <li className={className(classes.navItem, null, [classes.free])} onClick={onFree}>
+                        <Discount width={24} height={24} />
+                        Бесплатно
+                    </li>
+                </ul>
+                <button
+                    className={classes.subscribe}
+                    type={'button'}
+                >
+                    30 дней за 1 сом
+                </button>
+                {authData ? (
+                    <div className={classes.user}>
+                        <button
+                            type={'button'}
+                            onClick={() => setShowUser(!showUser)}
+                            className={classes.userBtn}
+                        >
+                            <User width={32} height={32} />
+                        </button>
+                        <ModalNav
+                            value={showUser}
+                            onChange={(value: boolean) => setShowUser(value)}
+                        >
+                            {authData.roles[0].name !== Roles.ADMIN ? (
+                                <>
+                                    <div className={classes.profile}>
+                                        <button
+                                            type={'button'}
+                                            onClick={() => setShowUser(!showUser)}
+                                            className={className(classes.userBtn, {[classes.profileBtn]: true})}
+                                        >
+                                            <User width={32} height={32} />
+                                        </button>
+                                        {authData.firstname + " " + authData.lastname} ({authData.phone})
+                                    </div>
+                                    <ul className={classes.profileItems}>
+                                        <div className={classes.profileItem} onClick={onProfile}>
+                                            <Settings width={24} height={24} />
+                                            Настройки профиля
+                                        </div>
+                                        {/*<div className={classes.profileItem}>*/}
+                                        {/*    <Favourites width={24} height={24} />*/}
+                                        {/*    Избранное*/}
+                                        {/*</div>*/}
+                                        {/*<div className={classes.profileItem}>*/}
+                                        {/*    <Play width={24} height={24} />*/}
+                                        {/*    Мои подписки*/}
+                                        {/*</div>*/}
+                                        {/*<div className={classes.profileItem}>*/}
+                                        {/*    <PaymentType width={24} height={24} />*/}
+                                        {/*    Способы оплата*/}
+                                        {/*</div>*/}
+                                        <div
+                                            className={classes.profileItem}
+                                            onClick={logoutSimpleUser}
+                                        >
+                                            <Logout width={24} height={24} />
+                                            Выйти из аккаунта
+                                        </div>
+                                    </ul>
+                                </>
+                            ) : (
+                                <ul className={classes.profileItems}>
+                                    <div
+                                        onClick={goAdmin}
+                                        className={classes.profileItem}
+                                    >
+                                        <Building width={24} height={24} />
+                                        Админка
+                                    </div>
                                     <div
                                         className={classes.profileItem}
-                                        onClick={logoutSimpleUser}
+                                        onClick={logout}
                                     >
                                         <Logout width={24} height={24} />
                                         Выйти из аккаунта
                                     </div>
                                 </ul>
-                            </>
-                        ) : (
-                            <ul className={classes.profileItems}>
-                                <div
-                                    onClick={goAdmin}
-                                    className={classes.profileItem}
-                                >
-                                    <Building width={24} height={24} />
-                                    Админка
-                                </div>
-                                <div
-                                    className={classes.profileItem}
-                                    onClick={logout}
-                                >
-                                    <Logout width={24} height={24} />
-                                    Выйти из аккаунта
-                                </div>
-                            </ul>
-                        )}
-                    </ModalNav>
-                </div>
-            ) : (
-                <button
-                    onClick={onLogin}
-                    className={classes.login}
-                >
-                    Войти
-                </button>
-            )}
+                            )}
+                        </ModalNav>
+                    </div>
+                ) : (
+                    <button
+                        onClick={onLogin}
+                        className={classes.login}
+                    >
+                        Войти
+                    </button>
+                )}
+            </div>
+            <SearchInput
+                onChange={(value) => onSearchPage()}
+                placeholder={'Фильм, сериал'}
+                className={classes.bottomSearchInput}
+            />
         </div>
     )
 }

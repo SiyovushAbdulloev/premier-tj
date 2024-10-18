@@ -39,8 +39,8 @@ const SearchInput = React.forwardRef((props: SearchInputProps, ref: React.Forwar
     return (
         <div
             className={className(classes.input, {
-                [classes.active]: active
-            })}
+                [classes.active]: active,
+            }, [props.className ?? ''])}
             style={props.style}
             ref={inputDivRef}
             onClick={inputClicked}

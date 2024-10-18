@@ -68,3 +68,20 @@
     color: inherit;
     cursor: pointer;
 }
+
+@media screen and (max-width: 610px) {
+    .modalContentContainer {
+        max-width: 80%;
+        width: 80%;
+    }
+
+    .close {
+        right: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .modalContent {
+
+    }
+}

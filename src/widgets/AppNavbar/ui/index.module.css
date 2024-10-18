@@ -5,8 +5,14 @@
     box-sizing: border-box;
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     width: 90%;
+}
+
+.navbarWrapper {
+    display: flex;
+    align-items: center;
 }
 
 .brand {
@@ -63,6 +69,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 7px;
     color: #bdbdbd;
     font-weight: 400;
@@ -410,4 +417,159 @@
     appearance: none;
     outline: none;
     box-sizing: border-box;
+}
+
+.additionalSearchInput,
+.bottomSearchInput {
+    display: none;
+}
+
+.categoriesModal {
+    right: -230px !important;
+    padding: 0;
+}
+
+@media screen and (max-width: 1440px) {
+    .navbar {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .searchInput {
+        display: none;
+    }
+
+    .additionalSearchInput {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .additionalSearchInput,
+    .home,
+    .free {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .loginBrand {
+        width: 180px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+
+    .loginTitle {
+        font-size: 20px;
+        line-height: 22px;
+        margin-bottom: 6px;
+    }
+
+    .phoneContainer {
+        margin-bottom: 30px;
+    }
+
+    .registerLabel {
+        font-size: 16px;
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .navbar {
+        width: 98%;
+        height: 105px;
+        padding-top: 10px;
+    }
+
+    .brand {
+        width: 90px;
+    }
+
+    .burger {
+        padding: 10px;
+    }
+
+    .subscribe {
+        padding: 10px;
+        min-width: fit-content;
+        font-size: 12px;
+        height: fit-content;
+    }
+
+    .login {
+        margin-left: 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .loginBrand {
+        width: 150px;
+        margin-top: 20px;
+        margin-bottom: -4px;
+    }
+
+    .loginTitle {
+        font-size: 16px;
+        line-height: 18px;
+        margin-bottom: 6px;
+    }
+
+    .continueBtn {
+        width: 200px;
+    }
+
+    .phone {
+        width: 200px;
+    }
+
+    .privacyPolicy {
+        width: 230px;
+    }
+
+    .bottomSearchInput {
+        display: block;
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 80%;
+        height: 40px !important;
+    }
+
+    .categoriesModal {
+        right: -186px !important;
+    }
+
+    .categoriesMenu {
+        width: 260px;
+    }
+
+    .category {
+        font-size: 14px;
+        height: 30px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .subscribe {
+        display: none;
+    }
+
+    .categoriesModal {
+        right: -90px !important;
+    }
+
+    .categoriesMenu {
+        width: 160px;
+    }
+
+    .category {
+        font-size: 12px;
+        height: 22px;
+        padding: 5px;
+    }
+
+    .bottomSearchInput {
+        font-size: 12px;
+    }
 }
