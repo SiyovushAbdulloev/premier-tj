@@ -10,6 +10,8 @@ import PrevButton from "./PrevButton";
 interface SwiperProps extends React.PropsWithChildren{
     style?: CSSProperties
     views?: number
+    nextSlideButton?: string
+    previousSlideButton?: string
 }
 
 const CustomSwiper = (props: SwiperProps) => {
@@ -42,12 +44,12 @@ const CustomSwiper = (props: SwiperProps) => {
                 {props.children}
 
                 {canNext() ? (
-                    <NextButton />
+                    <NextButton cls={props.nextSlideButton} />
                 ) : null}
                 {/*{!isEnd ? (*/}
                 {/*    <NextButton />*/}
                 {/*) : null}*/}
-                <PrevButton />
+                <PrevButton cls={props.previousSlideButton} />
             </Swiper>
         </div>
     )

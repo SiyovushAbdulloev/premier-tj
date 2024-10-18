@@ -91,7 +91,12 @@ const MainPage = () => {
 
     return (
         <div className={classes.mainPage} style={{minHeight: isFetchingSections ? '100vh' : 'fit-content'}}>
-            <CustomSwiper views={1.3} style={{height: '521px'}}>
+            <CustomSwiper
+                views={1.3}
+                style={{height: '521px'}}
+                nextSlideButton={classes.nextSlide}
+                previousSlideButton={classes.previousSlide}
+            >
                 <SwiperSlide className={classes.mainSlide}>
                     <ReactPlayer
                         width={'100%'}
