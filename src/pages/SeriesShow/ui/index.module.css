@@ -392,3 +392,95 @@
     font-size: 16px;
     word-break: break-word;
 }
+
+@media screen and (max-width: 960px) {
+    .detailDescription {
+        margin: 0 auto;
+        margin-bottom: 30px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .detailContent {
+        width: 90%;
+    }
+
+    .detailContentContainer {
+        flex-direction: column;
+        width: fit-content;
+        align-items: center;
+    }
+
+    .mainActors {
+        width: 70%;
+        text-align: center;
+    }
+
+    .actor {
+        align-items: center;
+    }
+
+    .actorAvatar {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .movieAdditional {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .movieInfo {
+        width: 100%;
+    }
+
+    .movieExtraInfo {
+        width: 46%;
+    }
+
+    .episodeSlide {
+        width: 340px !important;
+    }
+
+    .episodeAvatar,
+    .episodePoster {
+        height: 200px;
+        width: 340px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .actorAvatar {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .movieExtraInfo {
+        width: 100%;
+    }
+
+    .detailMeta {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .detailAction {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .episodeSlide {
+        width: 200px !important;
+    }
+
+    .episodeAvatar,
+    .episodePoster {
+        height: 100px;
+        width: 200px;
+    }
+}
