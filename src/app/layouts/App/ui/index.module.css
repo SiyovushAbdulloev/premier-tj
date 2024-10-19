@@ -179,4 +179,13 @@
     .platformItemSvg {
         width: 80px;
     }
+
+    .navGroup {
+        margin-right: 40px;
+    }
+
+    .navGroupLabel,
+    .copyright {
+        text-align: center;
+    }
 }
