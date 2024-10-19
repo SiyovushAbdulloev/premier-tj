@@ -343,6 +343,7 @@ const SeriesListPage = () => {
                             {/*    <Option label={'Шоу'} value={'multimedia'} />*/}
                             {/*</Select>*/}
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onGenreOptionSelect}
                                 onCheckboxSelect={onGenreCheckboxSelect}
                                 value={genre}
@@ -360,6 +361,7 @@ const SeriesListPage = () => {
                                 )) : null}
                             </SelectContainer>
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onCountryOptionSelect}
                                 onCheckboxSelect={onCountryCheckboxSelect}
                                 value={country}
@@ -377,6 +379,7 @@ const SeriesListPage = () => {
                                 )) : null}
                             </SelectContainer>
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onYearOptionSelect}
                                 onCheckboxSelect={onYearCheckboxSelect}
                                 value={year}
@@ -442,16 +445,10 @@ const SeriesListPage = () => {
                                         className={classes.section}
                                         key={item.id}
                                     >
-                                        <ReactPlayer
-                                            style={{
-                                                transition: 'all .1s ease',
-                                                cursor: 'pointer'
-                                            }}
-                                            width={'100%'}
-                                            height={'100%'}
-                                            url={item.trailer}
-                                            controls={false}
-                                            playing={false}
+                                        <img
+                                            src={item.poster}
+                                            alt="Poster"
+                                            className={classes.contentImg}
                                             onMouseEnter={() => onHover(item.id)}
                                             onMouseLeave={onUnHover}
                                         />

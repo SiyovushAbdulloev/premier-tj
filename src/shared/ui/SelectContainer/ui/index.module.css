@@ -103,3 +103,7 @@
     z-index: 3;
     display: grid;
 }
+
+@media screen and (max-width: 1000px) {
+
+}

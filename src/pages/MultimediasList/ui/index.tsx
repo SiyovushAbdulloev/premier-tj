@@ -246,6 +246,7 @@ const MultimediasListPage = () => {
                             {/*    <Option label={'Шоу'} value={'multimedia'} />*/}
                             {/*</Select>*/}
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onGenreOptionSelect}
                                 onCheckboxSelect={onGenreCheckboxSelect}
                                 value={genre}
@@ -263,6 +264,7 @@ const MultimediasListPage = () => {
                                 )) : null}
                             </SelectContainer>
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onYearOptionSelect}
                                 onCheckboxSelect={onYearCheckboxSelect}
                                 value={year}

@@ -372,6 +372,7 @@ const MoviesListPage = () => {
                             {/*    <Option label={'Шоу'} value={'multimedia'} />*/}
                             {/*</Select>*/}
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onGenreOptionSelect}
                                 onCheckboxSelect={onGenreCheckboxSelect}
                                 value={genre}
@@ -389,6 +390,7 @@ const MoviesListPage = () => {
                                 )) : null}
                             </SelectContainer>
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onCountryOptionSelect}
                                 onCheckboxSelect={onCountryCheckboxSelect}
                                 value={country}
@@ -406,6 +408,7 @@ const MoviesListPage = () => {
                                 )) : null}
                             </SelectContainer>
                             <SelectContainer
+                                cls={classes.select}
                                 onOptionSelect={onYearOptionSelect}
                                 onCheckboxSelect={onYearCheckboxSelect}
                                 value={year}

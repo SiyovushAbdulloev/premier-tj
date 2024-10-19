@@ -239,7 +239,7 @@ const SeriesForm = (props: Props) => {
                             onChange={(value: string) => setName(value)}
                             value={name}
                             label={'Имя'}
-                            placeholder={'Новости'}
+                            placeholder={'Сериал...'}
                         />
                         <SearchableMultipleSelect
                             height={genres.length > 5 ? 250 : null}

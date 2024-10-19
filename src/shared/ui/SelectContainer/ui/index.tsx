@@ -1,4 +1,4 @@
-import React, {CSSProperties, ReactNode, useCallback, useEffect, useState} from 'react'
+import React, {CSSProperties, ReactNode, useCallback, useEffect, useRef, useState} from 'react'
 import {className} from "src/shared/utils/className";
 import {useOutsideClick} from "src/shared/hooks/useClickOutside";
 import classes from './index.module.css'
@@ -16,6 +16,7 @@ interface SelectProps extends React.PropsWithChildren{
     value: any
     chosenValues?: Array<any>
     loading?: boolean
+    cls?: string
 }
 
 export interface SelectedOption {
@@ -76,7 +77,23 @@ const SelectContainer = (props: SelectProps) =>  {
     })()
     const [clicked, setClicked] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
     const duration = props.duration ?? .1
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!isOpen) {
+            setWindowWidth(window.innerWidth)
+        } else {
+            if (dropdownRef.current) {
+                const dropdownRect = dropdownRef.current.getBoundingClientRect();
+
+                if (dropdownRect.right > windowWidth) {
+                    dropdownRef.current.style.left = `${windowWidth - dropdownRect.right - 20}px`
+                }
+            }
+        }
+    }, [isOpen])
 
     const getModifiedChildren = useCallback(() => {
         let item: ReactNode
@@ -255,7 +272,7 @@ const SelectContainer = (props: SelectProps) =>  {
     return (
         <div
             onClick={selectClicked}
-            className={className(classes.select, undefined, [])}
+            className={className(classes.select, undefined, [props.cls ?? ''])}
             style={props.style}
             ref={selectRef}
         >
@@ -278,6 +295,7 @@ const SelectContainer = (props: SelectProps) =>  {
                 />
             </div>
             <div
+                ref={dropdownRef}
                 onClick={optionClicked}
                 className={className(classes.items, {[classes.itemsActive]: clicked})}
             >
