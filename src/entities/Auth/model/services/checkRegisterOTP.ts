@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const checkRegisterOTP = createAsyncThunk(
     'auth/checkRegisterOTP',
@@ -8,8 +9,10 @@ export const checkRegisterOTP = createAsyncThunk(
         firstname: string,
         lastname: string,
         otp: string
-    }, {getState, rejectWithValue}) => {
+    }, {getState, rejectWithValue, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
             const response = await fetch(APP_URL + '/api/register/otp/check', {

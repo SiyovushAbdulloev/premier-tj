@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const storeSubscription = createAsyncThunk(
     'subscription/storeSubscription',
@@ -10,8 +11,10 @@ export const storeSubscription = createAsyncThunk(
         duration: string,
         promotional_price: string | null,
         promotional_duration: string | null,
-    }, {rejectWithValue, getState}) => {
+    }, {rejectWithValue, getState, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 

@@ -1,12 +1,15 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const storeMediaContent = createAsyncThunk(
     'mediaContent/storeMediaContent',
     async (data: {
         data: any,
-    }, {rejectWithValue, getState}) => {
+    }, {rejectWithValue, getState, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 

@@ -39,6 +39,7 @@ export const authSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(getCsrfToken.fulfilled, (state, action) => {
+            console.log("CSRF Token:", action.payload)
             state.data.csrfToken = action.payload ?? ''
         })
             .addCase(loginAdmin.fulfilled, (state, action) => {

@@ -10,7 +10,6 @@ export const getCsrfToken = createAsyncThunk(
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    // 'Referer': 'http://localhost:3000'
                 },
                 credentials: 'include'
             })

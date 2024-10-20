@@ -1,10 +1,13 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const getActors = createAsyncThunk(
     'actor/getActors',
-    async (data: { page: undefined|number, q: string|undefined } | undefined, {getState, rejectWithValue}) => {
+    async (data: { page: undefined|number, q: string|undefined } | undefined, {getState, rejectWithValue, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
             const page = data ? data.page ?? 1 : 1

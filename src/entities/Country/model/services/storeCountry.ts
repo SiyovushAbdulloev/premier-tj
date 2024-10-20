@@ -1,11 +1,14 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const storeCountry = createAsyncThunk(
     'country/storeGenre',
-    async (data: { name: string, code: string }, {rejectWithValue, getState}) => {
+    async (data: { name: string, code: string }, {rejectWithValue, getState, dispatch}) => {
         try {
-            // @ts-ignore
+            await dispatch(getCsrfToken())
+
+            //@ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
             const response = await fetch(APP_URL + '/api/admin/countries', {

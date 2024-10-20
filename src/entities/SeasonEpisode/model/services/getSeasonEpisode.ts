@@ -1,10 +1,13 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const getSeasonEpisode = createAsyncThunk(
     'seasonEpisode/getSeasonEpisode',
-    async (data: {id: number, serie: string, serie_season: number}, {getState, rejectWithValue}) => {
+    async (data: {id: number, serie: string, serie_season: number}, {getState, rejectWithValue, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 

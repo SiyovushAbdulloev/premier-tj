@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {APP_URL} from "src/shared/constants/api";
+import {getCsrfToken} from "src/entities/Auth";
 
 export const getAllMovies = createAsyncThunk(
     'mediaContent/getAllMovies',
@@ -9,8 +10,10 @@ export const getAllMovies = createAsyncThunk(
         countries?: Array<string>,
         years?: Array<string>,
         page?: number
-    } | undefined, {getState, rejectWithValue}) => {
+    } | undefined, {getState, rejectWithValue, dispatch}) => {
         try {
+            await dispatch(getCsrfToken())
+
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
             let uri = `/api/movies?page=${data?.page}`
