@@ -143,12 +143,8 @@ const SearchPage = () => {
                     </button>
                     <SearchInput
                         placeholder={'Фильм, сериал'}
-                        style={{
-                            'width': '473px',
-                            'height': '40px',
-                            'marginLeft': '60px',
-                        }}
                         onChange={onSearch}
+                        className={classes.input}
                     />
                 </header>
                 <div className={classes.items}>
@@ -336,6 +332,13 @@ const SearchPage = () => {
                                         })}
                                     </CustomSwiper>
                                 </div>
+                                {section.ad_url ? (
+                                    <img
+                                        src={section.ad_url}
+                                        alt="Ad"
+                                        className={classes.adImage}
+                                    />
+                                ) : null}
                             </div>
                         )
                     }
@@ -411,12 +414,12 @@ const SearchPage = () => {
                                                             className={className(classes.itemContentLabel, null, [classes.marquee])}
                                                             style={{opacity: isHovered(item.data.id, section.label, item.data.name) ? '1' : '0'}}
                                                         >
-                                                                <span className={classes.child}>
-                                                                    <span className={classes.itemContentName}>
-                                                                        {item.data.name} / {item.data.genres.map(genre => genre.name).join(', ')}
-                                                                    </span>
+                                                            <span className={classes.child}>
+                                                                <span className={classes.itemContentName}>
+                                                                    {item.data.name} / {item.data.genres.map(genre => genre.name).join(', ')}
                                                                 </span>
                                                             </span>
+                                                        </span>
                                                     </div>
                                                 </SwiperSlide>
                                             )
@@ -424,6 +427,13 @@ const SearchPage = () => {
                                     })}
                                 </CustomSwiper>
                             </div>
+                            {section.ad_url ? (
+                                <img
+                                    src={section.ad_url}
+                                    alt="Ad"
+                                    className={classes.adImage}
+                                />
+                            ) : null}
                         </div>
                     )
                 })}

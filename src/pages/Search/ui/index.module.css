@@ -86,7 +86,7 @@
 }
 
 .playBtn {
-    background-color: rgba(48,48,48,.5);
+    background-color: rgba(48, 48, 48, .5);
     padding: 10px;
     border-radius: 50%;
     color: #8c8c8c;
@@ -170,7 +170,7 @@
 }
 
 .itemPlayBtn {
-    background-color: rgba(48,48,48,.5);
+    background-color: rgba(48, 48, 48, .5);
     padding: 10px;
     border-radius: 50%;
     color: #8c8c8c;
@@ -269,4 +269,64 @@
 .noRecords {
     margin: 0 auto 30px auto;
     color: #ececec;
+}
+
+.adImage {
+    display: block;
+    height: 378px;
+    width: 100%;
+}
+
+.input {
+    width: 473px;
+    height: 40px;
+    margin-left: 60px;
+}
+
+@media screen and (max-width: 1200px) {
+    .items {
+        justify-content: center;
+    }
+
+    .item {
+        width: 23%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .wrapper {
+        width: 100%;
+    }
+
+    .slide {
+        width: 156px !important;
+        height: 218px !important;
+    }
+
+    .adImage {
+        height: 232px;
+    }
+
+    .backBtn {
+        margin-right: 0;
+    }
+
+    .input {
+        width: 170px;
+        margin-left: 20px;
+    }
+
+    .items {
+        padding: 0 10px;
+    }
+
+    .itemContentImg {
+        height: 160px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .adImage {
+        height: 400px;
+    }
 }
