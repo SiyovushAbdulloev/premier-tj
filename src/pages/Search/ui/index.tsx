@@ -47,6 +47,7 @@ const SearchPage = () => {
     }, [loading, hasMore])
     const [movies, setMovies] = useState<Array<any>>([])
     const [searchString, setSearchString] = useState<string>('')
+    const [madeRequest, setMadeRequest] = useState<boolean>(false)
 
     useEffect(() => {
         const fetchSections = async () => {
@@ -65,11 +66,18 @@ const SearchPage = () => {
         const fetchData = async () => {
             dispatch(search({page, q: searchString}))
                 .then(response => {
-                    setMovies((prevMovies) => [...prevMovies, ...response.payload.data])
+                    if (response.payload.data.length && searchString.length) {
+                        setMovies((prevMovies) => [...prevMovies, ...response.payload.data])
+                    } else {
+                        setMovies([])
+                    }
+                    if (!madeRequest) {
+                        setMadeRequest(true)
+                    }
                     setHasMore(response.payload.hasMore)
                 })
         }
-        if (page > 1 || searchString.length) {
+        if (page > 1 || searchString.length || (!searchString.length && madeRequest)) {
             fetchData()
         }
     }, [page, searchString])
@@ -132,7 +140,7 @@ const SearchPage = () => {
     const onSearch = async (value: string) => {
         setSearchString(value)
     }
-    console.log({movies})
+
     return (
         <div className={classes.search} style={{minHeight: '100vh'}}>
             <div className={classes.wrapper}>
@@ -148,7 +156,7 @@ const SearchPage = () => {
                     />
                 </header>
                 <div className={classes.items}>
-                    {movies.length ? movies.map((item, index) => {
+                    {(movies.length && !isSearching) ? movies.map((item, index) => {
                         if (movies.length === index + 1) {
                             return (
                                 <div
@@ -226,7 +234,9 @@ const SearchPage = () => {
                                 </span>
                             </div>
                         )
-                    }) : null}
+                    }) : (madeRequest && !isSearching && searchString.length) ? (
+                        <h2 className={classes.noRecords}>Нет фильмов, сериалов</h2>
+                    ) : null}
                 </div>
                 {(loading || isSearching) ? (
                     <div className={classes.items}>

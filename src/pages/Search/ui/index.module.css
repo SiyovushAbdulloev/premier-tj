@@ -33,7 +33,7 @@
 .fetching {
     width: 100px;
     height: 100px;
-    margin: 100px auto 300px;
+    margin: 0 auto;
 }
 
 .sections {
@@ -267,7 +267,7 @@
 }
 
 .noRecords {
-    margin: 0 auto 30px auto;
+    margin: 0 auto;
     color: #ececec;
 }
 
@@ -322,6 +322,11 @@
 
     .itemContentImg {
         height: 160px;
+    }
+
+    .fetching {
+        width: 40px;
+        height: 40px;
     }
 }
 
