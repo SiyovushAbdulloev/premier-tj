@@ -375,7 +375,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                 value={phone}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
                             />
-                            <span className={classes.phoneIdentifier}>@</span>
+                            <span className={classes.phoneIdentifier}>+992</span>
                             {otpErrors ? (
                                 <div className={classes.errors}>
                                     {otpErrors && Object.keys(otpErrors).map((key: string) => {

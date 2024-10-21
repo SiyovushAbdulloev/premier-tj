@@ -29,6 +29,7 @@ import {getMultimedia} from "./model/services/getMultimedia";
 import {search} from "./model/services/search";
 import {addToFavourite} from "./model/services/addToFavourite";
 import {unFavourite} from "./model/services/unFavourite";
+import {stream} from "./model/services/stream";
 
 export {
     getData,
@@ -59,5 +60,6 @@ export {
     getIsFavouring,
     addToFavourite,
     unFavourite,
+    stream,
 }
 export type {MediaContent, MediaContentSchema, MediaContentType}

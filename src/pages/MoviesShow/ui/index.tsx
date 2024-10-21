@@ -9,7 +9,7 @@ import {
     getIsFavouring,
     getIsFetchingMovie,
     getMovie,
-    MediaContent,
+    MediaContent, stream,
     unFavourite
 } from "src/entities/MediaContent";
 import {className} from "src/shared/utils/className";
@@ -168,6 +168,18 @@ const MoviesShowPage = () => {
         }
         setIsFavorited(!!authData.favourites.filter(fav => fav.item.type === 'movie').find(fav => fav.item.id === movie.id))
     }, [authData, movie])
+
+    // useEffect(() => {
+    //     const streamFile = async () => {
+    //         const response = await dispatch(stream(movie?.id ?? 0))
+    //         if (response.type.includes('fulfilled')) {
+    //             console.log({response})
+    //         }
+    //     }
+    //     if (showFile) {
+    //         streamFile()
+    //     }
+    // }, [showFile])
 
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
