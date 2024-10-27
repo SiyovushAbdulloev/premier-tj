@@ -20,6 +20,9 @@ import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 import toast from "react-hot-toast";
+import {stream} from "src/entities/SeasonEpisode";
+import {CustomHLSPlayer} from "src/shared/ui/CustomHLSPlayer";
+import {getCSRFToken} from "src/entities/Auth";
 
 const SeriesShowPage = () => {
     const authData = useSelector(getAuthUserData)
@@ -33,6 +36,7 @@ const SeriesShowPage = () => {
     const [series, setSeries] = useState<Series | undefined>(undefined)
     const isFavouring = useSelector(getIsFavouring)
     const [isFavorited, setIsFavorited] = useState(false)
+    const csrfToken = useSelector(getCSRFToken)
 
     useEffect(() => {
         dispatch(getUserSeries(slug ?? ''))
@@ -142,6 +146,19 @@ const SeriesShowPage = () => {
         setIsFavorited(!!authData.favourites.filter(fav => fav.item.type === 'series').find(fav => fav.item.id === series.id))
     }, [authData, series])
 
+    const onEpisode = async (id: number) => {
+        const response = await dispatch(stream(id))
+        if (response.type.includes('fulfilled')) {
+            setEpisode(response.payload.data)
+        }
+    }
+
+    const onShowPlay = (value: boolean) => {
+        if (!value) {
+            setEpisode('')
+        }
+    }
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
@@ -162,19 +179,35 @@ const SeriesShowPage = () => {
                 />
             </Modal>
             <Modal
-                value={episode.length > 0 && !!authData}
-                onChange={(value: boolean) => setEpisode('')}
+                value={episode.length > 0 && !!authData }
+                onChange={onShowPlay}
                 style={{
                     backgroundColor: '#000',
                     maxWidth: '800px',
                     color: '#ececec'
                 }}
             >
-                <ReactPlayer
+                <CustomHLSPlayer
                     width={'100%'}
                     height={'100%'}
                     url={episode}
                     controls={true}
+                    playing={episode.length > 0}
+                    config={{
+                        file: {
+                            attributes: {
+                                controlsList: 'nodownload',
+                                crossOrigin: 'anonymous'
+                            },
+                            hlsOptions: {
+                                xhrSetup: (xhr: any) => {
+                                    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+                                    xhr.setRequestHeader('X-XSRF-TOKEN', `Bearer ${csrfToken}`);
+                                },
+                            },
+                        }
+                    }}
+                    onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             {fetching ? (
@@ -289,7 +322,7 @@ const SeriesShowPage = () => {
                                     >
                                         <div
                                             className={classes.episodeAvatar}
-                                            onClick={() => setEpisode(episode.file)}
+                                            onClick={() => onEpisode(episode.id)}
                                         >
                                             <img
                                                 src={episode.poster}

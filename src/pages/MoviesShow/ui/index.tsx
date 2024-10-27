@@ -27,6 +27,8 @@ import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import toast from "react-hot-toast";
+import {getCSRFToken, getCsrfToken} from "src/entities/Auth";
+import {CustomHLSPlayer} from "src/shared/ui/CustomHLSPlayer";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -43,6 +45,8 @@ const MoviesShowPage = () => {
     const [file, setFile] = useState<string>('')
     const isFavouring = useSelector(getIsFavouring)
     const [isFavorited, setIsFavorited] = useState(false)
+    const [url, setUrl] = useState<string>('')
+    const csrfToken = useSelector(getCSRFToken)
 
     useEffect(() => {
         dispatch(getMovie(slug ?? ''))
@@ -98,6 +102,9 @@ const MoviesShowPage = () => {
 
     const onShowFile = (value: boolean) => {
         setShowFile(value)
+        if (!value) {
+            setUrl('')
+        }
     }
 
     useEffect(() => {
@@ -169,17 +176,17 @@ const MoviesShowPage = () => {
         setIsFavorited(!!authData.favourites.filter(fav => fav.item.type === 'movie').find(fav => fav.item.id === movie.id))
     }, [authData, movie])
 
-    // useEffect(() => {
-    //     const streamFile = async () => {
-    //         const response = await dispatch(stream(movie?.id ?? 0))
-    //         if (response.type.includes('fulfilled')) {
-    //             console.log({response})
-    //         }
-    //     }
-    //     if (showFile) {
-    //         streamFile()
-    //     }
-    // }, [showFile])
+    useEffect(() => {
+        const streamFile = async () => {
+            const response = await dispatch(stream(movie?.id ?? 0))
+            if (response.type.includes('fulfilled')) {
+                setUrl(response.payload.data)
+            }
+        }
+        if (showFile) {
+            streamFile()
+        }
+    }, [showFile])
 
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
@@ -204,7 +211,7 @@ const MoviesShowPage = () => {
                 />
             </Modal>
             <Modal
-                value={showFile}
+                value={showFile && url.length > 0}
                 onChange={onShowFile}
                 style={{
                     backgroundColor: '#000',
@@ -212,14 +219,26 @@ const MoviesShowPage = () => {
                     color: '#ececec'
                 }}
             >
-                <ReactPlayer
-                    ref={fileRef}
+                <CustomHLSPlayer
                     width={'100%'}
                     height={'100%'}
-                    url={file}
+                    url={url}
                     controls={true}
                     playing={showFile}
-                    config={{ file: { attributes: { controlsList: 'nodownload' } } }}
+                    config={{
+                        file: {
+                            attributes: {
+                                controlsList: 'nodownload',
+                                crossOrigin: 'anonymous'
+                            },
+                            hlsOptions: {
+                                xhrSetup: (xhr: any) => {
+                                    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+                                    xhr.setRequestHeader('X-XSRF-TOKEN', `Bearer ${csrfToken}`);
+                                },
+                            },
+                        }
+                    }}
                     onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>

@@ -15,6 +15,7 @@ import {getSeasonEpisode} from "./model/services/getSeasonEpisode";
 import {storeSeasonEpisode} from "./model/services/storeSeasonEpisode";
 import {updateSeasonEpisode} from "./model/services/updateSeasonEpisode";
 import {destroySeasonEpisode} from "./model/services/destroySeasonEpisode";
+import {stream} from "./model/services/stream";
 
 export {
     getData,
@@ -32,5 +33,6 @@ export {
     getUpdateErrors,
     getIsUpdating,
     getIsFetchingOne,
+    stream,
 }
 export type {SeasonEpisode, SeasonEpisodeSchema}

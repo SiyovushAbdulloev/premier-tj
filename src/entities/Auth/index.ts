@@ -9,6 +9,7 @@ import {
     getIsCheckingOtp,
     getIsUpdatingProfile,
     getProfileErrors,
+    getCSRFToken,
 } from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
@@ -44,5 +45,6 @@ export {
     getProfileErrors,
     getIsUpdatingProfile,
     updateProfile,
+    getCSRFToken,
 }
 export type {Auth, AuthSchema, InputError}

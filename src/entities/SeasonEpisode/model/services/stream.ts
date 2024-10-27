@@ -3,7 +3,7 @@ import {APP_URL} from "src/shared/constants/api";
 import {getCsrfToken} from "src/entities/Auth";
 
 export const stream = createAsyncThunk(
-    'mediaContent/stream',
+    'seasonEpisode/stream',
     async (data: number, {rejectWithValue, getState, dispatch}) => {
         try {
             await dispatch(getCsrfToken())
@@ -11,7 +11,7 @@ export const stream = createAsyncThunk(
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
-            const response = await fetch(APP_URL + `/api/media-content/${data}/stream`, {
+            const response = await fetch(APP_URL + `/api/season-episodes/${data}/stream`, {
                 method: 'GET',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
