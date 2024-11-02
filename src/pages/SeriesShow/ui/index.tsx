@@ -14,15 +14,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {getIsFavouring, getIsFetchingUserSeries, getUserSeries, Series, addToFavourite, unFavourite} from "src/entities/Series";
-import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
 import toast from "react-hot-toast";
 import {stream} from "src/entities/SeasonEpisode";
-import {CustomHLSPlayer} from "src/shared/ui/CustomHLSPlayer";
 import {getCSRFToken} from "src/entities/Auth";
+import ReactPlayer from "src/shared/ui/ReactPlayer";
 
 const SeriesShowPage = () => {
     const authData = useSelector(getAuthUserData)
@@ -176,6 +175,7 @@ const SeriesShowPage = () => {
                     url={series?.trailer ?? ''}
                     controls={true}
                     playing={showTrailer}
+                    onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             <Modal
@@ -187,7 +187,7 @@ const SeriesShowPage = () => {
                     color: '#ececec'
                 }}
             >
-                <CustomHLSPlayer
+                <ReactPlayer
                     width={'100%'}
                     height={'100%'}
                     url={episode}

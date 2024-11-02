@@ -9,7 +9,7 @@ import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {SelectContainer, Option, SelectedOption, CheckboxOption} from "src/shared/ui/SelectContainer";
 import {className} from "src/shared/utils/className";
 import {getIsFetchingListSeries, getListSeries, Series} from "src/entities/Series";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "ReactPlayer";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
 import {Country, getIsFetchinList as getIsFetchingCountryList, getListCountries} from "src/entities/Country";
 import {Marquee} from "src/shared/ui/Marquee";

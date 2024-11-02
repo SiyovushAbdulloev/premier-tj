@@ -9,7 +9,7 @@ import {
     getIsFavouring,
     getIsFetchingMovie,
     getMultimedia,
-    MediaContent, unFavourite
+    MediaContent, stream, unFavourite
 } from "src/entities/MediaContent";
 import {className} from "src/shared/utils/className";
 import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
@@ -21,10 +21,11 @@ import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
-import ReactPlayer from "react-player";
 import {Modal} from "src/shared/ui/Modal";
 import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import toast from "react-hot-toast";
+import ReactPlayer from "src/shared/ui/ReactPlayer";
+import {getCSRFToken} from "src/entities/Auth";
 
 const MultimediasShowPage = () => {
     const dispatch = useAppDispatch()
@@ -38,6 +39,8 @@ const MultimediasShowPage = () => {
     const authData = useSelector(getAuthUserData)
     const isFavouring = useSelector(getIsFavouring)
     const [isFavorited, setIsFavorited] = useState(false)
+    const [url, setUrl] = useState<string>('')
+    const csrfToken = useSelector(getCSRFToken)
 
     useEffect(() => {
         dispatch(getMultimedia(slug ?? ''))
@@ -70,6 +73,9 @@ const MultimediasShowPage = () => {
 
     const onShowFile = (value: boolean) => {
         setShowFile(value)
+        if (!value) {
+            setUrl('')
+        }
     }
 
     useEffect(() => {
@@ -137,10 +143,22 @@ const MultimediasShowPage = () => {
         setIsFavorited(!!authData.favourites.filter(fav => fav.item.type === 'multimedia').find(fav => fav.item.id === multimedia.id))
     }, [authData, multimedia])
 
+    useEffect(() => {
+        const streamFile = async () => {
+            const response = await dispatch(stream(multimedia?.id ?? 0))
+            if (response.type.includes('fulfilled')) {
+                setUrl(response.payload.data)
+            }
+        }
+        if (showFile) {
+            streamFile()
+        }
+    }, [showFile])
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
-                value={showFile}
+                value={showFile && url.length > 0}
                 onChange={onShowFile}
                 style={{
                     backgroundColor: '#000',
@@ -149,12 +167,27 @@ const MultimediasShowPage = () => {
                 }}
             >
                 <ReactPlayer
-                    ref={fileRef}
                     width={'100%'}
                     height={'100%'}
-                    url={file}
+                    url={url}
                     controls={true}
                     playing={showFile}
+                    config={{
+                        file: {
+                            attributes: {
+                                controlsList: 'nodownload',
+                                crossOrigin: 'anonymous'
+                            },
+                            hlsOptions: {
+                                xhrSetup: (xhr: any) => {
+                                    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+                                    xhr.setRequestHeader('X-XSRF-TOKEN', `Bearer ${csrfToken}`);
+                                },
+                            },
+                            forceHLS: true
+                        }
+                    }}
+                    onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             {fetching ? (

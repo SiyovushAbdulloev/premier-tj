@@ -16,7 +16,7 @@ import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {Media} from "src/entities/PageSection/types";
 import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "ReactPlayer";
 import {MediaContent} from "src/entities/MediaContent";
 import {className} from "src/shared/utils/className";
 import Skeleton from "react-loading-skeleton";
@@ -98,49 +98,49 @@ const MainPage = () => {
                 previousSlideButton={classes.previousSlide}
             >
                 <SwiperSlide className={classes.mainSlide}>
-                    <ReactPlayer
-                        width={'100%'}
-                        height={'100%'}
-                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
-                        controls={false}
-                        playing={false}
-                    />
+                    {/*<ReactPlayer*/}
+                    {/*    width={'100%'}*/}
+                    {/*    height={'100%'}*/}
+                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
+                    {/*    controls={false}*/}
+                    {/*    playing={false}*/}
+                    {/*/>*/}
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    <ReactPlayer
-                        width={'100%'}
-                        height={'100%'}
-                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
-                        controls={false}
-                        playing={false}
-                    />
+                    {/*<ReactPlayer*/}
+                    {/*    width={'100%'}*/}
+                    {/*    height={'100%'}*/}
+                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
+                    {/*    controls={false}*/}
+                    {/*    playing={false}*/}
+                    {/*/>*/}
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    <ReactPlayer
-                        width={'100%'}
-                        height={'100%'}
-                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
-                        controls={false}
-                        playing={false}
-                    />
+                    {/*<ReactPlayer*/}
+                    {/*    width={'100%'}*/}
+                    {/*    height={'100%'}*/}
+                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
+                    {/*    controls={false}*/}
+                    {/*    playing={false}*/}
+                    {/*/>*/}
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    <ReactPlayer
-                        width={'100%'}
-                        height={'100%'}
-                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
-                        controls={false}
-                        playing={false}
-                    />
+                    {/*<ReactPlayer*/}
+                    {/*    width={'100%'}*/}
+                    {/*    height={'100%'}*/}
+                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
+                    {/*    controls={false}*/}
+                    {/*    playing={false}*/}
+                    {/*/>*/}
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    <ReactPlayer
-                        width={'100%'}
-                        height={'100%'}
-                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
-                        controls={false}
-                        playing={false}
-                    />
+                    {/*<ReactPlayer*/}
+                    {/*    width={'100%'}*/}
+                    {/*    height={'100%'}*/}
+                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
+                    {/*    controls={false}*/}
+                    {/*    playing={false}*/}
+                    {/*/>*/}
                 </SwiperSlide>
             </CustomSwiper>
             <div className={classes.sections}>
@@ -177,36 +177,38 @@ const MainPage = () => {
                                                                 ) : null}
                                                                 {(item.type === 'multimedia') ? (
                                                                     (
-                                                                        <ReactPlayer
-                                                                            style={{
-                                                                                transition: 'all .1s ease',
-                                                                                transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                            }}
-                                                                            width={345}
-                                                                            height={204}
-                                                                            url={(item.data as MediaContent).file}
-                                                                            controls={false}
-                                                                            playing={false}
-                                                                            onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                            onMouseLeave={onUnHover}
-                                                                        />
+                                                                        <video src=""></video>
+                                                                        // <ReactPlayer
+                                                                        //     style={{
+                                                                        //         transition: 'all .1s ease',
+                                                                        //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                        //     }}
+                                                                        //     width={345}
+                                                                        //     height={204}
+                                                                        //     url={(item.data as MediaContent).file}
+                                                                        //     controls={false}
+                                                                        //     playing={false}
+                                                                        //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                        //     onMouseLeave={onUnHover}
+                                                                        // />
                                                                     )
                                                                 ) : null}
                                                                 {(item.type === 'series') ? (
                                                                     (
-                                                                        <ReactPlayer
-                                                                            style={{
-                                                                                transition: 'all .1s ease',
-                                                                                transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                            }}
-                                                                            width={345}
-                                                                            height={204}
-                                                                            url={item.data.trailer}
-                                                                            controls={false}
-                                                                            playing={false}
-                                                                            onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                            onMouseLeave={onUnHover}
-                                                                        />
+                                                                        <video src=""></video>
+                                                                        // <ReactPlayer
+                                                                        //     style={{
+                                                                        //         transition: 'all .1s ease',
+                                                                        //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                        //     }}
+                                                                        //     width={345}
+                                                                        //     height={204}
+                                                                        //     url={item.data.trailer}
+                                                                        //     controls={false}
+                                                                        //     playing={false}
+                                                                        //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                        //     onMouseLeave={onUnHover}
+                                                                        // />
                                                                     )
                                                                 ) : null}
                                                                 <button

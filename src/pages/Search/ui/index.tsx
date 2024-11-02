@@ -8,7 +8,7 @@ import {Media} from "src/entities/PageSection/types";
 import {RoutesConfig} from "src/shared/config/routes";
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {SwiperSlide} from "swiper/react";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "ReactPlayer";
 import {getIsSearching, MediaContent, search} from "src/entities/MediaContent";
 import {useSelector} from "react-redux";
 import {ReactComponent as Fetching} from "src/shared/assets/icons/loading.svg"
@@ -286,36 +286,38 @@ const SearchPage = () => {
                                                             ) : null}
                                                             {(item.type === 'multimedia') ? (
                                                                 (
-                                                                    <ReactPlayer
-                                                                        style={{
-                                                                            transition: 'all .1s ease',
-                                                                            transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                        }}
-                                                                        width={345}
-                                                                        height={204}
-                                                                        url={(item.data as MediaContent).file}
-                                                                        controls={false}
-                                                                        playing={false}
-                                                                        onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                        onMouseLeave={onUnHover}
-                                                                    />
+                                                                    <video src=""></video>
+                                                                    // <ReactPlayer
+                                                                    //     style={{
+                                                                    //         transition: 'all .1s ease',
+                                                                    //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                    //     }}
+                                                                    //     width={345}
+                                                                    //     height={204}
+                                                                    //     url={(item.data as MediaContent).file}
+                                                                    //     controls={false}
+                                                                    //     playing={false}
+                                                                    //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                    //     onMouseLeave={onUnHover}
+                                                                    // />
                                                                 )
                                                             ) : null}
                                                             {(item.type === 'series') ? (
                                                                 (
-                                                                    <ReactPlayer
-                                                                        style={{
-                                                                            transition: 'all .1s ease',
-                                                                            transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                        }}
-                                                                        width={345}
-                                                                        height={204}
-                                                                        url={item.data.trailer}
-                                                                        controls={false}
-                                                                        playing={false}
-                                                                        onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                        onMouseLeave={onUnHover}
-                                                                    />
+                                                                    <video src=""></video>
+                                                                    // <ReactPlayer
+                                                                    //     style={{
+                                                                    //         transition: 'all .1s ease',
+                                                                    //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                    //     }}
+                                                                    //     width={345}
+                                                                    //     height={204}
+                                                                    //     url={item.data.trailer}
+                                                                    //     controls={false}
+                                                                    //     playing={false}
+                                                                    //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                    //     onMouseLeave={onUnHover}
+                                                                    // />
                                                                 )
                                                             ) : null}
                                                             <button
@@ -381,36 +383,38 @@ const SearchPage = () => {
                                                         ) : null}
                                                         {(item.type === 'multimedia') ? (
                                                             (
-                                                                <ReactPlayer
-                                                                    style={{
-                                                                        transition: 'all .1s ease',
-                                                                        transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                    }}
-                                                                    width={345}
-                                                                    height={204}
-                                                                    url={(item.data as MediaContent).file}
-                                                                    controls={false}
-                                                                    playing={false}
-                                                                    onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                    onMouseLeave={onUnHover}
-                                                                />
+                                                                <video src=""></video>
+                                                                // <ReactPlayer
+                                                                //     style={{
+                                                                //         transition: 'all .1s ease',
+                                                                //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                //     }}
+                                                                //     width={345}
+                                                                //     height={204}
+                                                                //     url={(item.data as MediaContent).file}
+                                                                //     controls={false}
+                                                                //     playing={false}
+                                                                //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                //     onMouseLeave={onUnHover}
+                                                                // />
                                                             )
                                                         ) : null}
                                                         {(item.type === 'series') ? (
                                                             (
-                                                                <ReactPlayer
-                                                                    style={{
-                                                                        transition: 'all .1s ease',
-                                                                        transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                    }}
-                                                                    width={345}
-                                                                    height={204}
-                                                                    url={item.data.trailer}
-                                                                    controls={false}
-                                                                    playing={false}
-                                                                    onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                    onMouseLeave={onUnHover}
-                                                                />
+                                                                <video src=""></video>
+                                                                // <ReactPlayer
+                                                                //     style={{
+                                                                //         transition: 'all .1s ease',
+                                                                //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
+                                                                //     }}
+                                                                //     width={345}
+                                                                //     height={204}
+                                                                //     url={item.data.trailer}
+                                                                //     controls={false}
+                                                                //     playing={false}
+                                                                //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                //     onMouseLeave={onUnHover}
+                                                                // />
                                                             )
                                                         ) : null}
                                                         <button

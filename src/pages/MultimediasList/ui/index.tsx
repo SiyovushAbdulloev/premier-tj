@@ -10,7 +10,7 @@ import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {SelectContainer, Option, SelectedOption, CheckboxOption} from "src/shared/ui/SelectContainer";
 import {className} from "src/shared/utils/className";
 import {Genre, getIsFetchingList, getListGenres} from "src/entities/Genre";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "ReactPlayer";
 import {Marquee} from "src/shared/ui/Marquee";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'

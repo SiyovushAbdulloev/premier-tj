@@ -6,7 +6,7 @@ import {ReactComponent as Fetching} from 'src/shared/assets/icons/loading.svg'
 import {useNavigate, useParams} from "react-router-dom";
 import {getIsFetchingMovie, getMovie, MediaContent} from "src/entities/MediaContent";
 import {ReactComponent as Back} from "src/shared/assets/icons/back.svg"
-import ReactPlayer from 'react-player'
+// import ReactPlayer from 'ReactPlayer'
 
 const MovieTrailerShowPage = () => {
     const dispatch = useAppDispatch()
@@ -41,12 +41,12 @@ const MovieTrailerShowPage = () => {
                             <Back width={28} height={28} />
                         </button>
                         <div className={classes.player}>
-                            <ReactPlayer
-                                width={'100%'}
-                                height={'100%'}
-                                url={movie?.trailer ?? ''}
-                                controls={true}
-                            />
+                            {/*<ReactPlayer*/}
+                            {/*    width={'100%'}*/}
+                            {/*    height={'100%'}*/}
+                            {/*    url={movie?.trailer ?? ''}*/}
+                            {/*    controls={true}*/}
+                            {/*/>*/}
                         </div>
                     </>
             )}

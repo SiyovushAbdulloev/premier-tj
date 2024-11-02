@@ -23,12 +23,11 @@ import 'swiper/css/navigation';
 import {CustomSwiper} from "src/shared/ui/CustomSwiper";
 import {ReactComponent as Kinopoisk} from "src/shared/assets/icons/kinopoisk.svg"
 import {ReactComponent as IMDB} from "src/shared/assets/icons/imdb.svg"
-import ReactPlayer from "react-player";
+import ReactPlayer from "src/shared/ui/ReactPlayer";
 import {Modal} from "src/shared/ui/Modal";
 import {Favourite, getAuthUserData, userActions} from "src/entities/User";
 import toast from "react-hot-toast";
-import {getCSRFToken, getCsrfToken} from "src/entities/Auth";
-import {CustomHLSPlayer} from "src/shared/ui/CustomHLSPlayer";
+import {getCSRFToken} from "src/entities/Auth";
 
 const MoviesShowPage = () => {
     const dispatch = useAppDispatch()
@@ -207,7 +206,7 @@ const MoviesShowPage = () => {
                     controls={true}
                     playing={showTrailer}
                     config={{ file: { attributes: { controlsList: 'nodownload' } } }}
-                    // onContextMenu={(e: any) => e.preventDefault()}
+                    onContextMenu={(e: any) => e.preventDefault()}
                 />
             </Modal>
             <Modal
@@ -219,7 +218,7 @@ const MoviesShowPage = () => {
                     color: '#ececec'
                 }}
             >
-                <CustomHLSPlayer
+                <ReactPlayer
                     width={'100%'}
                     height={'100%'}
                     url={url}
@@ -237,6 +236,7 @@ const MoviesShowPage = () => {
                                     xhr.setRequestHeader('X-XSRF-TOKEN', `Bearer ${csrfToken}`);
                                 },
                             },
+                            forceHLS: true
                         }
                     }}
                     onContextMenu={(e: any) => e.preventDefault()}
