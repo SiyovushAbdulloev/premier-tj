@@ -172,7 +172,7 @@ const SeasonEpisodeForm = (props: Props) => {
                             onChange={(value: string) => setDuration(value)}
                             value={duration}
                             label={'Длительность серии'}
-                            placeholder={'1'}
+                            placeholder={'00:00:00'}
                         />
                         <SearchableMultipleSelect
                             height={subscriptions.length > 5 ? 250 : null}

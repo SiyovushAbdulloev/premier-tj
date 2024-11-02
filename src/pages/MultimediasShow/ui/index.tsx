@@ -60,8 +60,11 @@ const MultimediasShowPage = () => {
         if (!multimedia) {
             return ''
         }
-        const [hours, minutes] = multimedia.duration.split(':')
-        return `${parseInt(hours)}ч ${parseInt(minutes)}мин`
+        const [hours, minutes, seconds] = multimedia.duration.split(':')
+        if (hours) {
+            return `${parseInt(hours)}ч ${parseInt(minutes)}мин ${parseInt(seconds)}сек`
+        }
+        return `${parseInt(minutes)}мин ${parseInt(seconds)}сек`
     }, [multimedia])
 
     const getActors = (): Array<string> => {

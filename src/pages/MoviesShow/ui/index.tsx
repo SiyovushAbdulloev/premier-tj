@@ -65,8 +65,11 @@ const MoviesShowPage = () => {
         if (!movie) {
             return ''
         }
-        const [hours, minutes] = movie.duration.split(':')
-        return `${parseInt(hours)}ч ${parseInt(minutes)}мин`
+        const [hours, minutes, seconds] = movie.duration.split(':')
+        if (hours) {
+            return `${parseInt(hours)}ч ${parseInt(minutes)}мин ${parseInt(seconds)}сек`
+        }
+        return `${parseInt(minutes)}мин ${parseInt(seconds)}сек`
     }, [movie])
 
     const onTrailer = () => {

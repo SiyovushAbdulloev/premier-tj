@@ -265,7 +265,7 @@ const MultimediaForm = (props: Props) => {
                             onChange={(value: string) => setDuration(value)}
                             value={duration}
                             label={'Длительность'}
-                            placeholder={'02:30'}
+                            placeholder={'00:00:00'}
                         />
                         <SearchableMultipleSelect
                             height={genres.length > 5 ? 250 : null}
