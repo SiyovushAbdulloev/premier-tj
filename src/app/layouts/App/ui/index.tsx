@@ -1,5 +1,5 @@
 import classes from './index.module.css'
-import React from "react";
+import React, {useEffect, useState} from "react";
 import AppNavbar from "src/widgets/AppNavbar/ui";
 import {RoutesConfig} from "src/shared/config/routes";
 import {Link, useNavigate} from "react-router-dom";
@@ -16,12 +16,32 @@ import {ReactComponent as GooglePlay} from "src/shared/assets/icons/google_play.
 import {ReactComponent as RuStore} from "src/shared/assets/icons/ru_store.svg"
 import {ReactComponent as SmartTV} from "src/shared/assets/icons/smart_tv.svg"
 import {className} from "src/shared/utils/className";
+import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
+import {getAllLinks, SocialLink} from "src/entities/SocialLink";
 
 const AppLayout = (props: React.PropsWithChildren) => {
+    const [socialLinks, setSocialLinks] = useState<Array<SocialLink>>([])
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
     const onFree = () => {
         navigate(RoutesConfig.free_media.path)
+    }
+
+    useEffect(() => {
+        const getLinks = async () => {
+            const response = await dispatch(getAllLinks())
+            if (response.type.includes('fulfilled')) {
+                setSocialLinks(response.payload.data)
+            }
+        }
+
+        getLinks()
+    }, [])
+
+    const getLink = (name: string): string => {
+        if (!socialLinks.length) return ''
+        return socialLinks.find((socialLink: SocialLink) => socialLink.name === name)?.path ?? ''
     }
 
     return (
@@ -56,24 +76,36 @@ const AppLayout = (props: React.PropsWithChildren) => {
                 <div className={classes.socialsSection}>
                     <h3 className={classes.navGroupLabel}>Смотрите фильмы, сериалы и шоу на любом устройстве</h3>
                     <div className={classes.platforms}>
-                            <Link to={''} className={classes.platformItem}>
+                        {getLink('app_store') ? (
+                            <Link to={getLink('app_store')} className={classes.platformItem}>
                                 <AppStore className={classes.platformItemSvg} />
                             </Link>
-                            <Link to={''} className={classes.platformItem}>
+                        ) : null}
+                        {getLink('google_play') ? (
+                            <Link to={getLink('google_play')} className={classes.platformItem}>
                                 <GooglePlay className={classes.platformItemSvg} />
                             </Link>
-                            <Link to={''} className={classes.platformItem}>
+                        ) : null}
+                        {getLink('app_gallery') ? (
+                            <Link to={getLink('app_gallery')} className={classes.platformItem}>
                                 <AppGallery className={classes.platformItemSvg} />
                             </Link>
-                            <Link to={''} className={classes.platformItem}>
+                        ) : null}
+                        {getLink('get_apps') ? (
+                            <Link to={getLink('get_apps')} className={classes.platformItem}>
                                 <GetApps className={classes.platformItemSvg} />
                             </Link>
-                            <Link to={''} className={classes.platformItem}>
+                        ) : null}
+                        {getLink('ru_store') ? (
+                            <Link to={getLink('ru_store')} className={classes.platformItem}>
                                 <RuStore className={classes.platformItemSvg} />
                             </Link>
-                            <Link to={''} className={classes.platformItem}>
+                        ) : null}
+                        {getLink('smart_tv') ? (
+                            <Link to={getLink('smart_tv')} className={classes.platformItem}>
                                 <SmartTV className={classes.platformItemSvg} />
                             </Link>
+                        ) : null}
                         <div className={classes.platform}>
                             <Link to={''} className={className(classes.platformItem, null, [classes.allDevices])}>
                                 <AllDevices />
@@ -82,21 +114,31 @@ const AppLayout = (props: React.PropsWithChildren) => {
                     </div>
                     <h3 className={classes.socialsTitle}>Мы в соцсетях:</h3>
                     <div className={classes.socials}>
-                        <Link to={''} className={classes.social}>
-                            <Telegram width={22} height={22} />
-                        </Link>
-                        <Link to={''} className={classes.social}>
-                            <VK width={22} height={22} />
-                        </Link>
-                        <Link to={''} className={classes.social}>
-                            <OK width={22} height={22} />
-                        </Link>
-                        <Link to={''} className={classes.social}>
-                            <Whatsapp width={22} height={22} fill={'#fff'} />
-                        </Link>
-                        <Link to={''} className={classes.social}>
-                            <Dzen width={22} height={22} fill={'#fff'} />
-                        </Link>
+                        {getLink('telegram') ? (
+                            <Link to={getLink('telegram')} className={classes.social}>
+                                <Telegram width={22} height={22} />
+                            </Link>
+                        ) : null}
+                        {getLink('vk') ? (
+                            <Link to={getLink('vk')} className={classes.social}>
+                                <VK width={22} height={22} />
+                            </Link>
+                        ) : null}
+                        {getLink('ok') ? (
+                            <Link to={getLink('ok')} className={classes.social}>
+                                <OK width={22} height={22} />
+                            </Link>
+                        ) : null}
+                        {getLink('whatsapp') ? (
+                            <Link to={getLink('whatsapp')} className={classes.social}>
+                                <Whatsapp width={22} height={22} />
+                            </Link>
+                        ) : null}
+                        {getLink('dzen') ? (
+                            <Link to={getLink('dzen')} className={classes.social}>
+                                <Dzen width={22} height={22} />
+                            </Link>
+                        ) : null}
                     </div>
                 </div>
             </footer>
