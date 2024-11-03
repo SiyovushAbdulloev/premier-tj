@@ -11,6 +11,7 @@ import {SerieSeasonSchema} from "src/entities/SerieSeason";
 import {SeasonEpisodeSchema} from "src/entities/SeasonEpisode";
 import {PageSectionSchema} from "src/entities/PageSection";
 import {SubscriptionRequestSchema} from "src/entities/SubscriptionRequest";
+import {SocialLinkSchema} from "src/entities/SocialLink";
 
 export interface StateSchema {
     user: UserSchema
@@ -26,4 +27,5 @@ export interface StateSchema {
     seasonEpisode: SeasonEpisodeSchema
     pageSection: PageSectionSchema
     subscriptionRequest: SubscriptionRequestSchema
+    socialLink: SocialLinkSchema
 }

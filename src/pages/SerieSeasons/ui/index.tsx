@@ -30,7 +30,7 @@ const SerieSeasonsPage = () => {
 
     useEffect(() => {
         dispatch(getSerieSeasons({
-            page: parseInt(searchParams.get('id') ?? '1'),
+            page: parseInt(searchParams.get('page') ?? '1'),
             serie: slug ?? ''
         }))
     }, [])

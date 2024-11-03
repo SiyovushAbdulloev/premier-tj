@@ -8,6 +8,7 @@ import {ReactComponent as Subscriptions} from 'src/shared/assets/icons/shield.sv
 import {ReactComponent as Countries} from 'src/shared/assets/icons/globe.svg'
 import {ReactComponent as Actors} from 'src/shared/assets/icons/user.svg'
 import {ReactComponent as Mail} from 'src/shared/assets/icons/mail.svg'
+import {ReactComponent as LinkIcon} from 'src/shared/assets/icons/link.svg'
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {className} from "src/shared/utils/className";
@@ -95,6 +96,13 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                     return <Mail width={20} height={20} />
                 },
                 label: 'Заявки'
+            },
+            {
+                path: RoutesConfig.admin_social_links.path,
+                icon: function () {
+                    return <LinkIcon width={20} height={20} />
+                },
+                label: 'Социальные сети'
             },
         ]
     }, [])

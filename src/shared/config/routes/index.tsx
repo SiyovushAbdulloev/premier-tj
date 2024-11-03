@@ -49,6 +49,8 @@ import {SubscriptionRequestsPage} from "src/pages/SubscriptionRequests";
 import {SubscriptionRequestsShowPage} from "src/pages/SubscriptionRequestsShow";
 import {SearchPage} from "src/pages/Search";
 import {UserProfilePage} from "src/pages/UserProfile";
+import {SocialLinksPage} from "src/pages/SocialLinks";
+import {SocialLinksEditPage} from "src/pages/SocialLinksEdit";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -93,6 +95,8 @@ export enum AppRoutes {
     'ADMIN_PAGE_SECTIONS' = 'admin_page_sections',
     'ADMIN_PAGE_SECTIONS_CREATE' = 'admin_page_sections_create',
     'ADMIN_PAGE_SECTIONS_EDIT' = 'admin_page_sections_edit',
+    'ADMIN_SOCIAL_LINKS' = 'admin_social_links',
+    'ADMIN_SOCIAL_LINKS_EDIT' = 'admin_social_links_edit',
     'MOVIES_LIST' = 'movies_list',
     'MULTIMEDIAS_LIST' = 'multimedias_list',
     'MOVIES_SHOW' = 'movies_show',
@@ -143,6 +147,8 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.ADMIN_PAGE_SECTIONS]: '/admin/sections',
     [AppRoutes.ADMIN_PAGE_SECTIONS_CREATE]: '/admin/sections/create',
     [AppRoutes.ADMIN_PAGE_SECTIONS_EDIT]: '/admin/sections/:id/edit',
+    [AppRoutes.ADMIN_SOCIAL_LINKS]: '/admin/social-links',
+    [AppRoutes.ADMIN_SOCIAL_LINKS_EDIT]: '/admin/social-links/:name/edit',
     [AppRoutes.MOVIES_LIST]: '/movies',
     [AppRoutes.MULTIMEDIAS_LIST]: '/shows',
     [AppRoutes.MOVIES_SHOW]: '/movies/:slug/show',
@@ -419,6 +425,22 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
     [AppRoutes.ADMIN_PAGE_SECTIONS_EDIT]: {
         path: RoutesPath.admin_page_sections_edit,
         element: <PageSectionsEditPage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SOCIAL_LINKS]: {
+        path: RoutesPath.admin_social_links,
+        element: <SocialLinksPage />,
+        require_auth: true,
+        allow_without_auth: false,
+        layout: ProjectLayouts.AdminLayout,
+        roles: [Roles.ADMIN]
+    },
+    [AppRoutes.ADMIN_SOCIAL_LINKS_EDIT]: {
+        path: RoutesPath.admin_social_links_edit,
+        element: <SocialLinksEditPage />,
         require_auth: true,
         allow_without_auth: false,
         layout: ProjectLayouts.AdminLayout,

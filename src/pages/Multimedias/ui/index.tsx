@@ -28,7 +28,7 @@ const MultimediasPage = () => {
 
     useEffect(() => {
         dispatch(getMediaContents({
-            page: parseInt(searchParams.get('id') ?? '1'),
+            page: parseInt(searchParams.get('page') ?? '1'),
             q: searchParams.get('q') ?? '',
             type: 1
         }))

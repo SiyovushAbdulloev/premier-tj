@@ -24,7 +24,7 @@ const SeriesPage = () => {
     useEffect(() => {
         const q = searchParams.get('q') ?? ''
         dispatch(getAllSeries({
-            page: parseInt(searchParams.get('id') ?? '1'),
+            page: parseInt(searchParams.get('page') ?? '1'),
             q
         }))
         setSearch(q)
