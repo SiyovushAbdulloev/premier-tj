@@ -122,6 +122,15 @@ const MultimediasPage = () => {
                                 prop={'description'}
                             />
                             <TableColumn
+                                label={'Опубликован'}
+                                prop={'is_published'}
+                                row={(data: MediaContent) => {
+                                    return (
+                                        <span>{data.is_published ? 'Да' : 'Нет'}</span>
+                                    )
+                                }}
+                            />
+                            <TableColumn
                                 label={'Действия'}
                                 prop={''}
                                 row={(data: MediaContent) => {

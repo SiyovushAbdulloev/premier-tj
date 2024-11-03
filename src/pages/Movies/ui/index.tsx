@@ -25,7 +25,7 @@ const MoviesPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [searchParams] = useSearchParams()
-
+    console.log({movies})
     useEffect(() => {
         dispatch(getMediaContents({
             page: parseInt(searchParams.get('page') ?? '1'),
@@ -120,6 +120,15 @@ const MoviesPage = () => {
                             <TableColumn
                                 label={'Описание'}
                                 prop={'description'}
+                            />
+                            <TableColumn
+                                label={'Опубликован'}
+                                prop={'is_published'}
+                                row={(data: MediaContent) => {
+                                    return (
+                                        <span>{data.is_published ? 'Да' : 'Нет'}</span>
+                                    )
+                                }}
                             />
                             <TableColumn
                                 label={'Действия'}
