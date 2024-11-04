@@ -81,7 +81,7 @@ const SeriesForm = (props: Props) => {
             content.append('poster', posterRef.current)
         }
         content.append('released_at', releasedAt)
-        content.append('is_published', `${isPublished}`)
+        content.append('is_published', `${isPublished ? 1 : 0}`)
         if (kinopoisk.length) {
             content.append('kinopoisk', kinopoisk)
         }

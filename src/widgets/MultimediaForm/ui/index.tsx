@@ -86,7 +86,7 @@ const MultimediaForm = (props: Props) => {
         }
         content.append('released_at', releasedAt)
         content.append('type', '1')
-        content.append('is_published', `${isPublished}`)
+        content.append('is_published', `${isPublished ? 1 : 0}`)
         if (props.type === FormType.CREATE) {
             response  = await dispatch(storeMediaContent({
                 data: content
@@ -94,7 +94,7 @@ const MultimediaForm = (props: Props) => {
         } else {
             content.append('_method', 'PUT')
             response  = await dispatch(updateMediaContent({
-                id: props.data?.id,
+                slug: props.data?.slug,
                 data: content
             }))
         }

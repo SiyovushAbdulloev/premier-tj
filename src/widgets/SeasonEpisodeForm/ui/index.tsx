@@ -65,7 +65,7 @@ const SeasonEpisodeForm = (props: Props) => {
         if (posterRef.current) {
             content.append('poster', posterRef.current)
         }
-        content.append('is_published', `${isPublished}`)
+        content.append('is_published', `${isPublished ? 1 : 0}`)
         if (props.type === FormType.CREATE) {
             response  = await dispatch(storeSeasonEpisode({
                 data: content,

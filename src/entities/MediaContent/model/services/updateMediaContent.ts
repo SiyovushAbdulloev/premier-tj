@@ -5,7 +5,7 @@ import {getCsrfToken} from "src/entities/Auth";
 export const updateMediaContent = createAsyncThunk(
     'mediaContent/updateMediaContent',
     async (data: {
-        id: number | undefined
+        slug: string | undefined
         data: any
     }, {rejectWithValue, getState, dispatch}) => {
         try {
@@ -14,7 +14,7 @@ export const updateMediaContent = createAsyncThunk(
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
 
-            const response = await fetch(APP_URL + `/api/admin/media-contents/${data.id}`, {
+            const response = await fetch(APP_URL + `/api/admin/media-contents/${data.slug}`, {
                 method: 'POST',
                 headers: {
                     'X-XSRF-TOKEN': csrfToken,
