@@ -46,7 +46,7 @@ const AppLayout = (props: React.PropsWithChildren) => {
 
     return (
         <div className={classes.appLayout}>
-            <AppNavbar />
+            <AppNavbar/>
             {props.children}
             <footer className={classes.footer}>
                 <div className={classes.footerWrapper}>
@@ -77,66 +77,114 @@ const AppLayout = (props: React.PropsWithChildren) => {
                     <h3 className={classes.navGroupLabel}>Смотрите фильмы, сериалы и шоу на любом устройстве</h3>
                     <div className={classes.platforms}>
                         {getLink('app_store') ? (
-                            <Link to={getLink('app_store')} className={classes.platformItem}>
-                                <AppStore className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('app_store')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <AppStore className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         {getLink('google_play') ? (
-                            <Link to={getLink('google_play')} className={classes.platformItem}>
-                                <GooglePlay className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('google_play')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <GooglePlay className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         {getLink('app_gallery') ? (
-                            <Link to={getLink('app_gallery')} className={classes.platformItem}>
-                                <AppGallery className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('app_gallery')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <AppGallery className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         {getLink('get_apps') ? (
-                            <Link to={getLink('get_apps')} className={classes.platformItem}>
-                                <GetApps className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('get_apps')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <GetApps className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         {getLink('ru_store') ? (
-                            <Link to={getLink('ru_store')} className={classes.platformItem}>
-                                <RuStore className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('ru_store')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <RuStore className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         {getLink('smart_tv') ? (
-                            <Link to={getLink('smart_tv')} className={classes.platformItem}>
-                                <SmartTV className={classes.platformItemSvg} />
+                            <Link
+                                to={getLink('smart_tv')}
+                                className={classes.platformItem}
+                                target={'_blank'}
+                            >
+                                <SmartTV className={classes.platformItemSvg}/>
                             </Link>
                         ) : null}
                         <div className={classes.platform}>
-                            <Link to={''} className={className(classes.platformItem, null, [classes.allDevices])}>
-                                <AllDevices />
+                            <Link
+                                to={''}
+                                className={className(classes.platformItem, null, [classes.allDevices])}
+                                target={'_blank'}
+                            >
+                                <AllDevices/>
                             </Link>
                         </div>
                     </div>
                     <h3 className={classes.socialsTitle}>Мы в соцсетях:</h3>
                     <div className={classes.socials}>
                         {getLink('telegram') ? (
-                            <Link to={getLink('telegram')} className={classes.social}>
-                                <Telegram width={22} height={22} />
+                            <Link
+                                to={getLink('telegram')}
+                                className={classes.social}
+                                target={'_blank'}
+                            >
+                                <Telegram width={22} height={22}/>
                             </Link>
                         ) : null}
                         {getLink('vk') ? (
-                            <Link to={getLink('vk')} className={classes.social}>
-                                <VK width={22} height={22} />
+                            <Link
+                                to={getLink('vk')}
+                                className={classes.social}
+                                target={'_blank'}
+                            >
+                                <VK width={22} height={22}/>
                             </Link>
                         ) : null}
                         {getLink('ok') ? (
-                            <Link to={getLink('ok')} className={classes.social}>
-                                <OK width={22} height={22} />
+                            <Link
+                                to={getLink('ok')}
+                                className={classes.social}
+                                target={'_blank'}
+                            >
+                                <OK width={22} height={22}/>
                             </Link>
                         ) : null}
                         {getLink('whatsapp') ? (
-                            <Link to={getLink('whatsapp')} className={classes.social}>
-                                <Whatsapp width={22} height={22} />
+                            <Link
+                                to={getLink('whatsapp')}
+                                className={classes.social}
+                                target={'_blank'}
+                            >
+                                <Whatsapp width={22} height={22}/>
                             </Link>
                         ) : null}
                         {getLink('dzen') ? (
-                            <Link to={getLink('dzen')} className={classes.social}>
-                                <Dzen width={22} height={22} />
+                            <Link
+                                to={getLink('dzen')}
+                                className={classes.social}
+                                target={'_blank'}
+                            >
+                                <Dzen width={22} height={22}/>
                             </Link>
                         ) : null}
                     </div>
