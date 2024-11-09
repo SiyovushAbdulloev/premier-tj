@@ -216,6 +216,10 @@
     border-color: transparent;
 }
 
+.noRecords {
+    margin: 0 auto 30px auto;
+}
+
 @media screen and (max-width: 1580px) {
     .filters {
         width: 90%;

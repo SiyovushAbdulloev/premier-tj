@@ -403,7 +403,7 @@ const SeriesListPage = () => {
                             </SelectContainer>
                         </div>
                         <div className={classes.sections}>
-                            {series.map((item, index) => {
+                            {series.length && !(loading || isFetchingSeries) ? series.map((item, index) => {
                                 if (series.length === index + 1) {
                                     return (
                                         <div
@@ -471,7 +471,9 @@ const SeriesListPage = () => {
                                         </span>
                                     </div>
                                 )
-                            })}
+                            }) : !loading ? (
+                                <h1 className={classes.noRecords}>Нет сериалов</h1>
+                            ) : null}
                         </div>
                         {/*{isFetchingSeries ? (*/}
                         {/*    <Fetching className={classes.fetchingMore} />*/}

@@ -315,7 +315,7 @@ const MultimediasListPage = () => {
                             </div>
                         </div>
                         <div className={classes.sections}>
-                            {shows.map((item, index) => {
+                            {shows.length && !(loading || isFetchingMovies) ? shows.map((item, index) => {
                                 if (shows.length === index + 1) {
                                     return (
                                         <div
@@ -393,7 +393,9 @@ const MultimediasListPage = () => {
                                         </span>
                                     </div>
                                 )
-                            })}
+                            }) : !loading ? (
+                                <h1 className={classes.noRecords}>Нет шоу</h1>
+                            ) : null}
                         </div>
                         {/*{isFetchingMovies ? (*/}
                         {/*    <Fetching className={classes.fetchingMore} />*/}

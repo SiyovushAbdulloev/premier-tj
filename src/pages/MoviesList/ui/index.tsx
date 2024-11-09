@@ -459,7 +459,7 @@ const MoviesListPage = () => {
                             </div>
                         </div>
                         <div className={classes.sections}>
-                            {movies.length ? movies.map((item, index) => {
+                            {movies.length && !(loading || isFetchingMovies) ? movies.map((item, index) => {
                                 if (movies.length === index + 1) {
                                     return (
                                         <div
@@ -537,7 +537,7 @@ const MoviesListPage = () => {
                                         </span>
                                     </div>
                                 )
-                            }) : !isFetchingMovies ? (
+                            }) : !loading ? (
                                 <h1 className={classes.noRecords}>Нет фильмов</h1>
                             ) : null}
                         </div>
