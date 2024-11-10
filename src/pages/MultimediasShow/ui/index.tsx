@@ -158,6 +158,26 @@ const MultimediasShowPage = () => {
         }
     }, [showFile])
 
+    const handleProgress = (state: any) => {
+        if (!authData && state.playedSeconds >= 30) {
+            setShowFile(false);
+            toast('Чтобы посмотреть дальше надо войти в приложение!')
+        }
+    };
+
+    const getPlayBtnText = (): string => {
+        if (authData) {
+            return 'Смотреть'
+        }
+        if (!multimedia?.subscription_ids) {
+            return 'Смотреть бесплатно'
+        }
+        if (!authData) {
+            return 'Смотреть (30 сек.)'
+        }
+        return 'Смотреть по подписке'
+    }
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
@@ -175,6 +195,7 @@ const MultimediasShowPage = () => {
                     url={url}
                     controls={true}
                     playing={showFile}
+                    onProgress={handleProgress}
                     config={{
                         file: {
                             attributes: {
@@ -229,12 +250,10 @@ const MultimediasShowPage = () => {
                                             <span className={classes.detailMetaLabel}>{movieDuration}</span>
                                         </div>
                                         <div className={classes.detailActions}>
-                                            {authData ? (
-                                                <button onClick={onPlay} className={className(classes.detailAction, undefined, [classes.actionSee])}>
-                                                    <Play className={className(classes.icon, undefined, [classes.iconSee])} />
-                                                    Смотреть
-                                                </button>
-                                            ) : null}
+                                            <button onClick={onPlay} className={className(classes.detailAction, undefined, [classes.actionSee])}>
+                                                <Play className={className(classes.icon, undefined, [classes.iconSee])} />
+                                                {getPlayBtnText()}
+                                            </button>
                                             {authData ? !isFavorited ? (
                                                 <button onClick={onFavourite}
                                                         className={className(classes.detailAction, undefined, [classes.actionTrailer])}>

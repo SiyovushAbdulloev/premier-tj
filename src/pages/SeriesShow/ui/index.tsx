@@ -158,6 +158,14 @@ const SeriesShowPage = () => {
         }
     }
 
+    const handleProgress = (state: any) => {
+        // Pause the video at 30 seconds for non-authenticated users
+        if (!authData && state.playedSeconds >= 30) {
+            setEpisode('');
+            toast('Чтобы посмотреть дальше надо войти в приложение!')
+        }
+    };
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
@@ -179,7 +187,7 @@ const SeriesShowPage = () => {
                 />
             </Modal>
             <Modal
-                value={episode.length > 0 && !!authData }
+                value={episode.length > 0 }
                 onChange={onShowPlay}
                 style={{
                     backgroundColor: '#000',
@@ -193,6 +201,7 @@ const SeriesShowPage = () => {
                     url={episode}
                     controls={true}
                     playing={episode.length > 0}
+                    onProgress={handleProgress}
                     config={{
                         file: {
                             attributes: {

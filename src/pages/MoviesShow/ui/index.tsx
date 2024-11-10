@@ -91,6 +91,9 @@ const MoviesShowPage = () => {
         if (!movie?.subscription_ids) {
             return 'Смотреть бесплатно'
         }
+        if (!authData) {
+            return 'Смотреть (30 сек.)'
+        }
         return 'Смотреть по подписке'
     }
 
@@ -190,6 +193,13 @@ const MoviesShowPage = () => {
         }
     }, [showFile])
 
+    const handleProgress = (state: any) => {
+        if (!authData && state.playedSeconds >= 30) {
+            setShowFile(false);
+            toast('Чтобы посмотреть дальше надо войти в приложение!')
+        }
+    };
+
     return (
         <div className={classes.actorsPage} style={{height: fetching ? '700px' : 'fit-content'}}>
             <Modal
@@ -227,6 +237,7 @@ const MoviesShowPage = () => {
                     url={url}
                     controls={true}
                     playing={showFile}
+                    onProgress={handleProgress}
                     config={{
                         file: {
                             attributes: {
