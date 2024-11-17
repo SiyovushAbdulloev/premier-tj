@@ -14,6 +14,8 @@ export interface Auth {
     otpErrors: InputError | undefined
     isUpdatingProfile: boolean
     profileErrors: InputError | undefined
+    isGoogleAuth: boolean
+    isLoggingGoogle: boolean
 }
 
 export interface AuthSchema {

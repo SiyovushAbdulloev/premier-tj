@@ -6,6 +6,8 @@ import {sendRegisterOtp} from "../services/sendRegisterOtp"
 import {checkLoginOTP} from "../services/checkLoginOTP"
 import {checkRegisterOTP} from "../services/checkRegisterOTP"
 import {updateProfile} from "../services/updateProfile"
+import {google} from "../services/google"
+import {googleAuth} from "../services/googleAuth"
 
 const initialState: AuthSchema = {
     data: {
@@ -19,7 +21,9 @@ const initialState: AuthSchema = {
         isCheckingOTP: false,
         otpErrors: undefined,
         isUpdatingProfile: false,
-        profileErrors: undefined
+        profileErrors: undefined,
+        isGoogleAuth: false,
+        isLoggingGoogle: false
     }
 }
 
@@ -131,6 +135,25 @@ export const authSlice = createSlice({
                 state.data.isUpdatingProfile = false
                 // @ts-ignore
                 state.data.profileErrors = action.payload
+            })
+            .addCase(google.fulfilled, (state, action) => {
+                state.data.isGoogleAuth = false
+            })
+            .addCase(google.pending, (state, action) => {
+                state.data.isGoogleAuth = true
+            })
+            .addCase(google.rejected, (state, action) => {
+                state.data.isGoogleAuth = false
+            })
+            .addCase(googleAuth.fulfilled, (state, action) => {
+                state.data.isLoggingGoogle = false
+                localStorage.setItem('token', action.payload.token)
+            })
+            .addCase(googleAuth.pending, (state, action) => {
+                state.data.isLoggingGoogle = true
+            })
+            .addCase(googleAuth.rejected, (state, action) => {
+                state.data.isLoggingGoogle = false
             })
     }
 })

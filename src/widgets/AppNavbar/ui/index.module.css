@@ -389,6 +389,22 @@
     cursor: pointer;
 }
 
+.google {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #141414;
+    font-size: 16px;
+    background-color: #fddd2d;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 15px;
+}
+
 .field {
     display: flex;
     flex-direction: column;
@@ -427,6 +443,32 @@
 .categoriesModal {
     right: -230px !important;
     padding: 0;
+}
+
+.foreignerContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.foreignerLabel {
+    color: #fddd2d;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.foreignerInput {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fddd2d;
+    background-color: #4e4e4e;
+}
+
+.foreignerInputActive {
+    background-color: #fddd2d;
+    border-color: transparent;
 }
 
 @media screen and (max-width: 1440px) {

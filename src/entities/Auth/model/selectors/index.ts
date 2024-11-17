@@ -12,3 +12,5 @@ export const getOtpErrors = (state: StateSchema): InputError | undefined => stat
 export const getIsUpdatingProfile = (state: StateSchema): boolean => state.auth.data.isUpdatingProfile
 export const getProfileErrors = (state: StateSchema): InputError | undefined => state.auth.data.profileErrors
 export const getCSRFToken = (state: StateSchema): string => state.auth.data.csrfToken
+export const getIsGoogleAuth = (state: StateSchema): boolean => state.auth.data.isGoogleAuth
+export const getIsLoggingGoogle = (state: StateSchema): boolean => state.auth.data.isLoggingGoogle

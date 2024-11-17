@@ -9,6 +9,7 @@ import {ReactComponent as Settings} from 'src/shared/assets/icons/settings.svg'
 import {ReactComponent as Favourites} from 'src/shared/assets/icons/favourites.svg'
 import {ReactComponent as Play} from 'src/shared/assets/icons/play.svg'
 import {ReactComponent as PaymentType} from 'src/shared/assets/icons/credit_card.svg'
+import {ReactComponent as Google} from 'src/shared/assets/icons/google.svg'
 import {ReactComponent as Logout} from 'src/shared/assets/icons/logout.svg'
 import {ReactComponent as Building} from 'src/shared/assets/icons/building.svg'
 import {SearchInput} from "src/shared/ui/SearchInput";
@@ -21,9 +22,9 @@ import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {
     checkLoginOTP,
-    getIsCheckingOtp,
+    getIsCheckingOtp, getIsGoogleAuth,
     getIsSendingOTP,
-    getOtpErrors,
+    getOtpErrors, google,
     logoutAdmin,
     logoutUser,
     sendLoginOtp,
@@ -36,6 +37,7 @@ import {ReactComponent as Back} from "src/shared/assets/icons/back.svg"
 import OTPInput from "react-otp-input";
 import {checkRegisterOTP} from "src/entities/Auth/model/services/checkRegisterOTP";
 import {ReactComponent as Search} from "src/shared/assets/icons/search.svg"
+import {Checkbox} from "src/shared/ui/Checkbox";
 
 const navigations = [
     {
@@ -139,6 +141,8 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const isSendingEmail = useSelector(getIsSendingOTP)
     const isCheckingOtp = useSelector(getIsCheckingOtp)
     const otpErrors = useSelector(getOtpErrors)
+    const isGoogleAuth = useSelector(getIsGoogleAuth)
+    const [isForeigner, setIsForeigner] = useState<boolean>(false)
 
     useEffect(() => {
         if (sent) {
@@ -176,6 +180,10 @@ const AppNavbar = (props: React.PropsWithChildren) => {
             setResent(false)
         }
     }, [time])
+
+    const onForeigner = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsForeigner(e.target.checked)
+    }
 
     const goAdmin = () => {
         navigate(RoutesConfig.admin_main.path)
@@ -351,6 +359,13 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setShowUser(false)
     }
 
+    const onGoogle = async () => {
+        const response = await dispatch(google())
+        if (response.type.includes('fulfilled')) {
+            window.location.href = response.payload.url
+        }
+    }
+
     return (
         <div className={classes.navbar}>
             <NativeModal
@@ -409,6 +424,19 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         <p className={classes.registerLabel} onClick={showRegisterModal}>
                             У меня нет аккаунта
                         </p>
+                        <Checkbox
+                            label={'Не гражданин Таджикистана'}
+                            value={isForeigner}
+                            onChange={onForeigner}
+                        />
+                        {isForeigner ? (
+                            <button className={classes.google} onClick={onGoogle}>
+                                <Google width={24} height={24} />
+                                {isGoogleAuth ? (
+                                    <span className={classes.loader}></span>
+                                ) : 'Вход'}
+                            </button>
+                        ) : null}
                     </div>
                 ) : (
                     <div className={classes.loginContent}>
@@ -726,7 +754,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                         >
                                             <User width={32} height={32} />
                                         </button>
-                                        {authData.firstname + " " + authData.lastname} ({authData.phone})
+                                        {authData.firstname + " " + (authData.lastname ?? '')} {authData.phone ? `(${authData.phone})` : null}
                                     </div>
                                     <ul className={classes.profileItems}>
                                         <div className={classes.profileItem} onClick={onProfile}>

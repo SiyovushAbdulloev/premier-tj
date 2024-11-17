@@ -10,6 +10,8 @@ import {
     getIsUpdatingProfile,
     getProfileErrors,
     getCSRFToken,
+    getIsGoogleAuth,
+    getIsLoggingGoogle,
 } from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
@@ -22,6 +24,8 @@ import {sendRegisterOtp} from "./model/services/sendRegisterOtp";
 import {checkLoginOTP} from "./model/services/checkLoginOTP";
 import {logoutUser} from "./model/services/logoutUser";
 import {updateProfile} from "./model/services/updateProfile";
+import {google} from "./model/services/google";
+import {googleAuth} from "./model/services/googleAuth";
 
 export {
     getUnauthorized,
@@ -46,5 +50,9 @@ export {
     getIsUpdatingProfile,
     updateProfile,
     getCSRFToken,
+    getIsGoogleAuth,
+    google,
+    getIsLoggingGoogle,
+    googleAuth
 }
 export type {Auth, AuthSchema, InputError}

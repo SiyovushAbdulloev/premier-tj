@@ -51,6 +51,7 @@ import {SearchPage} from "src/pages/Search";
 import {UserProfilePage} from "src/pages/UserProfile";
 import {SocialLinksPage} from "src/pages/SocialLinks";
 import {SocialLinksEditPage} from "src/pages/SocialLinksEdit";
+import {LoginGooglePage} from "src/pages/LoginGoogle";
 
 export type RoutesConfigItem = RouteProps & {
     element: React.JSX.Element
@@ -110,7 +111,8 @@ export enum AppRoutes {
     'UNAUTHORIZED' = 'unauthorized',
     'NOT_FOUND' = 'not_found',
     'SEARCH' = 'search',
-    'USER_PROFILE' = 'user_profile'
+    'USER_PROFILE' = 'user_profile',
+    'LOGIN_GOOGLE' = 'login_google'
 }
 
 export const RoutesPath: Record<AppRoutes, string> = {
@@ -162,6 +164,7 @@ export const RoutesPath: Record<AppRoutes, string> = {
     [AppRoutes.UNAUTHORIZED]: '/unauthorized',
     [AppRoutes.SEARCH]: '/search',
     [AppRoutes.USER_PROFILE]: '/profile',
+    [AppRoutes.LOGIN_GOOGLE]: '/social-auth/google/callback',
     [AppRoutes.NOT_FOUND]: '*',
 }
 
@@ -547,6 +550,14 @@ export const RoutesConfig: Record<AppRoutes, RoutesConfigItem> = {
         element: <UserProfilePage/>,
         require_auth: true,
         allow_without_auth: false,
+        layout: ProjectLayouts.AppLayout,
+        roles: []
+    },
+    [AppRoutes.LOGIN_GOOGLE]: {
+        path: RoutesPath.login_google,
+        element: <LoginGooglePage/>,
+        require_auth: false,
+        allow_without_auth: true,
         layout: ProjectLayouts.AppLayout,
         roles: []
     },

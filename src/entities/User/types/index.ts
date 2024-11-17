@@ -11,7 +11,7 @@ export interface Favourite {
 export interface User {
     id: number
     firstname: string
-    lastname: string
+    lastname?: string
     phone: string
     roles: Array<Role>
     favourites: Array<Favourite>|null

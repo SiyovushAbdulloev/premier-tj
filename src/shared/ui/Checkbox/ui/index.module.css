@@ -1,0 +1,47 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 0.15em;
+    margin: 0;
+    border: 0.15em solid #fddd2d;
+    outline: none;
+    cursor: pointer;
+}
+
+.input.active::before {
+    content: "✔";
+    font-size: 1.5em;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.input:disabled {
+    border-color: #c0c0c0;
+    background-color: #c0c0c0;
+}
+
+.input:disabled + span {
+    color: #c0c0c0;
+}
+
+.active {
+    border-color: #1a1a1a;
+    background-color: #fddd2d;
+    position: relative;
+}
+
+.label {
+    cursor: pointer;
+    font-size: 16px;
+}
