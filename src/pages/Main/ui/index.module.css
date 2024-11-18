@@ -193,13 +193,13 @@
     }
 
     .nextSlide {
-        top: 42%;
-        transform: translateY(-42%);
+        top: 42% !important;
+        transform: translateY(-42%) !important;
     }
 
     .previousSlide {
-        top: 42%;
-        transform: translateY(-42%) rotate(-180deg);
+        top: 42% !important;
+        transform: translateY(-42%) rotate(-180deg) !important;
     }
 }
 
@@ -210,13 +210,13 @@
     }
 
     .nextSlide {
-        top: 30%;
-        transform: translateY(-30%);
+        top: 30% !important;
+        transform: translateY(-30%) !important;
     }
 
     .previousSlide {
-        top: 30%;
-        transform: translateY(-30%) rotate(-180deg);
+        top: 30% !important;
+        transform: translateY(-30%) rotate(-180deg) !important;
     }
 }
 
@@ -227,13 +227,13 @@
     }
 
     .nextSlide {
-        top: 27%;
-        transform: translateY(-27%);
+        top: 27% !important;
+        transform: translateY(-27%) !important;
     }
 
     .previousSlide {
-        top: 27%;
-        transform: translateY(-27%) rotate(-180deg);
+        top: 27% !important;
+        transform: translateY(-27%) rotate(-180deg) !important;
     }
 
     .slide {
@@ -253,13 +253,13 @@
     }
 
     .nextSlide {
-        top: 20%;
-        transform: translateY(-20%);
+        top: 20% !important;
+        transform: translateY(-20%) !important;
     }
 
     .previousSlide {
-        top: 20%;
-        transform: translateY(-20%) rotate(-180deg);
+        top: 20% !important;
+        transform: translateY(-20%) rotate(-180deg) !important;
     }
 
     .adImage {

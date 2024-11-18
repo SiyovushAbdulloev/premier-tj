@@ -8,6 +8,7 @@
     flex-direction: column;
     justify-content: center;
     width: 90%;
+    margin-top: 10px;
 }
 
 .navbarWrapper {
@@ -16,15 +17,16 @@
 }
 
 .brand {
-    width: 180px;
-    height: 35px;
-    margin-right: 10px;
+    width: 255px;
+    height: 50px;
     object-fit: cover;
     cursor: pointer;
+    margin-left: -60px;
 }
 
 .burgerMenu {
     position: relative;
+    margin-left: -40px;
 }
 
 .burger {
@@ -495,6 +497,12 @@
     }
 }
 
+@media screen and (max-width: 690px) {
+    .subscribe {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 610px) {
     .loginBrand {
         width: 180px;
@@ -526,7 +534,8 @@
     }
 
     .brand {
-        width: 140px;
+        width: 200px;
+        margin-left: -30px;
     }
 
     .burger {
@@ -541,7 +550,8 @@
     }
 
     .login {
-        margin-left: 10px;
+        margin-right: 20px;
+        margin-left: 0;
         padding: 10px;
         font-size: 14px;
     }

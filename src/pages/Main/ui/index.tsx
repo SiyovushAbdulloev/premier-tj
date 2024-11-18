@@ -16,7 +16,7 @@ import {ReactComponent as Play} from "src/shared/assets/icons/play.svg"
 import {Media} from "src/entities/PageSection/types";
 import {useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
-// import ReactPlayer from "ReactPlayer";
+import ReactPlayer from "react-player";
 import {MediaContent} from "src/entities/MediaContent";
 import {className} from "src/shared/utils/className";
 import Skeleton from "react-loading-skeleton";
@@ -98,49 +98,49 @@ const MainPage = () => {
                 previousSlideButton={classes.previousSlide}
             >
                 <SwiperSlide className={classes.mainSlide}>
-                    {/*<ReactPlayer*/}
-                    {/*    width={'100%'}*/}
-                    {/*    height={'100%'}*/}
-                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
-                    {/*    controls={false}*/}
-                    {/*    playing={false}*/}
-                    {/*/>*/}
+                    <ReactPlayer
+                        width={'100%'}
+                        height={'100%'}
+                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
+                        controls={false}
+                        playing={false}
+                    />
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    {/*<ReactPlayer*/}
-                    {/*    width={'100%'}*/}
-                    {/*    height={'100%'}*/}
-                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
-                    {/*    controls={false}*/}
-                    {/*    playing={false}*/}
-                    {/*/>*/}
+                    <ReactPlayer
+                        width={'100%'}
+                        height={'100%'}
+                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
+                        controls={false}
+                        playing={false}
+                    />
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    {/*<ReactPlayer*/}
-                    {/*    width={'100%'}*/}
-                    {/*    height={'100%'}*/}
-                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
-                    {/*    controls={false}*/}
-                    {/*    playing={false}*/}
-                    {/*/>*/}
+                    <ReactPlayer
+                        width={'100%'}
+                        height={'100%'}
+                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
+                        controls={false}
+                        playing={false}
+                    />
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    {/*<ReactPlayer*/}
-                    {/*    width={'100%'}*/}
-                    {/*    height={'100%'}*/}
-                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
-                    {/*    controls={false}*/}
-                    {/*    playing={false}*/}
-                    {/*/>*/}
+                    <ReactPlayer
+                        width={'100%'}
+                        height={'100%'}
+                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
+                        controls={false}
+                        playing={false}
+                    />
                 </SwiperSlide>
                 <SwiperSlide className={classes.mainSlide}>
-                    {/*<ReactPlayer*/}
-                    {/*    width={'100%'}*/}
-                    {/*    height={'100%'}*/}
-                    {/*    url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}*/}
-                    {/*    controls={false}*/}
-                    {/*    playing={false}*/}
-                    {/*/>*/}
+                    <ReactPlayer
+                        width={'100%'}
+                        height={'100%'}
+                        url={'https://www.youtube.com/watch?v=W5V1FFU1YiI'}
+                        controls={false}
+                        playing={false}
+                    />
                 </SwiperSlide>
             </CustomSwiper>
             <div className={classes.sections}>
