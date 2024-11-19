@@ -8,6 +8,8 @@ import {checkRegisterOTP} from "../services/checkRegisterOTP"
 import {updateProfile} from "../services/updateProfile"
 import {google} from "../services/google"
 import {googleAuth} from "../services/googleAuth"
+import {getIp} from "../services/getIp"
+import {getIpCountry} from "../services/getIpCountry"
 
 const initialState: AuthSchema = {
     data: {
@@ -23,7 +25,9 @@ const initialState: AuthSchema = {
         isUpdatingProfile: false,
         profileErrors: undefined,
         isGoogleAuth: false,
-        isLoggingGoogle: false
+        isLoggingGoogle: false,
+        isGettingCountry: false,
+        isGettingIP: false
     }
 }
 
@@ -154,6 +158,24 @@ export const authSlice = createSlice({
             })
             .addCase(googleAuth.rejected, (state, action) => {
                 state.data.isLoggingGoogle = false
+            })
+            .addCase(getIp.fulfilled, (state, action) => {
+                state.data.isGettingIP = false
+            })
+            .addCase(getIp.pending, (state, action) => {
+                state.data.isGettingIP = true
+            })
+            .addCase(getIp.rejected, (state, action) => {
+                state.data.isGettingIP = false
+            })
+            .addCase(getIpCountry.fulfilled, (state, action) => {
+                state.data.isGettingCountry = false
+            })
+            .addCase(getIpCountry.pending, (state, action) => {
+                state.data.isGettingCountry = true
+            })
+            .addCase(getIpCountry.rejected, (state, action) => {
+                state.data.isGettingCountry = false
             })
     }
 })

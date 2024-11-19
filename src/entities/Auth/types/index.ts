@@ -16,6 +16,8 @@ export interface Auth {
     profileErrors: InputError | undefined
     isGoogleAuth: boolean
     isLoggingGoogle: boolean
+    isGettingIP: boolean
+    isGettingCountry: boolean
 }
 
 export interface AuthSchema {

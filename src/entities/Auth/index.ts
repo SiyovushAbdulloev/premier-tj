@@ -12,6 +12,8 @@ import {
     getCSRFToken,
     getIsGoogleAuth,
     getIsLoggingGoogle,
+    getIsGettingIP,
+    getIsGettingCountry,
 } from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
@@ -26,6 +28,8 @@ import {logoutUser} from "./model/services/logoutUser";
 import {updateProfile} from "./model/services/updateProfile";
 import {google} from "./model/services/google";
 import {googleAuth} from "./model/services/googleAuth";
+import {getIp} from "./model/services/getIp";
+import {getIpCountry} from "./model/services/getIpCountry";
 
 export {
     getUnauthorized,
@@ -53,6 +57,10 @@ export {
     getIsGoogleAuth,
     google,
     getIsLoggingGoogle,
-    googleAuth
+    googleAuth,
+    getIsGettingCountry,
+    getIsGettingIP,
+    getIp,
+    getIpCountry,
 }
 export type {Auth, AuthSchema, InputError}

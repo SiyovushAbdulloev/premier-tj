@@ -21,8 +21,8 @@ import {useNavigate} from 'react-router-dom'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {
-    checkLoginOTP,
-    getIsCheckingOtp, getIsGoogleAuth,
+    checkLoginOTP, getIp, getIpCountry,
+    getIsCheckingOtp, getIsGettingCountry, getIsGettingIP, getIsGoogleAuth,
     getIsSendingOTP,
     getOtpErrors, google,
     logoutAdmin,
@@ -143,6 +143,31 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const otpErrors = useSelector(getOtpErrors)
     const isGoogleAuth = useSelector(getIsGoogleAuth)
     const [isForeigner, setIsForeigner] = useState<boolean>(false)
+    const [ipAddress, setIpAddress] = useState('')
+    const [country, setCountry] = useState('')
+    const [isCountryGet, setIsCountryGet] = useState<boolean>(false)
+
+    useEffect(() => {
+        const getIP = async () => {
+            const response = await dispatch(getIp())
+            if (response.type.includes('fulfilled')) {
+                // @ts-ignore
+                setIpAddress(response.payload)
+            }
+        }
+        const getCountry = async () => {
+            const response = await dispatch(getIpCountry(ipAddress))
+            if (response.type.includes('fulfilled')) {
+                setCountry(response.payload.country)
+                setIsCountryGet(true)
+            }
+        }
+        getIP()
+
+        if (ipAddress) {
+            getCountry()
+        }
+    }, [ipAddress])
 
     useEffect(() => {
         if (sent) {
@@ -424,18 +449,22 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         <p className={classes.registerLabel} onClick={showRegisterModal}>
                             У меня нет аккаунта
                         </p>
-                        <Checkbox
-                            label={'Не гражданин Таджикистана'}
-                            value={isForeigner}
-                            onChange={onForeigner}
-                        />
-                        {isForeigner ? (
-                            <button className={classes.google} onClick={onGoogle}>
-                                <Google width={24} height={24} />
-                                {isGoogleAuth ? (
-                                    <span className={classes.loader}></span>
-                                ) : 'Вход'}
-                            </button>
+                        {(isCountryGet && country !== 'Tajikistan') ? (
+                            <>
+                                <Checkbox
+                                    label={'Не гражданин Таджикистана'}
+                                    value={isForeigner}
+                                    onChange={onForeigner}
+                                />
+                                {isForeigner ? (
+                                    <button className={classes.google} onClick={onGoogle}>
+                                        <Google width={24} height={24} />
+                                        {isGoogleAuth ? (
+                                            <span className={classes.loader}></span>
+                                        ) : 'Вход'}
+                                    </button>
+                                ) : null}
+                            </>
                         ) : null}
                     </div>
                 ) : (
