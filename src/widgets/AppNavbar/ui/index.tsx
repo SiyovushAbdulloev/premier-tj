@@ -12,6 +12,7 @@ import {ReactComponent as PaymentType} from 'src/shared/assets/icons/credit_card
 import {ReactComponent as Google} from 'src/shared/assets/icons/google.svg'
 import {ReactComponent as Logout} from 'src/shared/assets/icons/logout.svg'
 import {ReactComponent as Building} from 'src/shared/assets/icons/building.svg'
+import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
 import {SearchInput} from "src/shared/ui/SearchInput";
 import {className} from "src/shared/utils/className";
 import {useSelector} from "react-redux";
@@ -22,7 +23,7 @@ import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {
     checkLoginOTP, getIp, getIpCountry,
-    getIsCheckingOtp, getIsGettingCountry, getIsGettingIP, getIsGoogleAuth,
+    getIsCheckingOtp, getIsGettingCountry, getIsGettingIP, getIsGoogleAuth, getIsLogouting,
     getIsSendingOTP,
     getOtpErrors, google,
     logoutAdmin,
@@ -146,6 +147,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const [ipAddress, setIpAddress] = useState('')
     const [country, setCountry] = useState('')
     const [isCountryGet, setIsCountryGet] = useState<boolean>(false)
+    const isLogouting = useSelector(getIsLogouting)
 
     useEffect(() => {
         const getIP = async () => {
@@ -806,8 +808,14 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                             className={classes.profileItem}
                                             onClick={logoutSimpleUser}
                                         >
-                                            <Logout width={24} height={24} />
-                                            Выйти из аккаунта
+                                            {isLogouting ? (
+                                                <Loading width={24} height={24} />
+                                                ) : (
+                                              <>
+                                                  <Logout width={24} height={24} />
+                                                  Выйти из аккаунта
+                                              </>
+                                            )}
                                         </div>
                                     </ul>
                                 </>
@@ -824,8 +832,14 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                         className={classes.profileItem}
                                         onClick={logout}
                                     >
-                                        <Logout width={24} height={24} />
-                                        Выйти из аккаунта
+                                        {isLogouting ? (
+                                            <Loading width={24} height={24} />
+                                        ) : (
+                                            <>
+                                                <Logout width={24} height={24} />
+                                                Выйти из аккаунта
+                                            </>
+                                        )}
                                     </div>
                                 </ul>
                             )}

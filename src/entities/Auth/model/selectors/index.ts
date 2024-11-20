@@ -16,3 +16,4 @@ export const getIsGoogleAuth = (state: StateSchema): boolean => state.auth.data.
 export const getIsLoggingGoogle = (state: StateSchema): boolean => state.auth.data.isLoggingGoogle
 export const getIsGettingIP = (state: StateSchema): boolean => state.auth.data.isGettingIP
 export const getIsGettingCountry = (state: StateSchema): boolean => state.auth.data.isGettingCountry
+export const getIsLogouting = (state: StateSchema): boolean => state.auth.data.isLogouting

@@ -14,6 +14,7 @@ import {
     getIsLoggingGoogle,
     getIsGettingIP,
     getIsGettingCountry,
+    getIsLogouting,
 } from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
@@ -62,5 +63,6 @@ export {
     getIsGettingIP,
     getIp,
     getIpCountry,
+    getIsLogouting,
 }
 export type {Auth, AuthSchema, InputError}

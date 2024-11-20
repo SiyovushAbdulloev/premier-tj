@@ -18,6 +18,7 @@ export interface Auth {
     isLoggingGoogle: boolean
     isGettingIP: boolean
     isGettingCountry: boolean
+    isLogouting: boolean
 }
 
 export interface AuthSchema {

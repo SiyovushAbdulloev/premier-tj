@@ -10,6 +10,8 @@ import {google} from "../services/google"
 import {googleAuth} from "../services/googleAuth"
 import {getIp} from "../services/getIp"
 import {getIpCountry} from "../services/getIpCountry"
+import {logoutAdmin} from "../services/logoutAdmin"
+import {logoutUser} from "../services/logoutUser"
 
 const initialState: AuthSchema = {
     data: {
@@ -27,7 +29,8 @@ const initialState: AuthSchema = {
         isGoogleAuth: false,
         isLoggingGoogle: false,
         isGettingCountry: false,
-        isGettingIP: false
+        isGettingIP: false,
+        isLogouting: false
     }
 }
 
@@ -176,6 +179,24 @@ export const authSlice = createSlice({
             })
             .addCase(getIpCountry.rejected, (state, action) => {
                 state.data.isGettingCountry = false
+            })
+            .addCase(logoutAdmin.fulfilled, (state, action) => {
+                state.data.isLogouting = false
+            })
+            .addCase(logoutAdmin.pending, (state, action) => {
+                state.data.isLogouting = true
+            })
+            .addCase(logoutAdmin.rejected, (state, action) => {
+                state.data.isLogouting = false
+            })
+            .addCase(logoutUser.fulfilled, (state, action) => {
+                state.data.isLogouting = false
+            })
+            .addCase(logoutUser.pending, (state, action) => {
+                state.data.isLogouting = true
+            })
+            .addCase(logoutUser.rejected, (state, action) => {
+                state.data.isLogouting = false
             })
     }
 })
