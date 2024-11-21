@@ -9,17 +9,20 @@ import {ReactComponent as Countries} from 'src/shared/assets/icons/globe.svg'
 import {ReactComponent as Actors} from 'src/shared/assets/icons/user.svg'
 import {ReactComponent as Mail} from 'src/shared/assets/icons/mail.svg'
 import {ReactComponent as LinkIcon} from 'src/shared/assets/icons/link.svg'
+import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {RoutesConfig} from "src/shared/config/routes";
 import {className} from "src/shared/utils/className";
-import {logoutAdmin} from "src/entities/Auth";
+import {getIsLogouting, logoutAdmin} from "src/entities/Auth";
 import {userActions} from "src/entities/User";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
+import {useSelector} from "react-redux";
 
 const AdminLayout = (props: React.PropsWithChildren) => {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useAppDispatch()
+    const isLogouting = useSelector(getIsLogouting)
 
     const goMain = () => {
         navigate(RoutesConfig.main.path)
@@ -126,7 +129,11 @@ const AdminLayout = (props: React.PropsWithChildren) => {
                 />
                 <div className={classes.user}>
                     <h5 className={classes.username}>Admin</h5>
-                    <button onClick={logout} className={classes.logout}>Выход</button>
+                    <button onClick={logout} className={classes.logout}>
+                        {isLogouting ? (
+                            <Loading width={24} height={24} />
+                        ) : 'Выход'}
+                    </button>
                 </div>
             </div>
             <div className={classes.sidebar}>
