@@ -15,6 +15,7 @@ export interface Series {
     likes: number
     trailer: string
     poster: string
+    small_poster: string
     released_at: string
     genres: Array<Genre>
     actors: Array<Actor>

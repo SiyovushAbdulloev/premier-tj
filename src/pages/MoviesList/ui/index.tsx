@@ -469,7 +469,7 @@ const MoviesListPage = () => {
                                             ref={lastMovieRef}
                                         >
                                             <img
-                                                src={item.poster}
+                                                src={item.small_poster}
                                                 alt="Poster"
                                                 className={classes.contentImg}
                                                 onMouseEnter={() => onHover(item.id)}
@@ -507,7 +507,7 @@ const MoviesListPage = () => {
                                         className={classes.section}
                                     >
                                         <img
-                                            src={item.poster}
+                                            src={item.small_poster}
                                             alt="Poster"
                                             className={classes.contentImg}
                                             onMouseEnter={() => onHover(item.id)}

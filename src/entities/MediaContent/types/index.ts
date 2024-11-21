@@ -19,6 +19,7 @@ export interface MediaContent {
     trailer: string
     released_at: string
     poster: string
+    small_poster: string
     type: MediaContentType
     genres: Array<Genre>
     countries: Array<Country>

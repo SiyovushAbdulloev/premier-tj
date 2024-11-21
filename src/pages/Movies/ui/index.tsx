@@ -25,7 +25,7 @@ const MoviesPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [searchParams] = useSearchParams()
-    console.log({movies})
+
     useEffect(() => {
         dispatch(getMediaContents({
             page: parseInt(searchParams.get('page') ?? '1'),

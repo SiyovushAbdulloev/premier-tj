@@ -113,51 +113,13 @@ const FreeMediaPage = () => {
                                                         <div
                                                             onClick={() => onPage(item)}
                                                             className={classes.content}>
-                                                            {(item.type === 'movie') ? (
-                                                                <img
-                                                                    src={item.data.poster}
-                                                                    alt=""
-                                                                    className={classes.contentImg}
-                                                                    onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                    onMouseLeave={onUnHover}
-                                                                />
-                                                            ) : null}
-                                                            {(item.type === 'multimedia') ? (
-                                                                (
-                                                                    <video src=""></video>
-                                                                    // <ReactPlayer
-                                                                    //     style={{
-                                                                    //         transition: 'all .1s ease',
-                                                                    //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                    //     }}
-                                                                    //     width={345}
-                                                                    //     height={204}
-                                                                    //     url={(item.data as MediaContent).file}
-                                                                    //     controls={false}
-                                                                    //     playing={false}
-                                                                    //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                    //     onMouseLeave={onUnHover}
-                                                                    // />
-                                                                )
-                                                            ) : null}
-                                                            {(item.type === 'series') ? (
-                                                                (
-                                                                    <video src=""></video>
-                                                                    // <ReactPlayer
-                                                                    //     style={{
-                                                                    //         transition: 'all .1s ease',
-                                                                    //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                    //     }}
-                                                                    //     width={345}
-                                                                    //     height={204}
-                                                                    //     url={item.data.trailer}
-                                                                    //     controls={false}
-                                                                    //     playing={false}
-                                                                    //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                    //     onMouseLeave={onUnHover}
-                                                                    // />
-                                                                )
-                                                            ) : null}
+                                                            <img
+                                                                src={item.data.small_poster}
+                                                                alt=""
+                                                                className={classes.contentImg}
+                                                                onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                                onMouseLeave={onUnHover}
+                                                            />
                                                             <button
                                                                 type={'button'}
                                                                 className={classes.playBtn}
@@ -210,51 +172,13 @@ const FreeMediaPage = () => {
                                                     <div
                                                         onClick={() => onPage(item)}
                                                         className={classes.content}>
-                                                        {(item.type === 'movie') ? (
-                                                            <img
-                                                                src={item.data.poster}
-                                                                alt=""
-                                                                className={classes.contentImg}
-                                                                onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                onMouseLeave={onUnHover}
-                                                            />
-                                                        ) : null}
-                                                        {(item.type === 'multimedia') ? (
-                                                            (
-                                                                <video src=""></video>
-                                                                // <ReactPlayer
-                                                                //     style={{
-                                                                //         transition: 'all .1s ease',
-                                                                //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                //     }}
-                                                                //     width={345}
-                                                                //     height={204}
-                                                                //     url={(item.data as MediaContent).file}
-                                                                //     controls={false}
-                                                                //     playing={false}
-                                                                //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                //     onMouseLeave={onUnHover}
-                                                                // />
-                                                            )
-                                                        ) : null}
-                                                        {(item.type === 'series') ? (
-                                                            (
-                                                                <video src=""></video>
-                                                                // <ReactPlayer
-                                                                //     style={{
-                                                                //         transition: 'all .1s ease',
-                                                                //         transform: isHovered(item.data.id, section.label, item.data.name) ? 'scale(105%)' : ''
-                                                                //     }}
-                                                                //     width={345}
-                                                                //     height={204}
-                                                                //     url={item.data.trailer}
-                                                                //     controls={false}
-                                                                //     playing={false}
-                                                                //     onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
-                                                                //     onMouseLeave={onUnHover}
-                                                                // />
-                                                            )
-                                                        ) : null}
+                                                        <img
+                                                            src={item.data.small_poster}
+                                                            alt=""
+                                                            className={classes.contentImg}
+                                                            onMouseEnter={() => onHover(item.data.id, section.label, item.data.name)}
+                                                            onMouseLeave={onUnHover}
+                                                        />
                                                         <button
                                                             type={'button'}
                                                             className={classes.playBtn}

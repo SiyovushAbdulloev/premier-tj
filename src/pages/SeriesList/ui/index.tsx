@@ -413,7 +413,7 @@ const SeriesListPage = () => {
                                             key={item.id}
                                         >
                                             <img
-                                                src={item.poster}
+                                                src={item.small_poster}
                                                 alt="Poster"
                                                 className={classes.contentImg}
                                                 onMouseEnter={() => onHover(item.id)}
@@ -446,7 +446,7 @@ const SeriesListPage = () => {
                                         key={item.id}
                                     >
                                         <img
-                                            src={item.poster}
+                                            src={item.small_poster}
                                             alt="Poster"
                                             className={classes.contentImg}
                                             onMouseEnter={() => onHover(item.id)}
