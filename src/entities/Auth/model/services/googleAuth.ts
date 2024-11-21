@@ -30,7 +30,7 @@ export const googleAuth = createAsyncThunk(
                 if (data.errors) {
                     return rejectWithValue(data.errors)
                 }
-                return rejectWithValue(JSON.parse(data.message))
+                return rejectWithValue(data.message)
             } else {
                 return await response.json()
             }

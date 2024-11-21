@@ -11,7 +11,7 @@ export interface Auth {
     isFetching: boolean
     isSendingOTP: boolean
     isCheckingOTP: boolean
-    otpErrors: InputError | undefined
+    otpErrors: InputError | string | undefined
     isUpdatingProfile: boolean
     profileErrors: InputError | undefined
     isGoogleAuth: boolean

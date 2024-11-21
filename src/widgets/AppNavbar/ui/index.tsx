@@ -39,6 +39,7 @@ import OTPInput from "react-otp-input";
 import {checkRegisterOTP} from "src/entities/Auth/model/services/checkRegisterOTP";
 import {ReactComponent as Search} from "src/shared/assets/icons/search.svg"
 import {Checkbox} from "src/shared/ui/Checkbox";
+import {type} from "os";
 
 const navigations = [
     {
@@ -420,22 +421,30 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                             <span className={classes.phoneIdentifier}>+992</span>
                             {otpErrors ? (
                                 <div className={classes.errors}>
-                                    {otpErrors && Object.keys(otpErrors).map((key: string) => {
-                                        return (
-                                            <div key={key}>
-                                                {otpErrors[key].map((message: string) => {
-                                                    return (
-                                                        <p
-                                                            key={message}
-                                                            className={classes.error}
-                                                        >
-                                                            {message}
-                                                        </p>
-                                                    )
-                                                })}
-                                            </div>
-                                        )
-                                    })}
+                                    {typeof otpErrors === 'string' ? (
+                                        <p
+                                            className={classes.error}
+                                        >
+                                            {otpErrors}
+                                        </p>
+                                    ) : (
+                                        Object.keys(otpErrors).map((key: string) => {
+                                            return (
+                                                <div key={key}>
+                                                    {otpErrors[key].map((message: string) => {
+                                                        return (
+                                                            <p
+                                                                key={message}
+                                                                className={classes.error}
+                                                            >
+                                                                {message}
+                                                            </p>
+                                                        )
+                                                    })}
+                                                </div>
+                                            )
+                                        })
+                                    )}
                                 </div>
                             ) : null}
                         </div>
@@ -451,7 +460,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         <p className={classes.registerLabel} onClick={showRegisterModal}>
                             У меня нет аккаунта
                         </p>
-                        {(isCountryGet && country !== 'Tajikistan') ? (
+                        {/*{(isCountryGet && country !== 'Tajikistan') ? (*/}
                             <>
                                 <Checkbox
                                     label={'Не гражданин Таджикистана'}
@@ -467,7 +476,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     </button>
                                 ) : null}
                             </>
-                        ) : null}
+                        {/*) : null}*/}
                     </div>
                 ) : (
                     <div className={classes.loginContent}>
@@ -499,7 +508,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         />
                         {otpErrors ? (
                             <div className={classes.errors}>
-                                {otpErrors && Object.keys(otpErrors).map((key: string) => {
+                                {otpErrors && typeof otpErrors !== 'string' && Object.keys(otpErrors).map((key: string) => {
                                     return (
                                         <div key={key}>
                                             {otpErrors[key].map((message: string) => {
@@ -628,7 +637,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                         />
                         {otpErrors ? (
                             <div className={classes.errors}>
-                                {otpErrors && Object.keys(otpErrors).map((key: string) => {
+                                {otpErrors && typeof otpErrors !== 'string' && Object.keys(otpErrors).map((key: string) => {
                                     return (
                                         <div key={key}>
                                             {otpErrors[key].map((message: string) => {

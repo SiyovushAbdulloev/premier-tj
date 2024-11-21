@@ -40,7 +40,7 @@ const LoginGooglePage = () => {
                 await dispatch(userActions.setAuthData(response.payload.user))
             } else if (response.type.includes('rejected')) {
                 navigate(RoutesConfig.main.path)
-                toast('Что-то пошло не так. Попробуйте заново!')
+                toast(response.payload)
             }
         }
 
