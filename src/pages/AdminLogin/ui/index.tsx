@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useNavigate} from "react-router-dom";
+import {getAuthUserData} from "src/entities/User";
 const AdminLoginPage = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -16,6 +17,11 @@ const AdminLoginPage = () => {
     const errors = useSelector(getLoginErrors)
     const isLogging = useSelector(getIsLogging)
     const navigate = useNavigate()
+    const authData = useSelector(getAuthUserData)
+
+    if (authData) {
+        navigate(RoutesConfig.admin_main.path)
+    }
 
     const onRemember = () => {
         setRemember(!remember)
