@@ -2,6 +2,11 @@ export interface InputError {
     [key: string]: Array<string>
 }
 
+export interface Captcha {
+    captcha: string
+    captcha_key: string
+}
+
 export interface Auth {
     unauthorized: boolean
     notFound: boolean
@@ -19,6 +24,8 @@ export interface Auth {
     isGettingIP: boolean
     isGettingCountry: boolean
     isLogouting: boolean
+    captcha?: Captcha
+    isGettingCaptcha: boolean
 }
 
 export interface AuthSchema {

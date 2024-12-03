@@ -23,7 +23,6 @@
 }
 
 .modalContentContainer {
-    padding: 40px 40px 20px 20px;
     width: 100%;
     max-width: 600px;
     border-radius: 20px;
@@ -32,9 +31,8 @@
 
 .modalContent {
     position: relative;
-    margin: 20px;
+    margin: 20px 0;
     width: 100%;
-    transform: translateY(-50px);
     transition: opacity .3s, transform .3s;
     overflow: hidden;
     overflow-y: scroll;

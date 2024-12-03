@@ -4,7 +4,7 @@ import {getCsrfToken} from "src/entities/Auth";
 
 export const sendLoginOtp = createAsyncThunk(
     'auth/sendLoginOtp',
-    async (data: { phone: string }, {getState, rejectWithValue, dispatch}) => {
+    async (data: { phone: string, captcha_code: string, captcha_key: string }, {getState, rejectWithValue, dispatch}) => {
         try {
             await dispatch(getCsrfToken())
 

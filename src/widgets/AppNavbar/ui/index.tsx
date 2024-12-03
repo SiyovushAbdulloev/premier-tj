@@ -13,6 +13,7 @@ import {ReactComponent as Google} from 'src/shared/assets/icons/google.svg'
 import {ReactComponent as Logout} from 'src/shared/assets/icons/logout.svg'
 import {ReactComponent as Building} from 'src/shared/assets/icons/building.svg'
 import {ReactComponent as Loading} from 'src/shared/assets/icons/loading.svg'
+import {ReactComponent as Refresh} from 'src/shared/assets/icons/refresh.svg'
 import {SearchInput} from "src/shared/ui/SearchInput";
 import {className} from "src/shared/utils/className";
 import {useSelector} from "react-redux";
@@ -22,8 +23,9 @@ import {useNavigate} from 'react-router-dom'
 import {RoutesConfig} from "src/shared/config/routes";
 import {useAppDispatch} from "src/shared/hooks/useAppDispatch";
 import {
-    checkLoginOTP, getIp, getIpCountry,
-    getIsCheckingOtp, getIsGettingCountry, getIsGettingIP, getIsGoogleAuth, getIsLogouting,
+    authActions,
+    checkLoginOTP, getCaptcha, getIp, getIpCountry,
+    getIsCheckingOtp, getIsGettingCaptcha, getIsGettingCountry, getIsGettingIP, getIsGoogleAuth, getIsLogouting,
     getIsSendingOTP,
     getOtpErrors, google,
     logoutAdmin,
@@ -39,7 +41,8 @@ import OTPInput from "react-otp-input";
 import {checkRegisterOTP} from "src/entities/Auth/model/services/checkRegisterOTP";
 import {ReactComponent as Search} from "src/shared/assets/icons/search.svg"
 import {Checkbox} from "src/shared/ui/Checkbox";
-import {type} from "os";
+// import ReCAPTCHA from "react-google-captcha";
+import {Captcha} from "src/entities/Auth";
 
 const navigations = [
     {
@@ -127,6 +130,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const [showMenu, setShowMenu] = useState(false)
     const [navItem, setNavItem] = useState<string>('movies')
     const [showLogin, setShowLogin] = useState<boolean>(false)
+    const [isShowingLoginForm, setIsShowingLoginForm] = useState<boolean>(false)
     const [showRegister, setShowRegister] = useState<boolean>(false)
     const authData = useSelector(getAuthUserData)
     const navigate = useNavigate()
@@ -149,15 +153,25 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     const [country, setCountry] = useState('')
     const [isCountryGet, setIsCountryGet] = useState<boolean>(false)
     const isLogouting = useSelector(getIsLogouting)
+    const [captcha, setCaptcha] = useState<Captcha|null>(null)
+    const [captchaCode, setCaptchaCode] = useState<string>('')
+    const isGettingCaptcha = useSelector(getIsGettingCaptcha)
 
     useEffect(() => {
-        const getIP = async () => {
-            const response = await dispatch(getIp())
-            if (response.type.includes('fulfilled')) {
-                // @ts-ignore
-                setIpAddress(response.payload)
-            }
+        if (!showLogin) {
+            dispatch(authActions.setOtpErrors(null))
         }
+    }, [showLogin])
+
+    const getIP = async () => {
+        const response = await dispatch(getIp())
+        if (response.type.includes('fulfilled')) {
+            // @ts-ignore
+            setIpAddress(response.payload)
+        }
+    }
+
+    useEffect(() => {
         const getCountry = async () => {
             const response = await dispatch(getIpCountry(ipAddress))
             if (response.type.includes('fulfilled')) {
@@ -165,7 +179,6 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                 setIsCountryGet(true)
             }
         }
-        getIP()
 
         if (ipAddress) {
             getCountry()
@@ -287,19 +300,34 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         navigate(RoutesConfig.search.path)
     }
 
-    const onLogin = () => {
+    const onLogin = async () => {
+        setIsShowingLoginForm(true)
         setShowLogin(true)
+        await getIP()
+        const response = await dispatch(getCaptcha(null))
+        if (response.type.includes('fulfilled')) {
+            setCaptcha(response.payload)
+        }
+        setIsShowingLoginForm(false)
     }
 
     const onRegisterContinue = async () => {
-        const response = await dispatch(sendRegisterOtp({phone}))
+        const response = await dispatch(sendRegisterOtp({
+            phone,
+            captcha_code: captchaCode,
+            captcha_key: captcha?.captcha_key ?? ''
+        }))
         if (response.type.includes('fulfilled')) {
             setSent(true)
         }
     }
 
     const onLoginContinue = async () => {
-        const response = await dispatch(sendLoginOtp({phone}))
+        const response = await dispatch(sendLoginOtp({
+            phone,
+            captcha_code: captchaCode,
+            captcha_key: captcha?.captcha_key ?? ''
+        }))
         if (response.type.includes('fulfilled')) {
             setSent(true)
         }
@@ -310,6 +338,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         setSent(false)
         onBack()
         setPhone('')
+        setCaptchaCode('')
     }
 
     const onRegisterModal = (value: boolean) => {
@@ -317,6 +346,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
     }
 
     const onBack = () => {
+        dispatch(authActions.setOtpErrors(null))
         setSent(false)
         setResent(false)
         setCanResend(false)
@@ -324,6 +354,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         timerRef.current = null
         setTime(60)
         setOtp('')
+        setCaptchaCode('')
     }
 
     const onLoginSend = async () => {
@@ -352,25 +383,25 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         }
     }
 
-    const onRegisterResendOTP = async () => {
-        const response = await dispatch(sendRegisterOtp({phone}))
-        if (response.type.includes('fulfilled')) {
-            timerRef.current = null
-            setTime(60)
-            setCanResend(false)
-            setResent(true)
-        }
-    }
+    // const onRegisterResendOTP = async () => {
+    //     const response = await dispatch(sendRegisterOtp({phone}))
+    //     if (response.type.includes('fulfilled')) {
+    //         timerRef.current = null
+    //         setTime(60)
+    //         setCanResend(false)
+    //         setResent(true)
+    //     }
+    // }
 
-    const onLoginResendOTP = async () => {
-        const response = await dispatch(sendLoginOtp({phone}))
-        if (response.type.includes('fulfilled')) {
-            timerRef.current = null
-            setTime(60)
-            setCanResend(false)
-            setResent(true)
-        }
-    }
+    // const onLoginResendOTP = async () => {
+        // const response = await dispatch(sendLoginOtp({phone}))
+        // if (response.type.includes('fulfilled')) {
+        //     timerRef.current = null
+        //     setTime(60)
+        //     setCanResend(false)
+        //     setResent(true)
+        // }
+    // }
 
     const onSearchPage = () => {
         navigate(RoutesConfig.search.path)
@@ -394,31 +425,68 @@ const AppNavbar = (props: React.PropsWithChildren) => {
         }
     }
 
+    const resendCaptcha = async () => {
+        const response = await dispatch(getCaptcha(captcha?.captcha_key ?? ''))
+        if (response.type.includes('fulfilled')) {
+            setCaptcha(response.payload)
+        }
+    }
+
     return (
         <div className={classes.navbar}>
             <NativeModal
                 value={showLogin}
                 onChange={onLoginModal}
             >
-                {!sent ? (
-                    <div className={classes.loginContent}>
-                        <img
-                            src={Logo}
-                            alt="Brand"
-                            className={classes.loginBrand}
-                        />
-                        <h1 className={classes.loginTitle}>Введите номер телефона</h1>
-                        <p className={classes.loginDescription}>
-                            чтобы войти на PREMIER-TJ
-                        </p>
-                        <div className={classes.phoneContainer}>
-                            <input
-                                className={classes.phone}
-                                type="text"
-                                value={phone}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+                {isShowingLoginForm ? (
+                    <span className={classes.formLoader}></span>
+                ) : (
+                    !sent ? (
+                        <div className={classes.loginContent}>
+                            <img
+                                src={Logo}
+                                alt="Brand"
+                                className={classes.loginBrand}
                             />
-                            <span className={classes.phoneIdentifier}>+992</span>
+                            <h1 className={classes.loginTitle}>Введите номер телефона</h1>
+                            <p className={classes.loginDescription}>
+                                чтобы войти на PREMIER-TJ
+                            </p>
+                            <div className={classes.phoneContainer}>
+                                <input
+                                    className={classes.phone}
+                                    type="text"
+                                    value={phone}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+                                />
+                                <span className={classes.phoneIdentifier}>+992</span>
+                            </div>
+                            {captcha !== null ? (
+                                <div className={classes.captcha}>
+                                    <header className={classes.captchaHeader}>
+                                        <img
+                                            src={captcha.captcha}
+                                            alt="Captcha"
+                                            className={classes.captchaImg}
+                                        />
+                                        <button
+                                            className={className(classes.captchaBtn, {[classes.captchaRotate]: isGettingCaptcha})}
+                                            onClick={resendCaptcha}
+                                        >
+                                            <Refresh
+                                                width={30}
+                                                height={30}
+                                            />
+                                        </button>
+                                    </header>
+                                    <input
+                                        className={classes.captchaInput}
+                                        type="text"
+                                        value={captchaCode}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCaptchaCode(e.target.value)}
+                                    />
+                                </div>
+                            ) : null}
                             {otpErrors ? (
                                 <div className={classes.errors}>
                                     {typeof otpErrors === 'string' ? (
@@ -447,112 +515,115 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                     )}
                                 </div>
                             ) : null}
-                        </div>
-                        <button
-                            className={classes.continueBtn}
-                            onClick={onLoginContinue}
-                            disabled={phone.length === 0}
-                        >
-                            {isSendingEmail ? (
-                                <span className={classes.loader}></span>
-                            ) : 'Продолжить'}
-                        </button>
-                        <p className={classes.registerLabel} onClick={showRegisterModal}>
-                            У меня нет аккаунта
-                        </p>
-                        {/*{(isCountryGet && country !== 'Tajikistan') ? (*/}
-                            <>
-                                <Checkbox
-                                    label={'Не гражданин Таджикистана'}
-                                    value={isForeigner}
-                                    onChange={onForeigner}
-                                />
-                                {isForeigner ? (
-                                    <button className={classes.google} onClick={onGoogle}>
-                                        <Google width={24} height={24} />
-                                        {isGoogleAuth ? (
-                                            <span className={classes.loader}></span>
-                                        ) : 'Вход'}
-                                    </button>
-                                ) : null}
-                            </>
-                        {/*) : null}*/}
-                    </div>
-                ) : (
-                    <div className={classes.loginContent}>
-                        <button
-                            className={classes.back}
-                            onClick={onBack}
-                        >
-                            <Back width={20} height={20} />
-                        </button>
-                        <img
-                            src={Logo}
-                            alt="Brand"
-                            className={classes.loginBrand}
-                        />
-                        <h1 className={classes.loginTitle}>Введите номер из СМС</h1>
-                        <p className={classes.loginDescription}>
-                            Код отправлен на номер телефона {phone}
-                        </p>
-                        <OTPInput
-                            value={otp}
-                            onChange={setOtp}
-                            numInputs={6}
-                            renderSeparator={<span>&nbsp;&nbsp;&nbsp;</span>}
-                            renderInput={(props) => {
-                                return (
-                                    <input {...props} className={className(classes.otpInput, undefined, [props.className ?? ''])} />
-                                )
-                            }}
-                        />
-                        {otpErrors ? (
-                            <div className={classes.errors}>
-                                {otpErrors && typeof otpErrors !== 'string' && Object.keys(otpErrors).map((key: string) => {
-                                    return (
-                                        <div key={key}>
-                                            {otpErrors[key].map((message: string) => {
-                                                return (
-                                                    <p
-                                                        key={message}
-                                                        className={classes.error}
-                                                    >
-                                                        {message}
-                                                    </p>
-                                                )
-                                            })}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        ) : null}
-                        {time ? (
-                            <p className={classes.resendDescription}>Отправить код повторно можно через {time} сек.</p>
-                        ) : null}
-                        {canResend ? (
                             <button
-                                className={classes.resend}
-                                onClick={onLoginResendOTP}
+                                className={classes.continueBtn}
+                                onClick={onLoginContinue}
+                                disabled={phone.length === 0 ? true : captchaCode.length === 0}
                             >
                                 {isSendingEmail ? (
-                                    <span className={classes.loader} style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>
-                                ) : 'Отправить код повторно'}
+                                    <span className={classes.loader}></span>
+                                ) : 'Продолжить'}
                             </button>
-                        ) : null}
-                        <button
-                            className={classes.continueBtn}
-                            onClick={onLoginSend}
-                            disabled={otp.length < 6}
-                        >
-                            {isCheckingOtp ? (
-                                <span className={classes.loader}></span>
-                            ) : 'Отправить'}
-                        </button>
-                        <p className={classes.privacyPolicy}>
-                            Если нужна помощь, пиши нам
-                            на help@premier.rj
-                        </p>
-                    </div>
+                            <p className={classes.registerLabel} onClick={showRegisterModal}>
+                                У меня нет аккаунта
+                            </p>
+                            {(isCountryGet && country !== 'Tajikistan') ? (
+                                <>
+                                    <Checkbox
+                                        label={'Не гражданин Таджикистана'}
+                                        value={isForeigner}
+                                        onChange={onForeigner}
+                                    />
+                                    {isForeigner ? (
+                                        <button className={classes.google} onClick={onGoogle}>
+                                            <Google width={24} height={24}/>
+                                            {isGoogleAuth ? (
+                                                <span className={classes.loader}></span>
+                                            ) : 'Вход'}
+                                        </button>
+                                    ) : null}
+                                </>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <div className={classes.loginContent}>
+                            <button
+                                className={classes.back}
+                                onClick={onBack}
+                            >
+                                <Back width={20} height={20}/>
+                            </button>
+                            <img
+                                src={Logo}
+                                alt="Brand"
+                                className={classes.loginBrand}
+                            />
+                            <h1 className={classes.loginTitle}>Введите номер из СМС</h1>
+                            <p className={classes.loginDescription}>
+                                Код отправлен на номер телефона {phone}
+                            </p>
+                            <OTPInput
+                                value={otp}
+                                onChange={setOtp}
+                                numInputs={6}
+                                renderSeparator={<span>&nbsp;&nbsp;&nbsp;</span>}
+                                renderInput={(props) => {
+                                    return (
+                                        <input {...props}
+                                               className={className(classes.otpInput, undefined, [props.className ?? ''])}/>
+                                    )
+                                }}
+                            />
+                            {otpErrors ? (
+                                <div className={classes.errors}>
+                                    {otpErrors && typeof otpErrors !== 'string' && Object.keys(otpErrors).map((key: string) => {
+                                        return (
+                                            <div key={key}>
+                                                {otpErrors[key].map((message: string) => {
+                                                    return (
+                                                        <p
+                                                            key={message}
+                                                            className={classes.error}
+                                                        >
+                                                            {message}
+                                                        </p>
+                                                    )
+                                                })}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            ) : null}
+                            {/*{time ? (*/}
+                            {/*    <p className={classes.resendDescription}>Отправить код повторно можно*/}
+                            {/*        через {time} сек.</p>*/}
+                            {/*) : null}*/}
+                            {/*{canResend ? (*/}
+                            {/*    <button*/}
+                            {/*        className={classes.resend}*/}
+                            {/*        onClick={onLoginResendOTP}*/}
+                            {/*    >*/}
+                            {/*        {isSendingEmail ? (*/}
+                            {/*            <span className={classes.loader}*/}
+                            {/*                  style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>*/}
+                            {/*        ) : 'Отправить код повторно'}*/}
+                            {/*    </button>*/}
+                            {/*) : null}*/}
+                            <button
+                                className={classes.continueBtn}
+                                onClick={onLoginSend}
+                                disabled={otp.length < 6}
+                            >
+                                {isCheckingOtp ? (
+                                    <span className={classes.loader}></span>
+                                ) : 'Отправить'}
+                            </button>
+                            <p className={classes.privacyPolicy}>
+                                Если нужна помощь, пиши нам
+                                на help@premier.rj
+                            </p>
+                        </div>
+                    )
                 )}
             </NativeModal>
             <NativeModal
@@ -594,17 +665,64 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLastname(e.target.value)}
                             />
                         </div>
+                        {captcha !== null ? (
+                            <div className={classes.captcha}>
+                                <header className={classes.captchaHeader}>
+                                    <img
+                                        src={captcha.captcha}
+                                        alt="Captcha"
+                                        className={classes.captchaImg}
+                                    />
+                                    <button
+                                        className={className(classes.captchaBtn, {[classes.captchaRotate]: isGettingCaptcha})}
+                                        onClick={resendCaptcha}
+                                    >
+                                        <Refresh
+                                            width={30}
+                                            height={30}
+                                        />
+                                    </button>
+                                </header>
+                                <input
+                                    className={classes.captchaInput}
+                                    type="text"
+                                    value={captchaCode}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCaptchaCode(e.target.value)}
+                                />
+                            </div>
+                        ) : null}
+                        {otpErrors ? (
+                            <div className={classes.errors}>
+                                {otpErrors && typeof otpErrors !== 'string' && Object.keys(otpErrors).map((key: string) => {
+                                    return (
+                                        <div key={key}>
+                                            {otpErrors[key].map((message: string) => {
+                                                return (
+                                                    <p
+                                                        key={message}
+                                                        className={classes.error}
+                                                    >
+                                                        {message}
+                                                    </p>
+                                                )
+                                            })}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ) : null}
                         <button
                             className={classes.continueBtn}
                             onClick={onRegisterContinue}
-                            disabled={!phone.length || !firstname.length || !lastname.length}
+                            disabled={!phone.length || !firstname.length || !lastname.length || !captchaCode.length}
                         >
                             {isSendingEmail ? (
                                 <span className={classes.loader}></span>
                             ) : 'Продолжить'}
                         </button>
                         <p className={classes.privacyPolicy}>
-                            Нажимая «Продолжить», я принимаю условия <span className={classes.privacyPolicyLink}>Пользовательского соглашения</span> ООО «ПРЕМЬЕР»
+                            Нажимая «Продолжить», я принимаю условия <span className={classes.privacyPolicyLink}>Пользовательского соглашения</span> ООО
+                            «ПРЕМЬЕР»
                         </p>
                     </div>
                 ) : (
@@ -613,7 +731,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                             className={classes.back}
                             onClick={onBack}
                         >
-                            <Back width={20} height={20} />
+                            <Back width={20} height={20}/>
                         </button>
                         <img
                             src={Logo}
@@ -631,7 +749,8 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                             renderSeparator={<span>&nbsp;&nbsp;&nbsp;</span>}
                             renderInput={(props) => {
                                 return (
-                                    <input {...props} className={className(classes.otpInput, undefined, [props.className ?? ''])} />
+                                    <input {...props}
+                                           className={className(classes.otpInput, undefined, [props.className ?? ''])}/>
                                 )
                             }}
                         />
@@ -655,19 +774,20 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                 })}
                             </div>
                         ) : null}
-                        {time ? (
-                            <p className={classes.resendDescription}>Отправить код повторно можно через {time} сек.</p>
-                        ) : null}
-                        {canResend ? (
-                            <button
-                                className={classes.resend}
-                                onClick={onRegisterResendOTP}
-                            >
-                                {isSendingEmail ? (
-                                    <span className={classes.loader} style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>
-                                ) : 'Отправить код повторно'}
-                            </button>
-                        ) : null}
+                        {/*{time ? (*/}
+                        {/*    <p className={classes.resendDescription}>Отправить код повторно можно через {time} сек.</p>*/}
+                        {/*) : null}*/}
+                        {/*{canResend ? (*/}
+                        {/*    <button*/}
+                        {/*        className={classes.resend}*/}
+                        {/*        onClick={onRegisterResendOTP}*/}
+                        {/*    >*/}
+                        {/*        {isSendingEmail ? (*/}
+                        {/*            <span className={classes.loader}*/}
+                        {/*                  style={{borderColor: '#fff', borderBottomColor: 'transparent'}}></span>*/}
+                        {/*        ) : 'Отправить код повторно'}*/}
+                        {/*    </button>*/}
+                        {/*) : null}*/}
                         <button
                             className={classes.continueBtn}
                             onClick={onRegisterSend}
@@ -753,15 +873,16 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                     className={classes.searchInput}
                 />
                 <ul className={classes.navItems}>
-                    <li className={className(classes.navItem, null, [classes.additionalSearchInput])} onClick={onSearch}>
-                        <Search width={30} height={30} />
+                    <li className={className(classes.navItem, null, [classes.additionalSearchInput])}
+                        onClick={onSearch}>
+                        <Search width={30} height={30}/>
                     </li>
                     <li className={className(classes.navItem, null, [classes.home])} onClick={onHome}>
-                        <Home width={24} height={24} />
+                        <Home width={24} height={24}/>
                         Главная
                     </li>
                     <li className={className(classes.navItem, null, [classes.free])} onClick={onFree}>
-                        <Discount width={24} height={24} />
+                        <Discount width={24} height={24}/>
                         Бесплатно
                     </li>
                 </ul>
@@ -778,7 +899,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                             onClick={() => setShowUser(!showUser)}
                             className={classes.userBtn}
                         >
-                            <User width={32} height={32} />
+                            <User width={32} height={32}/>
                         </button>
                         <ModalNav
                             value={showUser}
@@ -792,13 +913,13 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                             onClick={() => setShowUser(!showUser)}
                                             className={className(classes.userBtn, {[classes.profileBtn]: true})}
                                         >
-                                            <User width={32} height={32} />
+                                            <User width={32} height={32}/>
                                         </button>
                                         {authData.firstname + " " + (authData.lastname ?? '')} {authData.phone ? `(${authData.phone})` : null}
                                     </div>
                                     <ul className={classes.profileItems}>
                                         <div className={classes.profileItem} onClick={onProfile}>
-                                            <Settings width={24} height={24} />
+                                            <Settings width={24} height={24}/>
                                             Настройки профиля
                                         </div>
                                         {/*<div className={classes.profileItem}>*/}
@@ -818,12 +939,12 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                             onClick={logoutSimpleUser}
                                         >
                                             {isLogouting ? (
-                                                <Loading width={24} height={24} />
-                                                ) : (
-                                              <>
-                                                  <Logout width={24} height={24} />
-                                                  Выйти из аккаунта
-                                              </>
+                                                <Loading width={24} height={24}/>
+                                            ) : (
+                                                <>
+                                                    <Logout width={24} height={24}/>
+                                                    Выйти из аккаунта
+                                                </>
                                             )}
                                         </div>
                                     </ul>
@@ -834,7 +955,7 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                         onClick={goAdmin}
                                         className={classes.profileItem}
                                     >
-                                        <Building width={24} height={24} />
+                                        <Building width={24} height={24}/>
                                         Админка
                                     </div>
                                     <div
@@ -842,10 +963,10 @@ const AppNavbar = (props: React.PropsWithChildren) => {
                                         onClick={logout}
                                     >
                                         {isLogouting ? (
-                                            <Loading width={24} height={24} />
+                                            <Loading width={24} height={24}/>
                                         ) : (
                                             <>
-                                                <Logout width={24} height={24} />
+                                                <Logout width={24} height={24}/>
                                                 Выйти из аккаунта
                                             </>
                                         )}

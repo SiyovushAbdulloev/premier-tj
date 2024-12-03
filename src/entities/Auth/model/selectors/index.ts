@@ -1,5 +1,5 @@
 import {StateSchema} from "src/app/providers/Store/config/StateSchema";
-import {InputError} from "../../types";
+import {Captcha, InputError} from "../../types";
 
 export const getUnauthorized = (state: StateSchema): boolean => state.auth.data.unauthorized
 export const getNotFound = (state: StateSchema): boolean => state.auth.data.notFound
@@ -17,3 +17,4 @@ export const getIsLoggingGoogle = (state: StateSchema): boolean => state.auth.da
 export const getIsGettingIP = (state: StateSchema): boolean => state.auth.data.isGettingIP
 export const getIsGettingCountry = (state: StateSchema): boolean => state.auth.data.isGettingCountry
 export const getIsLogouting = (state: StateSchema): boolean => state.auth.data.isLogouting
+export const getIsGettingCaptcha = (state: StateSchema): boolean => state.auth.data.isGettingCaptcha

@@ -12,6 +12,7 @@ import {getIp} from "../services/getIp"
 import {getIpCountry} from "../services/getIpCountry"
 import {logoutAdmin} from "../services/logoutAdmin"
 import {logoutUser} from "../services/logoutUser"
+import {getCaptcha} from "../services/getCaptcha"
 
 const initialState: AuthSchema = {
     data: {
@@ -30,7 +31,9 @@ const initialState: AuthSchema = {
         isLoggingGoogle: false,
         isGettingCountry: false,
         isGettingIP: false,
-        isLogouting: false
+        isLogouting: false,
+        captcha: undefined,
+        isGettingCaptcha: false
     }
 }
 
@@ -47,6 +50,9 @@ export const authSlice = createSlice({
         setCsrfToken: (state, action: PayloadAction<string>) => {
             state.data.csrfToken = action.payload
         },
+        setOtpErrors: (state, action: PayloadAction<any>) => {
+            state.data.otpErrors = action.payload
+        }
     },
     extraReducers(builder) {
         builder.addCase(getCsrfToken.fulfilled, (state, action) => {
@@ -102,7 +108,7 @@ export const authSlice = createSlice({
             .addCase(sendRegisterOtp.rejected, (state, action) => {
                 state.data.isSendingOTP = false
                 // @ts-ignore
-                state.data.otpErrors = null
+                state.data.otpErrors = action.payload
             })
             .addCase(checkLoginOTP.fulfilled, (state, action) => {
                 state.data.isCheckingOTP = false
@@ -197,6 +203,16 @@ export const authSlice = createSlice({
             })
             .addCase(logoutUser.rejected, (state, action) => {
                 state.data.isLogouting = false
+            })
+            .addCase(getCaptcha.fulfilled, (state, action) => {
+                state.data.isGettingCaptcha = false
+                state.data.captcha = action.payload
+            })
+            .addCase(getCaptcha.pending, (state, action) => {
+                state.data.isGettingCaptcha = true
+            })
+            .addCase(getCaptcha.rejected, (state, action) => {
+                state.data.isGettingCaptcha = false
             })
     }
 })

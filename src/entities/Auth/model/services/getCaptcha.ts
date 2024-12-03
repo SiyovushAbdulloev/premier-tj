@@ -1,20 +1,23 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {APP_URL} from "src/shared/constants/api";
 import {getCsrfToken} from "src/entities/Auth";
+import {APP_URL} from "src/shared/constants/api";
 
-export const sendRegisterOtp = createAsyncThunk(
-    'auth/sendRegisterOtp',
-    async (data: {phone: string, captcha_code: string, captcha_key: string }, {getState, rejectWithValue, dispatch}) => {
+export const getCaptcha = createAsyncThunk(
+    'auth/getCaptcha',
+    async (data: string|null, {getState, rejectWithValue, dispatch}) => {
         try {
             await dispatch(getCsrfToken())
+            let url = APP_URL + '/api/captcha/generate';
+
+            if (data) {
+                url += `?key=${data}`
+            }
 
             // @ts-ignore
             const csrfToken = getState().auth.data.csrfToken
-            const response = await fetch(APP_URL + '/api/register/otp', {
-                method: 'POST',
-                body: JSON.stringify(data),
+            const response = await fetch(url, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-XSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
                 },
@@ -29,8 +32,7 @@ export const sendRegisterOtp = createAsyncThunk(
                 }
                 return rejectWithValue(JSON.parse(data.message))
             } else {
-                const data = await response.json()
-                return data
+                return await response.json()
             }
         } catch (error) {
             console.log({error})

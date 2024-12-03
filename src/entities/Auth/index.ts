@@ -15,6 +15,7 @@ import {
     getIsGettingIP,
     getIsGettingCountry,
     getIsLogouting,
+    getIsGettingCaptcha,
 } from "./model/selectors";
 import {authActions, authReducer} from "./model/slice";
 import {Auth, AuthSchema, InputError} from "./types";
@@ -31,6 +32,8 @@ import {google} from "./model/services/google";
 import {googleAuth} from "./model/services/googleAuth";
 import {getIp} from "./model/services/getIp";
 import {getIpCountry} from "./model/services/getIpCountry";
+import {getCaptcha} from "./model/services/getCaptcha";
+import {Captcha} from "./types";
 
 export {
     getUnauthorized,
@@ -64,5 +67,7 @@ export {
     getIp,
     getIpCountry,
     getIsLogouting,
+    getCaptcha,
+    getIsGettingCaptcha,
 }
-export type {Auth, AuthSchema, InputError}
+export type {Auth, AuthSchema, InputError, Captcha}
